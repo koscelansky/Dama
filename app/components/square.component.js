@@ -9,7 +9,7 @@ export default class Square extends Component {
 
     const number = this.props.num;
 
-    var numberStyle = {
+    const numberStyle = {
       position: 'absolute',
       right: 0,
       margin: '3%',
@@ -18,9 +18,11 @@ export default class Square extends Component {
       fontSize: '2.5vw',
       fontFamily: 'Arial',
       color: 'white', 
+      userSelect: 'none', 
+      cursor: 'default'
     };
 
-    var contentStyle = {
+    const contentStyle = {
       position: 'absolute', 
       width: '100%', 
       height: '100%'

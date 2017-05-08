@@ -1,0 +1,27 @@
+{
+  "name": "dama",
+  "version": "0.0.0",
+  "description": "Dama",
+  "main": "main.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "watch": "watchify app/app.js -t babelify -o public/js/bundle.js --debug --verbose"
+  },
+  "author": {
+    "name": "Peter Koscelansky"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^7.3.0",
+    "electron": "^1.6.6",
+    "electron-reload": "^1.1.0",
+    "watchify": "^3.9.0"
+  },
+  "dependencies": {
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "prop-types": "^15.5.8"
+  }
+}

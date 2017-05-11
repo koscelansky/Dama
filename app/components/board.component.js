@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import Square from './square.component';
 import Pawn from './pawn.component';
+import Queen from './queen.component';
 
 export default class Board extends Component {
   renderSquare(n) {
@@ -21,6 +22,10 @@ export default class Board extends Component {
         piece = <Pawn black/>;
       else if (this.props.white.pawns.indexOf(squareNo) > -1)
         piece = <Pawn />;
+      else if (this.props.black.queens.indexOf(squareNo) > -1)
+        piece = <Queen black/>;
+      else if (this.props.white.queens.indexOf(squareNo) > -1)
+        piece = <Queen />;
 
       num = squareNo + 1;
     }

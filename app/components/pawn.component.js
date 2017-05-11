@@ -8,7 +8,7 @@ export default class Pawn extends Component {
     const pic = 'public/svg/' + (black ? 'Chess_pdt45.svg' : 'Chess_plt45.svg');
 
     const objectStyle = {
-      margin: '1.2vw',
+      margin: '12%',
       userSelect: 'none'
     };
 

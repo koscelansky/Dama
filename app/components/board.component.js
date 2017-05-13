@@ -11,13 +11,13 @@ export default class Board extends Component {
     const row = Math.floor(n / 8);
     const column = n % 8;
     
-    const black = ((row + column) % 2 === 1);
-    const squareNo = black ? (row * 4 + Math.floor(column / 2)) : null;
-    const key = black ? squareNo : 100 + n;
+    const black = ((row + column) % 2 === 1);  
 
-    var num = null;
-    var piece = null;
+    let num = null;
+    let piece = null;
     if (black) {
+      const squareNo = row * 4 + Math.floor(column / 2);
+
       if (this.props.black.pawns.indexOf(squareNo) > -1)
         piece = <Pawn black/>;
       else if (this.props.white.pawns.indexOf(squareNo) > -1)
@@ -31,7 +31,7 @@ export default class Board extends Component {
     }
 
     return (
-      <div key={ key } style={{ width: '12.5%' }}>
+      <div key={ n } style={{ width: '12.5%' }}>
         <Square black={ black } num={ num }>
           { piece }
         </Square>

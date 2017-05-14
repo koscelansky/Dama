@@ -18,14 +18,15 @@ export default class Board extends Component {
     if (black) {
       const squareNo = row * 4 + Math.floor(column / 2);
 
-      if (this.props.black.pawns.indexOf(squareNo) > -1)
-        piece = <Pawn black/>;
-      else if (this.props.white.pawns.indexOf(squareNo) > -1)
-        piece = <Pawn />;
-      else if (this.props.black.queens.indexOf(squareNo) > -1)
-        piece = <Queen black/>;
-      else if (this.props.white.queens.indexOf(squareNo) > -1)
-        piece = <Queen />;
+      piece = ((p) => {
+        switch (p) {
+          case 'WM': return <Pawn />;
+          case 'WK': return <Queen />;
+          case 'BM': return <Pawn black />;
+          case 'BK': return <Queen black />;
+          default: return null;
+        }
+      })(this.props.pieces[squareNo]);
 
       num = squareNo + 1;
     }
@@ -54,23 +55,18 @@ export default class Board extends Component {
 }
 
 Board.propTypes = {
-  white: PropTypes.shape({
-    pawns: PropTypes.arrayOf(PropTypes.number),
-    queens: PropTypes.arrayOf(PropTypes.number)
-  }),
-  black: PropTypes.shape({
-    pawns: PropTypes.arrayOf(PropTypes.number),
-    queens: PropTypes.arrayOf(PropTypes.number)
-  }),
+  pieces: PropTypes.arrayOf(PropTypes.string)
 };
 
 Board.defaultProps = {
-  white: {
-    pawns: [0, 1, 2, 3, 4, 5, 6, 7], 
-    queens: []
-  },
-  black: {
-    pawns: [24, 25, 26, 27, 28, 29, 30, 31], 
-    queens: []
-  }, 
+  pieces: [
+    'WM', 'WM', 'WM', 'WM',
+    'WM', 'WM', 'WM', 'WM',
+    null, null, null, null, 
+    null, null, null, null,
+    null, null, null, null,
+    null, null, null, null,
+    'BM', 'BM', 'BM', 'BM', 
+    'BM', 'BM', 'BM', 'BM', 
+  ] 
 };

@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Square from './square.component';
-import Pawn from './pawn.component';
-import Queen from './queen.component';
+import Square from './square';
+import Pawn from './pawn';
+import Queen from './queen';
 
 export default class Board extends Component {
   renderSquare(n) {
@@ -56,17 +56,4 @@ export default class Board extends Component {
 
 Board.propTypes = {
   pieces: PropTypes.arrayOf(PropTypes.string)
-};
-
-Board.defaultProps = {
-  pieces: [
-    'WM', 'WM', 'WM', 'WM',
-    'WM', 'WM', 'WM', 'WM',
-    null, null, null, null, 
-    null, null, null, null,
-    null, null, null, null,
-    null, null, null, null,
-    'BM', 'BM', 'BM', 'BM', 
-    'BM', 'BM', 'BM', 'BM', 
-  ] 
 };

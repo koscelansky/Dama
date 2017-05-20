@@ -1,3 +1,5 @@
+import { ADD_PAWN } from './actions.js'
+
 const initialState = {
   pieces: [
     'WM', 'WM', 'WM', 'WM',
@@ -13,7 +15,16 @@ const initialState = {
 }
 
 export default function damaApp(state = initialState, action) {
-  // no action defined yet
+  switch (action.type) {
+    case ADD_PAWN:
+      const newPieces = [...state.pieces];
+      newPieces[action.square] = 'WM';
 
-  return state;
+      return Object.assign({}, state, {
+        pieces: newPieces
+      });
+
+    default:
+      return state;
+  }
 }

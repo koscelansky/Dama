@@ -15,6 +15,7 @@ export default class Board extends Component {
 
     let num = null;
     let piece = null;
+    let onSquareClick = null;
     if (black) {
       const squareNo = row * 4 + Math.floor(column / 2);
 
@@ -29,10 +30,11 @@ export default class Board extends Component {
       })(this.props.pieces[squareNo]);
 
       num = squareNo + 1;
+      onSquareClick = () => { this.props.onBlackSquareClick(squareNo) };
     }
 
     return (
-      <div key={ n } style={{ width: '12.5%' }}>
+      <div key={ n } style={{ width: '12.5%' }} onClick={ onSquareClick }>
         <Square black={ black } num={ num }>
           { piece }
         </Square>

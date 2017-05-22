@@ -9,7 +9,8 @@ export default class Queen extends Component {
 
     const objectStyle = {
       margin: '12%',
-      userSelect: 'none'
+      userSelect: 'none',
+      pointerEvents: 'none',
     };
 
     return (

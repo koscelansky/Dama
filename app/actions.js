@@ -1,13 +1,13 @@
-const ADD_PAWN = 'ADD_PAWN';
+const ADD_MAN = 'ADD_MAN';
 
 function addPawn(sq) {
   return {
-    type: ADD_PAWN,
+    type: ADD_MAN,
     square: sq,
   }
 }
 
-export { ADD_PAWN };
+export { ADD_MAN };
 
 export { addPawn };
 

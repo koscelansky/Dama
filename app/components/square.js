@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import SquareLabel from './square-label';
+
 export default class Square extends Component {
   render() {
     const black = this.props.black;
@@ -9,17 +11,11 @@ export default class Square extends Component {
 
     const number = this.props.num;
 
-    const numberStyle = {
+    const labelStyle = {
+      fontSize: '2.5vw',
       position: 'absolute',
       right: 0,
-      margin: '3%',
-      paddingRight: '0.1em', /* small fix to get the position right */
-      lineHeight: '1em',
-      fontSize: '2.5vw',
-      fontFamily: 'Arial',
-      color: 'white', 
-      userSelect: 'none', 
-      cursor: 'default'
+      margin: '4% 7%',
     };
 
     const contentStyle = {
@@ -31,7 +27,9 @@ export default class Square extends Component {
     return (
       <div style={{ backgroundColor: fill }}>
         <div style={{ position: 'relative' }}>
-          <div style={ numberStyle }>{ number }</div>
+          <div style={ labelStyle }>
+            <SquareLabel>{ number }</SquareLabel>
+          </div>
           <div style={ contentStyle }>{ this.props.children }</div>
         </div>
         <div style={{ paddingBottom: '100%', display: 'block' }}></div>
@@ -41,6 +39,5 @@ export default class Square extends Component {
 }
 
 Square.propTypes = {
-  black: PropTypes.bool, 
-  num: PropTypes.number
+  //num: PropTypes.number.isRequired
 };

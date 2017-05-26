@@ -23,6 +23,10 @@ function collect(connect, monitor) {
 }
 
 class DragPiece extends Component {
+  componentDidMount() {
+    this.props.connectDragPreview(getEmptyImage());
+  }
+
   render() {
     const { connectDragSource, isDragging, type } = this.props;
 

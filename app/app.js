@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import HTML5Backend from 'react-dnd-html5-backend';
-import MouseBackEnd from 'react-dnd-mouse-backend'
 import { DragDropContext } from 'react-dnd';
 
 import DamaBoard from './containers/dama-board';
@@ -22,7 +21,7 @@ class App extends Component {
   }
 }
 
-App = DragDropContext(MouseBackEnd)(App);
+App = DragDropContext(HTML5Backend)(App);
 
 ReactDOM.render(
   <Provider store={ createStore(damaApp) }>

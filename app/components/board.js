@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Square from './square';
 import Pawn from './pawn';
 import Queen from './queen';
+import DragPiece from '../containers/drag-piece';
 
 export default class Board extends Component {
   renderSquare(n) {
@@ -19,15 +20,9 @@ export default class Board extends Component {
     if (black) {
       const squareNo = row * 4 + Math.floor(column / 2);
 
-      piece = ((p) => {
-        switch (p) {
-          case 'WM': return <Pawn />;
-          case 'WK': return <Queen />;
-          case 'BM': return <Pawn black />;
-          case 'BK': return <Queen black />;
-          default: return null;
-        }
-      })(this.props.pieces[squareNo]);
+      piece = (
+        <DragPiece type={ this.props.pieces[squareNo] } />
+      );
 
       num = squareNo + 1;
       onSquareClick = () => { this.props.onBlackSquareClick(squareNo) };
@@ -35,7 +30,7 @@ export default class Board extends Component {
 
     return (
       <div key={ n } style={{ width: '12.5%' }} onClick={ onSquareClick }>
-        <Square black={ black } num={ num }>
+        <Square number={ num }>
           { piece }
         </Square>
       </div>

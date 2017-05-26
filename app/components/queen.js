@@ -8,7 +8,6 @@ export default class Queen extends Component {
     const pic = './svg/' + (black ? 'Chess_qdt45.svg' : 'Chess_qlt45.svg');
 
     const objectStyle = {
-      margin: '12%',
       userSelect: 'none',
       pointerEvents: 'none',
     };

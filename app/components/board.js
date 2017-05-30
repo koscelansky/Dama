@@ -20,9 +20,9 @@ export default class Board extends Component {
     if (black) {
       const squareNo = row * 4 + Math.floor(column / 2);
 
-      piece = (
-        <DragPiece type={ this.props.pieces[squareNo] } />
-      );
+      if (this.props.pieces[squareNo]) {
+        piece = ( <DragPiece type={ this.props.pieces[squareNo] } /> );
+      }
 
       num = squareNo + 1;
       onSquareClick = () => { this.props.onBlackSquareClick(squareNo) };

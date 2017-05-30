@@ -20,6 +20,6 @@ export default class Piece extends Component {
   }
 }
 
-Pawn.propTypes = {
+Piece.propTypes = {
   type: PropTypes.string.isRequired
 };

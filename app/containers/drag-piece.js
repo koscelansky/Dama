@@ -50,4 +50,4 @@ DragPiece.propTypes = {
   type: PropTypes.string.isRequired,
 };
 
-export default DragSource('PAWN', dragSource, collect)(DragPiece);
+export default DragSource('PIECE', dragSource, collect)(DragPiece);

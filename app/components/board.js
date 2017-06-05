@@ -2,10 +2,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Square from './square';
 import Pawn from './pawn';
 import Queen from './queen';
 import DragPiece from '../containers/drag-piece';
+import DropSquare from '../containers/drop-square';
 
 export default class Board extends Component {
   renderSquare(n) {
@@ -30,9 +30,9 @@ export default class Board extends Component {
 
     return (
       <div key={ n } style={{ width: '12.5%' }} onClick={ onSquareClick }>
-        <Square number={ num }>
+        <DropSquare number={ num }>
           { piece }
-        </Square>
+        </DropSquare>
       </div>
     );
   }

@@ -6,7 +6,7 @@ import SquareLabel from './square-label';
 
 export default class Square extends Component {
   render() {
-    const fill = this.props.number ? 'sienna' : 'blanchedalmond';
+    const { fill, number } = this.props;// ? 'sienna' : 'blanchedalmond';
 
     const labelStyle = {
       fontSize: '2.5vw',
@@ -25,7 +25,7 @@ export default class Square extends Component {
       <div style={{ backgroundColor: fill }}>
         <div style={{ position: 'relative' }}>
           <div style={ labelStyle }>
-            <SquareLabel>{ this.props.number }</SquareLabel>
+            <SquareLabel>{ number }</SquareLabel>
           </div>
           <div style={ contentStyle }><div style={ {margin: '12%'} }>{ this.props.children }</div></div>
         </div>
@@ -36,5 +36,6 @@ export default class Square extends Component {
 }
 
 Square.propTypes = {
+  fill: PropTypes.string.isRequired,
   number: PropTypes.number
 };

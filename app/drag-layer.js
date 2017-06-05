@@ -23,10 +23,8 @@ function getItemStyles(props) {
 class CustomDragLayer extends Component {
   renderItem(type, item) {
     switch (type) {
-    case 'PAWN':
-      return (
-        <Piece type={ item.type } />
-      );
+    case 'PIECE':
+      return ( <Piece type={ item.type } /> );
     }
   }
 

@@ -7,23 +7,27 @@ import Square from '../components/square';
 const dropTarget = {
   drop(props) {
     
+  }, 
+  canDrop(props, monitor) {
+    return props.children === null;
   }
 };
 
 function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver()
+    isOver: monitor.isOver(), 
+    canDrop: monitor.canDrop(),
   };
 }
 
 class DropSquare extends Component {
   render() {
-    const { connectDropTarget, isOver, number } = this.props;
+    const { connectDropTarget, isOver, canDrop, number } = this.props;
     let fill = 'blanchedalmond';
 
     if (number) {
-      fill = isOver ? 'red' : 'sienna';
+      fill = isOver && canDrop ? 'red' : 'sienna';
     }
 
     return connectDropTarget(
@@ -39,6 +43,7 @@ class DropSquare extends Component {
 DropSquare.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
   isOver: PropTypes.bool.isRequired,
+  canDrop: PropTypes.bool.isRequired,
 
   // number of square, if white, then null 
   number: PropTypes.number,

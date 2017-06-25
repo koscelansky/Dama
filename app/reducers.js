@@ -1,4 +1,4 @@
-import { ADD_PAWN } from './actions.js'
+import { MOVE_PIECE } from './actions.js'
 
 const initialState = {
   pieces: [
@@ -16,9 +16,16 @@ const initialState = {
 
 export default function damaApp(state = initialState, action) {
   switch (action.type) {
-    case ADD_PAWN:
+    case MOVE_PIECE:
+      // square numbers are 1 based 
+      const from = action.from - 1;
+      const to = action.to - 1;
+
       const newPieces = [...state.pieces];
-      newPieces[action.square] = 'WM';
+      const movedPiece = newPieces[from];
+
+      newPieces[from] = null;
+      newPieces[to] = movedPiece;
 
       return Object.assign({}, state, {
         pieces: newPieces

@@ -10,6 +10,7 @@ const dragSource = {
   beginDrag(props) {
     return {
       type: props.type,
+      square: props.square,
     };
   }
 };
@@ -48,6 +49,9 @@ DragPiece.propTypes = {
 
   // type of piece (pawn or queen with color)
   type: PropTypes.string.isRequired,
+
+  // number of square where the piece is
+  square: PropTypes.number.isRequired,
 };
 
 export default DragSource('PIECE', dragSource, collect)(DragPiece);

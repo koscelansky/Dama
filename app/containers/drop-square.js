@@ -5,11 +5,11 @@ import { DropTarget } from 'react-dnd';
 import Square from '../components/square';
 
 const dropTarget = {
-  drop(props) {
-    
+  drop(props, monitor) {
+    return props.onPieceMove(monitor.getItem().square, props.number);
   }, 
   canDrop(props, monitor) {
-    return props.children === null;
+    return props.children === null && props.number !== null;
   }
 };
 
@@ -47,6 +47,9 @@ DropSquare.propTypes = {
 
   // number of square, if white, then null 
   number: PropTypes.number,
+
+  // function for move piece
+  onPieceMove: PropTypes.func.isRequired,
 };
 
 export default DropTarget('PIECE', dropTarget, collect)(DropSquare);

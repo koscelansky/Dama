@@ -1,13 +1,14 @@
-const ADD_MAN = 'ADD_MAN';
+const MOVE_PIECE = 'MOVE_PIECE';
 
-function addPawn(sq) {
+function movePiece(from, to) {
   return {
-    type: ADD_MAN,
-    square: sq,
+    type: MOVE_PIECE,
+    from,
+    to,
   }
 }
 
-export { ADD_MAN };
+export { MOVE_PIECE };
 
-export { addPawn };
+export { movePiece };
 

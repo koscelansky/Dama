@@ -1,7 +1,7 @@
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
 import Board from '../components/board';
-import { addPawn } from '../actions';
+import { movePiece } from '../actions';
 
 function mapStateToProps(state) {
   return {
@@ -11,8 +11,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onBlackSquareClick: (sq) => {
-      dispatch(addPawn(sq));
+    onPieceMove: (from, to) => {
+      dispatch(movePiece(from, to));
     }
   }
 }

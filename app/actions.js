@@ -11,4 +11,3 @@ function movePiece(from, to) {
 export { MOVE_PIECE };
 
 export { movePiece };
-

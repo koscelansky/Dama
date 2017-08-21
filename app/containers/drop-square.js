@@ -9,7 +9,10 @@ const dropTarget = {
     return props.onPieceMove(monitor.getItem().square, props.number);
   }, 
   canDrop(props, monitor) {
-    return props.children === null && props.number !== null;
+    if (props.number === null)
+      return false; // white squares are no interesting 
+
+    return true;
   }
 };
 
@@ -26,13 +29,15 @@ class DropSquare extends Component {
     const { connectDropTarget, isOver, canDrop, number } = this.props;
     let fill = 'blanchedalmond';
 
-    if (number) {
+    if (number !== null) {
       fill = isOver && canDrop ? 'red' : 'sienna';
     }
 
+    let label = number === null ? null : number + 1;
+
     return connectDropTarget(
       <div>
-        <Square number={ number } fill={ fill }>
+        <Square label={ label } fill={ fill }>
           { this.props.children }
         </Square>
       </div>

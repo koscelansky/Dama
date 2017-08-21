@@ -21,5 +21,5 @@ export default class Piece extends Component {
 }
 
 Piece.propTypes = {
-  type: PropTypes.string.isRequired
+  type: PropTypes.string
 };

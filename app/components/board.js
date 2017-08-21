@@ -20,11 +20,8 @@ export default class Board extends Component {
     if (black) {
       const squareNo = row * 4 + Math.floor(column / 2);
 
-      num = squareNo + 1;
-
-      if (this.props.pieces[squareNo]) {
-        piece = ( <DragPiece type={ this.props.pieces[squareNo] } square={ num } /> );
-      }
+      num = squareNo;
+      piece = ( <DragPiece square={ squareNo } /> );
     }
 
     return (
@@ -51,5 +48,5 @@ export default class Board extends Component {
 }
 
 Board.propTypes = {
-  pieces: PropTypes.arrayOf(PropTypes.string)
+  onPieceMove: PropTypes.func.isRequired
 };

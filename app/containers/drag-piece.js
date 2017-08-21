@@ -1,12 +1,18 @@
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 
+import { appState } from '../app.js';
+import { canPieceMoveFrom } from '../game_logic/possible-moves.js';
 import Piece from '../components/piece.js';
 
 const dragSource = {
+  canDrag(props, monitor) {
+    return canPieceMoveFrom(appState.getState(), props.square);
+  },
+  
   beginDrag(props) {
     return {
       type: props.type,
@@ -19,7 +25,8 @@ function collect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
     connectDragPreview: connect.dragPreview(),
-    isDragging: monitor.isDragging()
+    isDragging: monitor.isDragging(), 
+    canDrag: monitor.canDrag()
   }
 }
 
@@ -29,12 +36,12 @@ class DragPiece extends Component {
   }
 
   render() {
-    const { connectDragSource, isDragging, type } = this.props;
+    const { connectDragSource, isDragging, canDrag, type } = this.props;
 
     return connectDragSource(
       <div style={{
         opacity: isDragging ? 0.5 : 1,
-        cursor: 'move'
+        cursor: canDrag ? 'move' : 'default',
       }}>
         <Piece type={ type } />
       </div>
@@ -42,16 +49,23 @@ class DragPiece extends Component {
   }
 }
 
+function mapStateToProps(state, ownProps) {
+  return {
+    type: state.pieces[ownProps.square]
+  }
+}
+
 DragPiece.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   connectDragPreview: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
+  canDrag: PropTypes.bool.isRequired,
 
   // type of piece (pawn or queen with color)
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
 
   // number of square where the piece is
   square: PropTypes.number.isRequired,
 };
 
-export default DragSource('PIECE', dragSource, collect)(DragPiece);
+export default connect(mapStateToProps)(DragSource('PIECE', dragSource, collect)(DragPiece));

@@ -3,12 +3,6 @@ import { connect } from 'react-redux';
 import Board from '../components/board';
 import { movePiece } from '../actions';
 
-function mapStateToProps(state) {
-  return {
-    pieces: state.pieces
-  }
-}
-
 function mapDispatchToProps(dispatch) {
   return {
     onPieceMove: (from, to) => {
@@ -18,7 +12,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 export const DamaBoard = connect(
-  mapStateToProps, 
+  null, 
   mapDispatchToProps
 )(Board);
 

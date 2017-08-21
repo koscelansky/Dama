@@ -1,18 +1,6 @@
 import { MOVE_PIECE } from './actions.js'
+import initialState from './game_logic/initial-state.js'
 
-const initialState = {
-  pieces: [
-    'WM', 'WM', 'WM', 'WM',
-    'WM', 'WM', 'WM', 'WM',
-    null, null, null, null, 
-    null, null, null, null,
-    null, null, null, null,
-    null, null, null, null,
-    'BM', 'BM', 'BM', 'BM', 
-    'BM', 'BM', 'BM', 'BM', 
-  ],
-  turn: 'W',
-}
 
 export default function damaApp(state = initialState, action) {
   switch (action.type) {

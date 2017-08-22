@@ -4,10 +4,8 @@ import initialState from './game_logic/initial-state.js'
 
 export default function damaApp(state = initialState, action) {
   switch (action.type) {
-    case MOVE_PIECE:
-      // square numbers are 1 based 
-      const from = action.from - 1;
-      const to = action.to - 1;
+    case MOVE_PIECE: 
+      const { from, to } = action;
 
       const newPieces = [...state.pieces];
       const movedPiece = newPieces[from];

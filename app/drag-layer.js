@@ -22,6 +22,7 @@ function getItemStyles(props) {
 
 class CustomDragLayer extends Component {
   renderItem(type, item) {
+    console.log(item);
     switch (type) {
     case 'PIECE':
       return ( <Piece type={ item.type } /> );
@@ -30,9 +31,8 @@ class CustomDragLayer extends Component {
 
   render() {
     const { item, itemType, isDragging } = this.props;
-    if (!isDragging) {
+    if (!isDragging) 
       return null;
-    }
 
     const layerStyles = {
       position: 'fixed',

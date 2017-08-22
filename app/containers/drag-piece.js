@@ -12,7 +12,7 @@ const dragSource = {
   canDrag(props, monitor) {
     return canPieceMoveFrom(appState.getState(), props.square);
   },
-  
+
   beginDrag(props) {
     return {
       type: props.type,
@@ -68,4 +68,6 @@ DragPiece.propTypes = {
   square: PropTypes.number.isRequired,
 };
 
-export default connect(mapStateToProps)(DragSource('PIECE', dragSource, collect)(DragPiece));
+DragPiece = DragSource('PIECE', dragSource, collect)(DragPiece);
+
+export default connect(mapStateToProps)(DragPiece); 

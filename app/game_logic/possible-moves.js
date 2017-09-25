@@ -120,5 +120,12 @@ export function canPieceMoveFrom(state, square) {
 }
 
 export function canPieceMoveTo(state, from, to) {
+  const moves = getPossibleMoves(state);
   
+  for (const move of moves) {
+    if (move.squares[0] === from && move.squares[1] === to)
+      return true;
+  }
+
+  return false;
 }

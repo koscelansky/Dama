@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 
+import { appState } from '../app.js';
 import Square from '../components/square';
+import { canPieceMoveTo } from '../game_logic/possible-moves.js'; 
 
 const dropTarget = {
   drop(props, monitor) {
@@ -12,7 +14,7 @@ const dropTarget = {
     if (props.number === null)
       return false; // white squares are no interesting 
 
-    return true;
+    return canPieceMoveTo(appState.getState(), monitor.getItem().square, props.number);
   }
 };
 

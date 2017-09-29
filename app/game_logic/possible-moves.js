@@ -10,6 +10,10 @@ class Move {
     this.type = type;
     this.squares = squares;
   }
+
+  toString() {
+    return this.squares.join(this.type);
+  }
 }
 
 const SQUARE_COUNT = 32;

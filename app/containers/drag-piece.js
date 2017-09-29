@@ -5,12 +5,20 @@ import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 
 import { appState } from '../app.js';
-import { canPieceMoveFrom } from '../game_logic/possible-moves.js';
 import Piece from '../components/piece.js';
+import { possibleMovesSelector } from '../selectors'
 
 const dragSource = {
   canDrag(props, monitor) {
-    return canPieceMoveFrom(appState.getState(), props.square);
+    const moves = possibleMovesSelector(appState.getState());
+    const from = props.square;
+    
+    for (const move of moves) {
+      if (move.squares[0] === from)
+        return true;
+    }
+    
+    return false;
   },
 
   beginDrag(props) {

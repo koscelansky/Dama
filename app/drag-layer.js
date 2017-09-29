@@ -22,7 +22,6 @@ function getItemStyles(props) {
 
 class CustomDragLayer extends Component {
   renderItem(type, item) {
-    console.log(item);
     switch (type) {
     case 'PIECE':
       return ( <Piece type={ item.type } /> );

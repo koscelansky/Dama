@@ -4,17 +4,27 @@ import { DropTarget } from 'react-dnd';
 
 import { appState } from '../app.js';
 import Square from '../components/square';
-import { canPieceMoveTo } from '../game_logic/possible-moves.js'; 
+import { possibleMovesSelector } from '../selectors'
 
 const dropTarget = {
   drop(props, monitor) {
     return props.onPieceMove(monitor.getItem().square, props.number);
   }, 
+
   canDrop(props, monitor) {
     if (props.number === null)
       return false; // white squares are no interesting 
 
-    return canPieceMoveTo(appState.getState(), monitor.getItem().square, props.number);
+    const moves = possibleMovesSelector(appState.getState());
+    const from = monitor.getItem().square;
+    const to = props.number;
+      
+    for (const move of moves) {
+      if (move.squares[0] === from && move.squares[1] === to)
+        return true;
+    }
+
+    return false;
   }
 };
 

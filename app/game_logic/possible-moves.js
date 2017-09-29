@@ -107,29 +107,6 @@ function getSimpleMoves(state) {
   return retVal;
 }
 
-function getPossibleMoves(state) {
+export function getPossibleMoves(state) {
   return getSimpleMoves(state);
-}
-
-
-export function canPieceMoveFrom(state, square) {
-  const moves = getPossibleMoves(state);
-
-  for (const move of moves) {
-    if (move.squares[0] === square)
-      return true;
-  }
-
-  return false;
-}
-
-export function canPieceMoveTo(state, from, to) {
-  const moves = getPossibleMoves(state);
-  
-  for (const move of moves) {
-    if (move.squares[0] === from && move.squares[1] === to)
-      return true;
-  }
-
-  return false;
 }

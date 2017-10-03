@@ -4,6 +4,7 @@ import { DropTarget } from 'react-dnd';
 
 import { appState } from '../app.js';
 import Square from '../components/square';
+import Dot from '../components/dot.js';
 import { possibleMovesSelector } from '../selectors'
 
 const dropTarget = {
@@ -45,12 +46,15 @@ class DropSquare extends Component {
       fill = isOver && canDrop ? 'red' : 'sienna';
     }
 
-    let label = number === null ? null : number + 1;
+    const canDropMarker = canDrop ? ( <Dot color='red' /> ) : null;
+
+    const label = number === null ? null : number + 1;
 
     return connectDropTarget(
       <div>
         <Square label={ label } fill={ fill }>
           { this.props.children }
+          { canDropMarker }
         </Square>
       </div>
     );

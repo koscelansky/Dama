@@ -1,20 +1,11 @@
+import { Move } from './move.js' 
+
 const Direction = Object.freeze({
   NE: 'NE', // up right
   SE: 'SE', // down right
   SW: 'SW', // down left
   NW: 'NW', // up left
 });
-
-class Move {
-  constructor(type, squares) {
-    this.type = type;
-    this.squares = squares;
-  }
-
-  toString() {
-    return this.squares.join(this.type);
-  }
-}
 
 const SQUARE_COUNT = 32;
 

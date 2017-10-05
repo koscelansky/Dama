@@ -1,10 +1,9 @@
 const MOVE_PIECE = 'MOVE_PIECE';
 
-function movePiece(from, to) {
+function movePiece(move) {
   return {
     type: MOVE_PIECE,
-    from,
-    to,
+    move
   }
 }
 

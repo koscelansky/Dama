@@ -4,7 +4,7 @@ import { DropTarget } from 'react-dnd';
 
 import { appState } from '../app.js';
 import Square from '../components/square';
-import Dot from '../components/dot';
+import DragMarker from '../components/drag-marker';
 import { possibleMovesSelector } from '../selectors'
 
 const dropTarget = {
@@ -40,13 +40,13 @@ function collect(connect, monitor) {
 class DropSquare extends Component {
   render() {
     const { connectDropTarget, isOver, canDrop, number } = this.props;
-    let fill = 'blanchedalmond';
+    let fill = number !== null ? 'sienna' : 'blanchedalmond';
 
-    if (number !== null) {
-      fill = isOver && canDrop ? 'red' : 'sienna';
-    }
-
-    const canDropMarker = canDrop ? ( <Dot /> ) : null;
+    const canDropMarker = canDrop ? ( 
+      <div style={{ padding: '39%' }}>
+        <DragMarker marked={ isOver } />
+      </div> 
+    ) : null;
 
     const label = number === null ? null : number + 1;
 

@@ -88,10 +88,20 @@ function getSimpleMoves(state) {
       continue;
 
     for (const dir of getDirectionForPiece(piece)) {
-      const newPos = getNextSquare(index, dir);
-      // if the square exists and is empty
-      if (newPos !== null && pieces[newPos] === null) {
-        retVal.push(new Move('-', [index, newPos]));
+      let newPos = index;
+      while (true) {
+        newPos = getNextSquare(newPos, dir);
+        
+        // if the square exists and is empty
+        if (newPos !== null && pieces[newPos] === null) {
+          retVal.push(new Move('-', [index, newPos]));
+        }
+        else {
+          break; // either piece is blocking path or edge of board 
+        }
+
+        if (piece[1] === 'M') // only kings can move more than one square 
+          break;
       }
     }
   }

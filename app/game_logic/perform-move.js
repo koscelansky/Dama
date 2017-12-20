@@ -1,7 +1,12 @@
+// @flow
+
+import type { State, Piece } from './initial-state.js'
 import { Move } from './move.js' 
 
-export function performMove(state, move) {
+export function performMove(state: State, move: Move) {
   let movedPiece = state.pieces[move.begin()];
+  if (movedPiece == null)
+    throw new Error('No piece on square ' + move.begin());
 
   state.pieces[move.begin()] = null;
 

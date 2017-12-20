@@ -1,3 +1,6 @@
+// @flow
+
+import type { State } from './initial-state.js'
 import { Move } from './move.js' 
 
 const Direction = Object.freeze({
@@ -9,7 +12,7 @@ const Direction = Object.freeze({
 
 const SQUARE_COUNT = 32;
 
-function getNextSquare(square, direction) {
+function getNextSquare(square: number, direction) {
   if (square < 0 || square >= SQUARE_COUNT)
     throw new Error("Square not in range.");
 
@@ -79,12 +82,12 @@ function getDirectionForPiece(piece) {
   return [Direction.SE, Direction.SW]
 }
 
-function getSimpleMoves(state) {
+function getSimpleMoves(state: State) {
   let retVal = []; 
   
   const { turn, pieces } = state;
   for (const [index, piece] of pieces.entries()) {
-    if (piece === null || piece[0] !== turn)
+    if (piece == null || piece[0] !== turn)
       continue;
 
     for (const dir of getDirectionForPiece(piece)) {
@@ -108,6 +111,6 @@ function getSimpleMoves(state) {
   return retVal;
 }
 
-export function getPossibleMoves(state) {
+export function getPossibleMoves(state: State) {
   return getSimpleMoves(state);
 }

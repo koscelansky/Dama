@@ -12,6 +12,21 @@ const Direction = Object.freeze({
 
 const SQUARE_COUNT = 32;
 
+function getOppositeDirection(direction) {
+  switch (direction) {
+    case Direction.NE:
+      return Direction.SW;
+    case Direction.NW:
+      return Direction.SE;
+    case Direction.SE:
+      return Direction.NW;
+    case Direction.SW:
+      return Direction.NE;
+  }
+
+  throw new Error("Unknow direction!");
+}
+
 function getNextSquare(square: number, direction) {
   if (square < 0 || square >= SQUARE_COUNT)
     throw new Error("Square not in range.");
@@ -111,6 +126,79 @@ function getSimpleMoves(state: State) {
   return retVal;
 }
 
+function getFirstEnemyInDirection(pieces, position, piece, direction) {
+  while (true) {
+    position = getNextSquare(position, direction);
+    if (position == null)
+      return null;
+
+    const enemy = pieces[position];
+    if (enemy == null) {
+      if (piece[1] == 'M')
+        return null;
+    } else {
+      if (enemy[0] == piece[0])
+        return null;
+      else 
+        return position;
+    }
+  }
+}
+
+function getCapturesInternal(pieces, position, piece, lastDirection) {
+  let result = [];
+
+  for (const dir of getDirectionForPiece(piece)) {
+    if (dir == lastDirection)
+      continue; // this direcion is forbidden
+    
+    let enemyPos = getFirstEnemyInDirection(pieces, position, piece, dir);
+    if (enemyPos == null)
+      continue; // no piece to capture
+
+    const landingPos = getNextSquare(enemyPos, dir);
+    if (landingPos == null || pieces[landingPos] != null) 
+      continue;  // no place for piece to land
+    
+    let newPieces = [...pieces];
+    newPieces[enemyPos] = null; // we removed the piece 
+
+    let captures = getCapturesInternal(newPieces, landingPos, piece, getOppositeDirection(dir));
+    if (captures.length == 0) {
+      result.push([landingPos]);
+    } else {
+      for (let i of captures) {
+        i.unshift(landingPos);
+      }
+
+      result.push(...captures);
+    }
+  }
+
+  return result;
+}
+
+function getCaptures(state: State) {
+  let result = [];
+
+  const { turn, pieces } = state;
+  for (const [index, piece] of pieces.entries()) {
+    if (piece == null || piece[0] !== turn)
+      continue;
+
+    let captures = getCapturesInternal(pieces, index, piece, null);
+    for (let i of captures) {
+      i.unshift(index);
+    }
+
+    result.push(...captures);
+  }
+
+  return result;
+}
+
 export function getPossibleMoves(state: State) {
+  console.log(getCaptures(state))
+
   return getSimpleMoves(state);
 }

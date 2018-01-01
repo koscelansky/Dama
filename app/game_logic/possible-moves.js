@@ -98,7 +98,7 @@ function getDirectionForPiece(piece) {
 }
 
 function getSimpleMoves(state: State) {
-  let retVal = []; 
+  let result = []; 
   
   const { turn, pieces } = state;
   for (const [index, piece] of pieces.entries()) {
@@ -110,20 +110,17 @@ function getSimpleMoves(state: State) {
       while (true) {
         newPos = getNextSquare(newPos, dir);
         
-        // if the square exists and is empty
-        if (newPos !== null && pieces[newPos] === null) {
-          retVal.push(new Move('-', [index, newPos]));
-        }
-        else {
+        if (newPos == null || pieces[newPos] != null) 
           break; // either piece is blocking path or edge of board 
-        }
+
+        result.push(new Move('-', [index, newPos]));
 
         if (piece[1] === 'M') // only kings can move more than one square 
           break;
       }
     }
   }
-  return retVal;
+  return result;
 }
 
 function getFirstEnemyInDirection(pieces, position, piece, direction) {
@@ -156,23 +153,30 @@ function getCapturesInternal(pieces, position, piece, lastDirection) {
     if (enemyPos == null)
       continue; // no piece to capture
 
-    const landingPos = getNextSquare(enemyPos, dir);
-    if (landingPos == null || pieces[landingPos] != null) 
-      continue;  // no place for piece to land
-    
-    let newPieces = [...pieces];
-    newPieces[enemyPos] = null; // we removed the piece 
+    let landingPos = enemyPos;
+    while (true) {
+      landingPos = getNextSquare(landingPos, dir);
 
-    let captures = getCapturesInternal(newPieces, landingPos, piece, getOppositeDirection(dir));
-    if (captures.length == 0) {
-      result.push([landingPos]);
-    } else {
-      for (let i of captures) {
-        i.unshift(landingPos);
+      if (landingPos == null || pieces[landingPos] != null) 
+        break;  // no place for piece to land
+    
+      let newPieces = [...pieces];
+      newPieces[enemyPos] = null; // we removed the piece 
+
+      let captures = getCapturesInternal(newPieces, landingPos, piece, getOppositeDirection(dir));
+      if (captures.length == 0) {
+        result.push([landingPos]);
+      } else {
+        for (let i of captures) {
+          i.unshift(landingPos);
+        }
+
+        result.push(...captures);
       }
 
-      result.push(...captures);
-    }
+      if (piece[1] == 'M')
+        break; // men can only land one square after enemy
+    } 
   }
 
   return result;

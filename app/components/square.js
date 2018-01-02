@@ -27,7 +27,11 @@ export default class Square extends Component {
           <div style={ labelStyle }>
             <SquareLabel>{ label }</SquareLabel>
           </div>
-          <div style={ contentStyle }><div style={ {margin: '12%'} }>{ this.props.children }</div></div>
+          <div style={ contentStyle }>
+            <div style={ {margin: '12%', position: 'relative'} }>
+              { this.props.children }
+            </div>
+          </div>
         </div>
         <div style={{ paddingBottom: '100%', display: 'block' }}></div>
       </div>

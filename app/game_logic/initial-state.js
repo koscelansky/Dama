@@ -1,13 +1,4 @@
-// @flow
-
-export type Piece = 'WM' | 'BM' | 'WK' | 'BK';
-
-export type State = {
-  pieces: (?Piece)[], 
-  turn: 'W' | 'B'
-};
-
-const initialState: State = {
+const initialState = {
   pieces: [
     'WM', 'WM', 'WM', 'WM',
     'WM', 'WM', 'WM', 'WM',

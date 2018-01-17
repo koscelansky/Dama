@@ -1,10 +1,5 @@
-// @flow
-
-export class Move {
-  type: '-' | 'x';
-  squares: number[];
-  
-  constructor(type: '-' | 'x', squares: number[]) {
+export class Move { 
+  constructor(type, squares) {
     this.type = type;
     this.squares = squares;
   }

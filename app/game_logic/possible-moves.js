@@ -1,6 +1,3 @@
-// @flow
-
-import type { State } from './initial-state.js'
 import { Move } from './move.js' 
 
 const Direction = Object.freeze({
@@ -27,7 +24,7 @@ function getOppositeDirection(direction) {
   throw new Error("Unknow direction!");
 }
 
-function getNextSquare(square: number, direction) {
+function getNextSquare(square, direction) {
   if (square < 0 || square >= SQUARE_COUNT)
     throw new Error("Square not in range.");
 
@@ -97,7 +94,7 @@ function getDirectionForPiece(piece) {
   return [Direction.SE, Direction.SW]
 }
 
-function getSimpleMoves(state: State) {
+function getSimpleMoves(state) {
   let result = []; 
   
   const { turn, pieces } = state;
@@ -182,7 +179,7 @@ function getCapturesInternal(pieces, position, piece, lastDirection) {
   return result;
 }
 
-function getCaptures(state: State) {
+function getCaptures(state) {
   let result = [];
 
   const { turn, pieces } = state;
@@ -201,7 +198,7 @@ function getCaptures(state: State) {
   return result;
 }
 
-export function getPossibleMoves(state: State) {
+export function getPossibleMoves(state) {
   console.log(getCaptures(state))
 
   return getSimpleMoves(state);

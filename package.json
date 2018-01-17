@@ -20,19 +20,19 @@
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "babelify": "^7.3.0",
-    "electron": "^1.6.6",
-    "electron-reload": "^1.1.0",
+    "babelify": "^8.0.0",
+    "electron": "^1.7.10",
+    "electron-reload": "^1.2.2",
     "watchify": "^3.9.0"
   },
   "dependencies": {
-    "prop-types": "^15.5.8",
-    "react": "^15.5.4",
-    "react-dnd": "^2.4.0",
-    "react-dnd-html5-backend": "^2.4.1",
-    "react-dom": "^15.5.4",
-    "react-redux": "^5.0.4",
-    "redux": "^3.6.0",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-dnd": "^2.5.4",
+    "react-dnd-html5-backend": "^2.5.4",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
     "reselect": "^3.0.1"
   }
 }

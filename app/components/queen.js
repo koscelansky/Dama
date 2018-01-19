@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export default class Queen extends Component {
   render() {
     const { black } = this.props;
-    const pic = './svg/' + (black ? 'Chess_qdt45.svg' : 'Chess_qlt45.svg');
+    const pic = './svg/pieces/' + (black ? 'Chess_qdt45.svg' : 'Chess_qlt45.svg');
 
     const objectStyle = {
       userSelect: 'none',

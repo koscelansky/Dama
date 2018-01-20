@@ -1,32 +1,53 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
-
+import { getSquaresBetween } from '../game_logic/possible-moves'
 import { appState } from '../app.js';
 import Square from '../components/square';
 import DragMarker from '../components/drag-marker';
 import CaptureMark from '../components/capture-mark';
 import { possibleMovesSelector } from '../selectors'
 
+function selectMove(from, to) {
+  const moves = possibleMovesSelector(appState.getState());
+  
+  for (const move of moves) {
+    if (move.squares[0] === from && move.squares[1] === to)
+      return move;
+  }
+
+  return null;
+}
+
 const dropTarget = {
   drop(props, monitor) {
     return props.onPieceMove(monitor.getItem().square, props.number);
-  }, 
+  },
+
+  hover(props, monitor, component) {
+    if (!monitor.canDrop())
+      return;
+
+    const from = monitor.getItem().square;
+    const to = props.number;
+    
+    const move = selectMove(from, to);
+
+    if (move.isCapture()) {
+      component.hoverCapture(getSquaresBetween(move.begin(), move.end()));
+    }
+  },
 
   canDrop(props, monitor) {
     if (props.number === null)
       return false; // white squares are no interesting 
 
-    const moves = possibleMovesSelector(appState.getState());
     const from = monitor.getItem().square;
     const to = props.number;
-      
-    for (const move of moves) {
-      if (move.squares[0] === from && move.squares[1] === to)
-        return true;
-    }
+    
+    const move = selectMove(from, to);
 
-    return false;
+    return move ? true : false;
   }
 };
 
@@ -49,7 +70,7 @@ class DropSquare extends Component {
       </div> 
     ) : null;
 
-    const captureMark = 0 ? ( 
+    const captureMark = this.props.markedForCapture ? ( 
       <div style={{ position: 'absolute', width: '100%', zIndex: '2', opacity: '0.8' }}>
         <CaptureMark />
       </div>
@@ -69,6 +90,10 @@ class DropSquare extends Component {
       </div>
     );
   }
+
+  hoverCapture(squares) {
+    this.props.onHoverCapture(squares);
+  }
 }
 
 DropSquare.propTypes = {
@@ -81,6 +106,11 @@ DropSquare.propTypes = {
 
   // function for move piece
   onPieceMove: PropTypes.func.isRequired,
+
+  // function will be called for every hover when capture is possible 
+  onHoverCapture: PropTypes.func,
+
+  markedForCapture: PropTypes.bool,
 };
 
 export default DropTarget('PIECE', dropTarget, collect)(DropSquare);

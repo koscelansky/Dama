@@ -15,4 +15,8 @@ export class Move {
   end() {
     return this.squares[this.squares.length - 1];
   }
+
+  isCapture() {
+    return this.type === 'x';
+  }
 }

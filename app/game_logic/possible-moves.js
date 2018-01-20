@@ -180,26 +180,44 @@ function getCapturesInternal(pieces, position, piece, lastDirection) {
 }
 
 function getCaptures(state) {
-  let result = [];
+  let captures = [];
 
   const { turn, pieces } = state;
   for (const [index, piece] of pieces.entries()) {
     if (piece == null || piece[0] !== turn)
       continue;
 
-    let captures = getCapturesInternal(pieces, index, piece, null);
-    for (let i of captures) {
+    let moreCaptures = getCapturesInternal(pieces, index, piece, null);
+    for (let i of moreCaptures) {
       i.unshift(index);
     }
 
-    result.push(...captures);
+    captures.push(...moreCaptures);
+  }
+
+  let result = [];
+  for (let i of captures) {
+    result.push(new Move('x', i));
   }
 
   return result;
 }
 
 export function getPossibleMoves(state) {
-  console.log(getCaptures(state))
+  return [...getSimpleMoves(state), ...getCaptures(state)];
+}
 
-  return getSimpleMoves(state);
+export function getSquaresBetween(from, to) {
+  for (let dir of [Direction.NE, Direction.NW, Direction.SE, Direction.SW]) {
+    let square = from;
+    let result = [];
+
+    while (square != null) {
+      square = getNextSquare(square, dir);
+      if (square == to)
+        return result;
+
+      result.push(square);
+    }
+  }
 }

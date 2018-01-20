@@ -21,21 +21,25 @@ function selectMove(from, to) {
 
 const dropTarget = {
   drop(props, monitor) {
+    props.onHoverCapture([]);
+
     return props.onPieceMove(monitor.getItem().square, props.number);
   },
 
   hover(props, monitor, component) {
-    if (!monitor.canDrop())
-      return;
+    if (monitor.canDrop()) {
+      const from = monitor.getItem().square;
+      const to = props.number;
+      
+      const move = selectMove(from, to);
 
-    const from = monitor.getItem().square;
-    const to = props.number;
-    
-    const move = selectMove(from, to);
-
-    if (move.isCapture()) {
-      component.hoverCapture(getSquaresBetween(move.begin(), move.end()));
+      if (move.isCapture()) {
+        props.onHoverCapture(getSquaresBetween(move.begin(), move.end()));
+        return;
+      }
     }
+
+    props.onHoverCapture([]);
   },
 
   canDrop(props, monitor) {

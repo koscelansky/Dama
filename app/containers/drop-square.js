@@ -5,6 +5,7 @@ import { DropTarget } from 'react-dnd';
 import { appState } from '../app.js';
 import Square from '../components/square';
 import DragMarker from '../components/drag-marker';
+import CaptureMark from '../components/capture-mark';
 import { possibleMovesSelector } from '../selectors'
 
 const dropTarget = {
@@ -48,13 +49,22 @@ class DropSquare extends Component {
       </div> 
     ) : null;
 
+    const captureMark = 0 ? ( 
+      <div style={{ position: 'absolute', width: '100%', zIndex: '2', opacity: '0.8' }}>
+        <CaptureMark />
+      </div>
+    ) : null;
+
     const label = number === null ? null : number + 1;
 
     return connectDropTarget(
       <div>
         <Square label={ label } fill={ fill }>
-          { this.props.children }
+          <div style={{ position: 'absolute', width: '100%', zIndex: '1' }}>
+            { this.props.children }
+          </div>
           { canDropMarker }
+          { captureMark }
         </Square>
       </div>
     );

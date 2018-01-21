@@ -21,8 +21,6 @@ function selectMove(from, to) {
 
 const dropTarget = {
   drop(props, monitor) {
-    props.onHoverCapture([]);
-
     return props.onPieceMove(monitor.getItem().square, props.number);
   },
 
@@ -81,7 +79,8 @@ class DropSquare extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.isOver == this.props.isOver)
+    if (prevProps.isOver == this.props.isOver
+      && prevProps.canDrop == this.props.canDrop)
       return;
 
     if (this.props.isOver && this.props.canDrop) {

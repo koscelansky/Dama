@@ -7,6 +7,12 @@ export function performMove(state, move) {
 
   state.pieces[move.begin()] = null;
 
+  if (move.isCapture()) {
+    for (let i of move.getCapturedSquared()) {
+      state.pieces[i] = null; // remove from board captured piece
+    }
+  }
+
   // handle promotions
   if (movedPiece[1] == 'M') {
     if (movedPiece[0] == 'W' && [28, 29, 30, 31].includes(move.end())) {

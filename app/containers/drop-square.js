@@ -21,6 +21,8 @@ function selectMove(from, to) {
 
 const dropTarget = {
   drop(props, monitor) {
+    props.onHoverCapture([]); // disable highlighting of pieces for capture
+
     return props.onPieceMove(monitor.getItem().square, props.number);
   },
 
@@ -79,18 +81,20 @@ class DropSquare extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.isOver == this.props.isOver
-      && prevProps.canDrop == this.props.canDrop)
+    if (!this.props.canDrop)
+      return; 
+
+    if (prevProps.isOver == this.props.isOver)
       return;
 
-    if (this.props.isOver && this.props.canDrop) {
+    if (this.props.isOver) {
       const from = this.props.originSquare;
       const to = this.props.number;
       
       const move = selectMove(from, to);
 
       if (move.isCapture()) {
-        this.props.onHoverCapture(getSquaresBetween(move.begin(), move.end()));
+        this.props.onHoverCapture(move.getCapturedSquared());
         return;
       }
     }

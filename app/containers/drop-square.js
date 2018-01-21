@@ -26,22 +26,6 @@ const dropTarget = {
     return props.onPieceMove(monitor.getItem().square, props.number);
   },
 
-  hover(props, monitor, component) {
-    if (monitor.canDrop()) {
-      const from = monitor.getItem().square;
-      const to = props.number;
-      
-      const move = selectMove(from, to);
-
-      if (move.isCapture()) {
-        props.onHoverCapture(getSquaresBetween(move.begin(), move.end()));
-        return;
-      }
-    }
-
-    props.onHoverCapture([]);
-  },
-
   canDrop(props, monitor) {
     if (props.number === null)
       return false; // white squares are no interesting 
@@ -60,6 +44,7 @@ function collect(connect, monitor) {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(), 
     canDrop: monitor.canDrop(),
+    originSquare: monitor.getItem() ? monitor.getItem().square : null,
   };
 }
 
@@ -95,8 +80,23 @@ class DropSquare extends Component {
     );
   }
 
-  hoverCapture(squares) {
-    this.props.onHoverCapture(squares);
+  componentDidUpdate(prevProps) {
+    if (prevProps.isOver == this.props.isOver)
+      return;
+
+    if (this.props.isOver && this.props.canDrop) {
+      const from = this.props.originSquare;
+      const to = this.props.number;
+      
+      const move = selectMove(from, to);
+
+      if (move.isCapture()) {
+        this.props.onHoverCapture(getSquaresBetween(move.begin(), move.end()));
+        return;
+      }
+    }
+
+    this.props.onHoverCapture([]);
   }
 }
 
@@ -104,6 +104,7 @@ DropSquare.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
+  originSquare: PropTypes.number,
 
   // number of square, if white, then null 
   number: PropTypes.number,

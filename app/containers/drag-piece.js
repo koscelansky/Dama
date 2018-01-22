@@ -6,6 +6,7 @@ import { getEmptyImage } from 'react-dnd-html5-backend';
 
 import { appState } from '../app.js';
 import Piece from '../components/piece.js';
+import CaptureMark from '../components/capture-mark';
 import { possibleMovesSelector } from '../selectors'
 
 const dragSource = {
@@ -44,14 +45,23 @@ class DragPiece extends Component {
   }
 
   render() {
-    const { connectDragSource, isDragging, canDrag, type } = this.props;
+    const { connectDragSource, isDragging, canDrag, type, markedForCapture } = this.props;
+
+    const captureMark = markedForCapture ? ( 
+      <div style={{ position: 'absolute', width: '100%', zIndex: '2', opacity: '0.8' }}>
+        <CaptureMark />
+      </div>
+    ) : null;
 
     return connectDragSource(
       <div style={{
         opacity: isDragging ? 0.5 : 1,
         cursor: canDrag ? 'move' : 'default',
       }}>
-        <Piece type={ type } />
+        <div style={{ position: 'absolute', width: '100%', zIndex: '1' }}>
+          <Piece type={ type } />
+        </div>
+        { captureMark }
       </div>
     );
   }
@@ -74,6 +84,8 @@ DragPiece.propTypes = {
 
   // number of square where the piece is
   square: PropTypes.number.isRequired,
+
+  markedForCapture: PropTypes.bool,
 };
 
 DragPiece = DragSource('PIECE', dragSource, collect)(DragPiece);

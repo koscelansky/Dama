@@ -34,10 +34,12 @@ export default class Board extends Component {
       const squareNo = row * 4 + Math.floor(column / 2);
 
       num = squareNo;
-      piece = ( <DragPiece square={ squareNo } /> );
+
+      const markedForCapture = this.state.markedSquaresForCapture.includes(num);
+      piece = ( <DragPiece square={ squareNo } markedForCapture={ markedForCapture } /> );
     }
 
-    let markedForCapture = this.state.markedSquaresForCapture.indexOf(num) > -1;
+    
 
     return (
       <div key={ n } style={{ width: '12.5%' }}>
@@ -45,7 +47,6 @@ export default class Board extends Component {
           number={ num } 
           onPieceMove={ this.props.onPieceMove } 
           onHoverCapture={ this.hoverCapture } 
-          markedForCapture={ markedForCapture }
         >
           { piece }
         </DropSquare>

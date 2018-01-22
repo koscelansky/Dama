@@ -5,7 +5,6 @@ import { getSquaresBetween } from '../game_logic/possible-moves'
 import { appState } from '../app.js';
 import Square from '../components/square';
 import DragMarker from '../components/drag-marker';
-import CaptureMark from '../components/capture-mark';
 import { possibleMovesSelector } from '../selectors'
 
 function selectMove(from, to) {
@@ -59,22 +58,13 @@ class DropSquare extends Component {
       </div> 
     ) : null;
 
-    const captureMark = this.props.markedForCapture ? ( 
-      <div style={{ position: 'absolute', width: '100%', zIndex: '2', opacity: '0.8' }}>
-        <CaptureMark />
-      </div>
-    ) : null;
-
     const label = number === null ? null : number + 1;
 
     return connectDropTarget(
       <div>
         <Square label={ label } fill={ fill }>
-          <div style={{ position: 'absolute', width: '100%', zIndex: '1' }}>
-            { this.props.children }
-          </div>
+          { this.props.children }
           { canDropMarker }
-          { captureMark }
         </Square>
       </div>
     );
@@ -117,8 +107,6 @@ DropSquare.propTypes = {
 
   // function will be called for every hover when capture is possible 
   onHoverCapture: PropTypes.func,
-
-  markedForCapture: PropTypes.bool,
 };
 
 export default DropTarget('PIECE', dropTarget, collect)(DropSquare);

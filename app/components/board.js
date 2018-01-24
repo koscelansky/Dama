@@ -39,8 +39,6 @@ export default class Board extends Component {
       piece = ( <DragPiece square={ squareNo } markedForCapture={ markedForCapture } /> );
     }
 
-    
-
     return (
       <div key={ n } style={{ width: '12.5%' }}>
         <DropSquare 

@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 
-import DamaBoard from './containers/dama-board';
+import Game from './components/game';
 import damaApp from './reducers';
 import CustomDragLayer from './drag-layer';
 
@@ -14,7 +14,7 @@ class App extends Component {
   render() {
     return (
       <div> 
-        <DamaBoard />
+        <Game />
         <CustomDragLayer />
       </div>
     );

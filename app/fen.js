@@ -1,3 +1,26 @@
+// FEN format is described here https://en.wikipedia.org/wiki/Portable_Draughts_Notation 
+// [FEN "[Turn]:[Color 1][K][Square number][,]...]:[Color 2][K][Square number][,]...]"]
+
+export function toFen(state) {
+  const getPieces = (color) => {
+    let result = [];
+    
+    for (const [i, value] of state.pieces.entries()) {
+      if (value != null && value[0] == color) {
+        const piecePrefix = value[1] == 'K' ? 'K' : ''; 
+        result.push(piecePrefix + (i + 1));
+      }
+    }
+
+    return result;
+  }
+
+  const whitePieces = 'W' + getPieces('W').join(',');
+  const blackPieces = 'B' + getPieces('B').join(',');
+
+  return state.turn + ':' + whitePieces + ':' + blackPieces;
+}
+
 
 export function fromFen(fen) {
   if (typeof fen !== 'string')

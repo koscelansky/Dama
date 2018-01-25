@@ -1,223 +1,210 @@
-import { Move } from './move.js' 
+import { Move } from './move.js'
 
 const Direction = Object.freeze({
   NE: 'NE', // up right
   SE: 'SE', // down right
   SW: 'SW', // down left
-  NW: 'NW', // up left
-});
+  NW: 'NW' // up left
+})
 
-const SQUARE_COUNT = 32;
+const SQUARE_COUNT = 32
 
-function getOppositeDirection(direction) {
+function getOppositeDirection (direction) {
   switch (direction) {
     case Direction.NE:
-      return Direction.SW;
+      return Direction.SW
     case Direction.NW:
-      return Direction.SE;
+      return Direction.SE
     case Direction.SE:
-      return Direction.NW;
+      return Direction.NW
     case Direction.SW:
-      return Direction.NE;
+      return Direction.NE
   }
 
-  throw new Error("Unknow direction!");
+  throw new Error('Unknow direction!')
 }
 
-function getNextSquare(square, direction) {
-  if (square < 0 || square >= SQUARE_COUNT)
-    throw new Error("Square not in range.");
+function getNextSquare (square, direction) {
+  if (square < 0 || square >= SQUARE_COUNT) throw new Error('Square not in range.')
 
-  const X = null; // just to make lookup more readable
-  
+  const X = null // just to make lookup more readable
+
   switch (direction) {
     case Direction.NE:
       return [
-        X,  X,  X,  X,
-        0,  1,  2,  3,
-        5,  6,  7,  X,
-        8,  9, 10, 11,
-        13, 14, 15,  X,
+        X, X, X, X,
+        0, 1, 2, 3,
+        5, 6, 7, X,
+        8, 9, 10, 11,
+        13, 14, 15, X,
         16, 17, 18, 19,
-        21, 22, 23,  X,
+        21, 22, 23, X,
         24, 25, 26, 27
-      ][square];
-    
+      ][square]
+
     case Direction.SE:
       return [
-        5,  6,  7,  X,
-        8,  9, 10, 11,
-        13, 14, 15,  X,
+        5, 6, 7, X,
+        8, 9, 10, 11,
+        13, 14, 15, X,
         16, 17, 18, 19,
-        21, 22, 23,  X,
+        21, 22, 23, X,
         24, 25, 26, 27,
-        29, 30, 31,  X,
-        X,  X,  X,  X
-      ][square];
+        29, 30, 31, X,
+        X, X, X, X
+      ][square]
 
     case Direction.SW:
       return [
-        4,  5,  6,  7,
-        X,  8,  9, 10,
+        4, 5, 6, 7,
+        X, 8, 9, 10,
         12, 13, 14, 15,
         X, 16, 17, 18,
         20, 21, 22, 23,
         X, 24, 25, 26,
         28, 29, 30, 31,
-        X,  X,  X,  X
-      ][square];
+        X, X, X, X
+      ][square]
 
     case Direction.NW:
       return [
-        X,  X,  X,  X,
-        X,  0,  1,  2,
-        4,  5,  6,  7,
-        X,  8,  9, 10,
+        X, X, X, X,
+        X, 0, 1, 2,
+        4, 5, 6, 7,
+        X, 8, 9, 10,
         12, 13, 14, 15,
         X, 16, 17, 18,
         20, 21, 22, 23,
         X, 24, 25, 26
-      ][square];
+      ][square]
 
     default:
-      throw new Error("Unknown direction.");
+      throw new Error('Unknown direction.')
   }
 }
 
-function getDirectionForPiece(piece) {
-  if (piece[1] == 'K')
-    return [Direction.NE, Direction.NW, Direction.SE, Direction.SW];
+function getDirectionForPiece (piece) {
+  if (piece[1] === 'K') return [Direction.NE, Direction.NW, Direction.SE, Direction.SW]
 
-  if (piece[0] == 'B')
-    return [Direction.NE, Direction.NW];
+  if (piece[0] === 'B') return [Direction.NE, Direction.NW]
 
   return [Direction.SE, Direction.SW]
 }
 
-function getSimpleMoves(state) {
-  let result = []; 
-  
-  const { turn, pieces } = state;
+function getSimpleMoves (state) {
+  let result = []
+
+  const { turn, pieces } = state
   for (const [index, piece] of pieces.entries()) {
-    if (piece == null || piece[0] !== turn)
-      continue;
+    if (piece == null || piece[0] !== turn) continue
 
     for (const dir of getDirectionForPiece(piece)) {
-      let newPos = index;
+      let newPos = index
       while (true) {
-        newPos = getNextSquare(newPos, dir);
-        
-        if (newPos == null || pieces[newPos] != null) 
-          break; // either piece is blocking path or edge of board 
+        newPos = getNextSquare(newPos, dir)
 
-        result.push(new Move('-', [index, newPos]));
+        if (newPos == null || pieces[newPos] != null) break // either piece is blocking path or edge of board
 
-        if (piece[1] === 'M') // only kings can move more than one square 
-          break;
+        result.push(new Move('-', [index, newPos]))
+
+        if (piece[1] === 'M') break // only kings can move more than one square
       }
     }
   }
-  return result;
+  return result
 }
 
-function getFirstEnemyInDirection(pieces, position, piece, direction) {
+function getFirstEnemyInDirection (pieces, position, piece, direction) {
   while (true) {
-    position = getNextSquare(position, direction);
-    if (position == null)
-      return null;
+    position = getNextSquare(position, direction)
+    if (position == null) return null
 
-    const enemy = pieces[position];
+    const enemy = pieces[position]
     if (enemy == null) {
-      if (piece[1] == 'M')
-        return null;
+      if (piece[1] === 'M') return null
     } else {
-      if (enemy[0] == piece[0])
-        return null;
-      else 
-        return position;
+      if (enemy[0] === piece[0]) {
+        return null
+      } else {
+        return position
+      }
     }
   }
 }
 
-function getCapturesInternal(pieces, position, piece, lastDirection) {
-  let result = [];
+function getCapturesInternal (pieces, position, piece, lastDirection) {
+  let result = []
 
   for (const dir of getDirectionForPiece(piece)) {
-    if (dir == lastDirection)
-      continue; // this direcion is forbidden
-    
-    let enemyPos = getFirstEnemyInDirection(pieces, position, piece, dir);
-    if (enemyPos == null)
-      continue; // no piece to capture
+    if (dir === lastDirection) continue // this direcion is forbidden
 
-    let landingPos = enemyPos;
+    let enemyPos = getFirstEnemyInDirection(pieces, position, piece, dir)
+    if (enemyPos == null) continue // no piece to capture
+
+    let landingPos = enemyPos
     while (true) {
-      landingPos = getNextSquare(landingPos, dir);
+      landingPos = getNextSquare(landingPos, dir)
 
-      if (landingPos == null || pieces[landingPos] != null) 
-        break;  // no place for piece to land
-    
-      let newPieces = [...pieces];
-      newPieces[enemyPos] = null; // we removed the piece 
+      if (landingPos == null || pieces[landingPos] != null) break // no place for piece to land
 
-      let captures = getCapturesInternal(newPieces, landingPos, piece, getOppositeDirection(dir));
-      if (captures.length == 0) {
-        result.push([landingPos]);
+      let newPieces = [...pieces]
+      newPieces[enemyPos] = null // we removed the piece
+
+      let captures = getCapturesInternal(newPieces, landingPos, piece, getOppositeDirection(dir))
+      if (captures.length === 0) {
+        result.push([landingPos])
       } else {
         for (let i of captures) {
-          i.unshift(landingPos);
+          i.unshift(landingPos)
         }
 
-        result.push(...captures);
+        result.push(...captures)
       }
 
-      if (piece[1] == 'M')
-        break; // men can only land one square after enemy
-    } 
+      if (piece[1] === 'M') break // men can only land one square after enemy
+    }
   }
 
-  return result;
+  return result
 }
 
-function getCaptures(state) {
-  let captures = [];
+function getCaptures (state) {
+  let captures = []
 
-  const { turn, pieces } = state;
+  const { turn, pieces } = state
   for (const [index, piece] of pieces.entries()) {
-    if (piece == null || piece[0] !== turn)
-      continue;
+    if (piece == null || piece[0] !== turn) continue
 
-    let moreCaptures = getCapturesInternal(pieces, index, piece, null);
+    let moreCaptures = getCapturesInternal(pieces, index, piece, null)
     for (let i of moreCaptures) {
-      i.unshift(index);
+      i.unshift(index)
     }
 
-    captures.push(...moreCaptures);
+    captures.push(...moreCaptures)
   }
 
-  let result = [];
+  let result = []
   for (let i of captures) {
-    result.push(new Move('x', i));
+    result.push(new Move('x', i))
   }
 
-  return result;
+  return result
 }
 
-export function getPossibleMoves(state) {
-  return [...getSimpleMoves(state), ...getCaptures(state)];
+export function getPossibleMoves (state) {
+  return [...getSimpleMoves(state), ...getCaptures(state)]
 }
 
-export function getSquaresBetween(from, to) {
+export function getSquaresBetween (from, to) {
   for (let dir of [Direction.NE, Direction.NW, Direction.SE, Direction.SW]) {
-    let square = from;
-    let result = [];
+    let square = from
+    let result = []
 
     while (square != null) {
-      square = getNextSquare(square, dir);
-      if (square == to)
-        return result;
+      square = getNextSquare(square, dir)
+      if (square === to) return result
 
-      result.push(square);
+      result.push(square)
     }
   }
 }

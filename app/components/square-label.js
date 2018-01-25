@@ -1,17 +1,17 @@
 
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 export default class SquareLabel extends Component {
-  render() {
+  render () {
     const style = {
       fontFamily: 'Arial',
-      color: 'white', 
-      userSelect: 'none', 
+      color: 'white',
+      userSelect: 'none',
       cursor: 'default'
-    };
+    }
 
     return (
-      <div style={ style }>{ this.props.children }</div>
-    );
+      <div style={style}>{ this.props.children }</div>
+    )
   }
 }

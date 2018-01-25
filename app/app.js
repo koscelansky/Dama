@@ -1,33 +1,33 @@
 
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContext } from 'react-dnd';
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DragDropContext } from 'react-dnd'
 
-import Game from './components/game';
-import damaApp from './reducers';
-import CustomDragLayer from './drag-layer';
+import Game from './components/game'
+import damaApp from './reducers'
+import CustomDragLayer from './drag-layer'
 
 class App extends Component {
-  render() {
+  render () {
     return (
-      <div> 
+      <div>
         <Game />
         <CustomDragLayer />
       </div>
-    );
+    )
   }
 }
 
-export const appState = createStore(damaApp);
+export const appState = createStore(damaApp)
 
-App = DragDropContext(HTML5Backend)(App);
+App = DragDropContext(HTML5Backend)(App)
 
 ReactDOM.render(
-  <Provider store={ appState }>
+  <Provider store={appState}>
     <App />
   </Provider>,
   document.getElementById('root')
-);
+)

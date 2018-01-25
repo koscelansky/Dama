@@ -7,7 +7,8 @@
   "scripts": {
     "start": "electron .",
     "build": "browserify app/app.js -t babelify -o public/js/generated/bundle.js",
-    "watch": "watchify app/app.js -t babelify -o public/js/generated/bundle.js --debug --verbose"
+    "watch": "watchify app/app.js -t babelify -o public/js/generated/bundle.js --debug --verbose", 
+    "test": "standard"
   },
   "author": {
     "name": "Peter Koscelansky"
@@ -23,6 +24,7 @@
     "babelify": "^8.0.0",
     "electron": "~1.7.10",
     "electron-reload": "^1.2.2",
+    "standard": "*",
     "watchify": "^3.9.0"
   },
   "dependencies": {

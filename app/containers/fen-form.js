@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { toFen } from '../fen';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { toFen } from '../fen'
 
 class FenForm extends Component {
-  render() {
+  render () {
     return (
       <div>
         Fen: { this.props.fen }
       </div>
-    );
+    )
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps (state, ownProps) {
   return {
-    fen: toFen(state),
+    fen: toFen(state)
   }
 }
 
 FenForm.propTypes = {
-  fen: PropTypes.string,
-};
+  fen: PropTypes.string
+}
 
-export default connect(mapStateToProps)(FenForm); 
+export default connect(mapStateToProps)(FenForm)

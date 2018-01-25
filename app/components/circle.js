@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 export default class Circle extends Component {
-  render() {
-    const { color, blur, shadow } = this.props;
-    
+  render () {
+    const { color, blur, shadow } = this.props
+
     const objectStyle = {
       position: 'relative',
       borderRadius: '50%',
-      background: color, 
-      filter: `blur(${blur})`, 
+      background: color,
+      filter: `blur(${blur})`,
       boxShadow: shadow
-    };
+    }
 
     const contentStyle = {
       position: 'absolute',
@@ -20,18 +20,18 @@ export default class Circle extends Component {
     }
 
     return (
-      <div style={ objectStyle }>
-        <div style={ contentStyle }>
+      <div style={objectStyle}>
+        <div style={contentStyle}>
           { this.props.children }
         </div>
-        <div style={{ paddingBottom: '100%', display: 'block' }}></div>
+        <div style={{ paddingBottom: '100%', display: 'block' }} />
       </div>
-    );
+    )
   }
 }
-  
+
 Circle.propTypes = {
-  color: PropTypes.string, 
-  blur: PropTypes.string, 
+  color: PropTypes.string,
+  blur: PropTypes.string,
   shadow: PropTypes.string
-};
+}

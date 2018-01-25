@@ -1,12 +1,12 @@
-const MOVE_PIECE = 'MOVE_PIECE';
+const MOVE_PIECE = 'MOVE_PIECE'
 
-function movePiece(move) {
+function movePiece (move) {
   return {
     type: MOVE_PIECE,
     move
   }
 }
 
-export { MOVE_PIECE };
+export { MOVE_PIECE }
 
-export { movePiece };
+export { movePiece }

@@ -23,11 +23,11 @@ class App extends Component {
 
 export const appState = createStore(damaApp)
 
-App = DragDropContext(HTML5Backend)(App)
+const AppRoot = DragDropContext(HTML5Backend)(App)
 
 ReactDOM.render(
   <Provider store={appState}>
-    <App />
+    <AppRoot />
   </Provider>,
   document.getElementById('root')
 )

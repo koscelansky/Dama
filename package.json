@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron .",
     "build": "browserify app/app.js -t babelify -o public/js/generated/bundle.js",
-    "watch": "watchify app/app.js -t babelify -o public/js/generated/bundle.js --debug --verbose", 
+    "watch": "watchify app/app.js -t babelify -o public/js/generated/bundle.js --debug --verbose",
     "test": "standard"
   },
   "author": {

@@ -87,6 +87,4 @@ DragPiece.propTypes = {
   markedForCapture: PropTypes.bool
 }
 
-DragPiece = DragSource('PIECE', dragSource, collect)(DragPiece)
-
-export default connect(mapStateToProps)(DragPiece)
+export default connect(mapStateToProps)(DragSource('PIECE', dragSource, collect)(DragPiece))

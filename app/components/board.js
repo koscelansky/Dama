@@ -57,7 +57,7 @@ export default class Board extends Component {
     }
 
     return (
-      <div style={{ margin: '1vw', display: 'flex', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         { squares }
       </div>
     )

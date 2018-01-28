@@ -8,10 +8,10 @@ export default class Game extends Component {
     return (
       <div>
         <div>
-          <DamaBoard />
+          <FenForm />
         </div>
         <div>
-          <FenForm />
+          <DamaBoard />
         </div>
       </div>
     )

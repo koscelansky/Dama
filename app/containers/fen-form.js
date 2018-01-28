@@ -26,15 +26,22 @@ class FenForm extends Component {
     event.preventDefault()
   }
 
+  componentDidUpdate (prevProps, prevState) {
+    if (prevProps.fen !== this.props.fen) {
+      this.setState({ value: this.props.fen })
+    }
+  }
+
   render () {
     const { value } = this.state
+    const isDefault = value === this.props.fen
 
     return (
       <form onSubmit={this.handleSubmit} style={{ width: '100%' }}>
         <span style={{ float: 'left' }}>Fen: </span>
         <input type='submit' value='Submit' style={{ float: 'right' }} />
         <span style={{ display: 'block', overflow: 'hidden', padding: '0 1em 0 1em' }}>
-          <FenInput value={value} onChange={this.handleChange} />
+          <FenInput value={value} onChange={this.handleChange} isDefault={isDefault} />
         </span>
       </form>
     )

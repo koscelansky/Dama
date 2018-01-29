@@ -22,10 +22,10 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babelify": "^8.0.0",
-    "electron": "~1.7.10",
+    "electron": "~1.7.11",
     "electron-reload": "^1.2.2",
     "standard": "*",
-    "watchify": "^3.9.0"
+    "watchify": "^3.10.0"
   },
   "dependencies": {
     "lodash": "^4.17.4",

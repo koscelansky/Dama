@@ -3,12 +3,14 @@ import PropTypes from 'prop-types'
 
 export default class FenInput extends Component {
   render () {
-    const { value, onChange, isDefault } = this.props
-    const textColor = isDefault ? 'LightGray' : 'Black'
+    const { value, onChange, isDefault, isValid } = this.props
+    const textColor = isDefault ? 'DarkGray' : 'Black'
+    const borderColor = isValid ? 'Black' : 'Red'
 
     const style = {
       width: '100%',
-      color: textColor
+      color: textColor,
+      borderColor
     }
 
     return (

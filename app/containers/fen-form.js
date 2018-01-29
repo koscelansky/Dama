@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getFenSelector } from '../selectors'
+import { isValidFen } from '../fen'
 import FenInput from '../components/fen-input'
 
 class FenForm extends Component {
@@ -35,13 +36,14 @@ class FenForm extends Component {
   render () {
     const { value } = this.state
     const isDefault = value === this.props.fen
+    const isValid = isValidFen(value)
 
     return (
       <form onSubmit={this.handleSubmit} style={{ width: '100%' }}>
         <span style={{ float: 'left' }}>Fen: </span>
         <input type='submit' value='Submit' style={{ float: 'right' }} />
         <span style={{ display: 'block', overflow: 'hidden', padding: '0 1em 0 1em' }}>
-          <FenInput value={value} onChange={this.handleChange} isDefault={isDefault} />
+          <FenInput value={value} onChange={this.handleChange} isDefault={isDefault} isValid={isValid} />
         </span>
       </form>
     )

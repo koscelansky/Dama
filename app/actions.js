@@ -1,12 +1,16 @@
-const MOVE_PIECE = 'MOVE_PIECE'
+export const MOVE_PIECE = 'MOVE_PIECE'
+export const NEW_POSITION_FROM_FEN = 'NEW_POSITION_FROM_FEN'
 
-function movePiece (move) {
+export function movePiece (move) {
   return {
     type: MOVE_PIECE,
     move
   }
 }
 
-export { MOVE_PIECE }
-
-export { movePiece }
+export function newPositionFromFen (fen) {
+  return {
+    type: NEW_POSITION_FROM_FEN,
+    fen
+  }
+}

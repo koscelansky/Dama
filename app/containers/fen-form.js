@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getFenSelector } from '../selectors'
-import { isValidFen } from '../fen'
-import FenInput from '../components/fen-input'
+
+import FenInput from '../components/fen-input.js'
+
+import { getFenSelector } from '../selectors.js'
+import { isValidFen } from '../fen.js'
+import { newPositionFromFen } from '../actions.js'
 
 class FenForm extends Component {
   constructor (props) {
@@ -15,7 +18,7 @@ class FenForm extends Component {
   }
 
   handleSubmit (event) {
-    console.log('A name was submitted: ' + this.state.value)
+    this.props.onFenSubmit(this.state.value)
     event.preventDefault()
   }
 
@@ -56,8 +59,16 @@ function mapStateToProps (state, ownProps) {
   }
 }
 
+function mapDispatchToProps (dispatch) {
+  return {
+    onFenSubmit: (fen) => {
+      return dispatch(newPositionFromFen(fen))
+    }
+  }
+}
+
 FenForm.propTypes = {
   fen: PropTypes.string
 }
 
-export default connect(mapStateToProps)(FenForm)
+export default connect(mapStateToProps, mapDispatchToProps)(FenForm)

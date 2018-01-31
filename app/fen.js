@@ -58,6 +58,13 @@ export function fromFen (fen) {
 
       if (pieces[pos] !== null) return null
 
+      const forbiddenPosForMen = {
+        'B': [0, 1, 2, 3],
+        'W': [28, 29, 30, 31]
+      }[lastColor]
+
+      if (type === 'M' && forbiddenPosForMen.includes(pos)) return null
+
       pieces[pos] = lastColor + type
     }
   }

@@ -11,7 +11,7 @@ function mapDispatchToProps (dispatch) {
       const moves = possibleMovesSelector(appState.getState())
 
       for (const move of moves) {
-        if (move.squares[0] === from && move.squares[1] === to) {
+        if (move.begin() === from && move.end() === to) {
           return dispatch(movePiece(move))
         }
       }

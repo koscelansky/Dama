@@ -46,6 +46,8 @@ class DragPiece extends Component {
   render () {
     const { connectDragSource, isDragging, canDrag, type, markedForCapture } = this.props
 
+    if (type == null) return null
+
     const captureMark = markedForCapture ? (
       <div style={{ position: 'absolute', width: '100%', zIndex: '2', opacity: '0.8' }}>
         <CaptureMark />

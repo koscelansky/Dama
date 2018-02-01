@@ -15,7 +15,7 @@ const dragSource = {
     const from = props.square
 
     for (const move of moves) {
-      if (move.squares[0] === from) return true
+      if (move.begin() === from) return true
     }
 
     return false

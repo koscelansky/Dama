@@ -6,14 +6,17 @@ import Square from '../components/square'
 import DragMarker from '../components/drag-marker'
 import { possibleMovesSelector } from '../selectors'
 
-function selectMove (from, to) {
+function selectMoves (from, to) {
   const moves = possibleMovesSelector(appState.getState())
 
+  let result = []
   for (const move of moves) {
-    if (move.begin() === from && move.end() === to) return move
+    if (move.begin() === from && move.end() === to) {
+      result.push(move)
+    }
   }
 
-  return null
+  return result
 }
 
 const dropTarget = {
@@ -29,9 +32,9 @@ const dropTarget = {
     const from = monitor.getItem().square
     const to = props.number
 
-    const move = selectMove(from, to)
+    const moves = selectMoves(from, to)
 
-    return move != null
+    return moves.length === 1 // only if move is certain use it
   }
 }
 
@@ -76,11 +79,13 @@ class DropSquare extends Component {
       const from = this.props.originSquare
       const to = this.props.number
 
-      const move = selectMove(from, to)
-
-      if (move.isCapture()) {
-        this.props.onHoverCapture(move.getCapturedSquared())
-        return
+      const moves = selectMoves(from, to)
+      if (moves.length === 1) {
+        const move = moves[0]
+        if (move.isCapture()) {
+          this.props.onHoverCapture(move.getCapturedSquared())
+          return
+        }
       }
     }
 

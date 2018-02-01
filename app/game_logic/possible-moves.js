@@ -147,13 +147,14 @@ function getCapturesInternal (pieces, position, piece, lastDirection) {
 
       if (landingPos == null || pieces[landingPos] != null) break // no place for piece to land
 
+      result.push([landingPos])
+
       let newPieces = [...pieces]
       newPieces[enemyPos] = null // we removed the piece
 
       let captures = getCapturesInternal(newPieces, landingPos, piece, getOppositeDirection(dir))
-      if (captures.length === 0) {
-        result.push([landingPos])
-      } else {
+
+      if (captures.length !== 0) {
         for (let i of captures) {
           i.unshift(landingPos)
         }

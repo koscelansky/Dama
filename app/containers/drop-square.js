@@ -44,11 +44,10 @@ function selectMoves (from, to, hint = []) {
           .map(x => x.move)
           .sort((a, b) => a.squares.length - b.squares.length)
         if (shortest[0].squares.length < shortest[1].squares.length) {
-          result = [shortest[0].squares.length]
+          result = [shortest[0]]
         }
       }
     }
-    console.log(ranked)
   }
 
   return result

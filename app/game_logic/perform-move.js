@@ -5,7 +5,7 @@ export function performMove (state, move) {
   state.pieces[move.begin()] = null
 
   if (move.isCapture()) {
-    for (let i of move.getCapturedSquared()) {
+    for (let i of move.getCapturedSquares()) {
       state.pieces[i] = null // remove from board captured piece
     }
   }

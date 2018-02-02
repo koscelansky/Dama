@@ -24,7 +24,7 @@ export class Move {
 
   // returns array of squares which this move can capture, there is no check
   // it that is possible, the class has no information about the board state
-  getCapturedSquared () {
+  getCapturedSquares () {
     let result = []
 
     for (let i = 0; i < this.squares.length - 1; ++i) {

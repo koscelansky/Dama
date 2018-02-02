@@ -17,7 +17,7 @@ export default class Board extends Component {
   }
 
   hoverDropSquare (move) {
-    const capturedSquares = move ? _.sortBy([...move.getCapturedSquared()]) : []
+    const capturedSquares = move ? _.sortBy([...move.getCapturedSquares()]) : []
 
     if (!_.isEqual(capturedSquares, this.state.markedSquaresForCapture)) {
       this.setState({ markedSquaresForCapture: capturedSquares })
@@ -41,12 +41,10 @@ export default class Board extends Component {
 
       if (!_.isEqual(hintSquares, this.state.hintSquares)) {
         this.setState({ hintSquares })
-        console.log(hintSquares)
       }
     } else {
       if (!_.isEqual([], this.state.hintSquares)) {
         this.setState({ hintSquares: [] })
-        console.log([])
       }
     }
   }

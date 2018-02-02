@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import lang from 'lodash/lang'
+import _ from 'lodash'
 
 import DragPiece from '../containers/drag-piece'
 import DropSquare from '../containers/drop-square'
@@ -9,14 +9,45 @@ import DropSquare from '../containers/drop-square'
 export default class Board extends Component {
   constructor (props) {
     super(props)
-    this.hoverCapture = this.hoverCapture.bind(this)
-    this.state = { markedSquaresForCapture: [] }
+    this.hoverDropSquare = this.hoverDropSquare.bind(this)
+    this.state = {
+      markedSquaresForCapture: [],
+      hintSquares: []
+    }
   }
 
-  hoverCapture (squares) {
-    squares = [...squares].sort()
-    if (!lang.isEqual(squares, this.state.markedSquaresForCapture)) {
-      this.setState({ markedSquaresForCapture: squares })
+  hoverDropSquare (move) {
+    const capturedSquares = move ? _.sortBy([...move.getCapturedSquared()]) : []
+
+    if (!_.isEqual(capturedSquares, this.state.markedSquaresForCapture)) {
+      this.setState({ markedSquaresForCapture: capturedSquares })
+    }
+
+    // undefined means do not touch hints (hover over white space...)
+    if (move === undefined) return
+
+    if (move) {
+      const hint = move.end()
+      let hintSquares = [...this.state.hintSquares]
+
+      while (hintSquares.length > 0 &&
+        !move.squares.includes(_.last(hintSquares))) {
+        hintSquares.pop()
+      }
+
+      if (_.last(hintSquares) !== hint) {
+        hintSquares.push(hint)
+      }
+
+      if (!_.isEqual(hintSquares, this.state.hintSquares)) {
+        this.setState({ hintSquares })
+        console.log(hintSquares)
+      }
+    } else {
+      if (!_.isEqual([], this.state.hintSquares)) {
+        this.setState({ hintSquares: [] })
+        console.log([])
+      }
     }
   }
 
@@ -41,8 +72,9 @@ export default class Board extends Component {
       <div key={n} style={{ width: '12.5%' }}>
         <DropSquare
           number={num}
+          hint={this.state.hintSquares}
           onPieceMove={this.props.onPieceMove}
-          onHoverCapture={this.hoverCapture}
+          onHoverDropSquare={this.hoverDropSquare}
         >
           { piece }
         </DropSquare>

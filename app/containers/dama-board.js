@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 
 import Board from '../components/board'
 import { movePiece } from '../actions'
+import { possibleMovesSelector } from '../selectors'
 
 function mapDispatchToProps (dispatch) {
   return {
@@ -11,8 +12,14 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
+function mapStateToProps (state, ownProps) {
+  return {
+    moves: possibleMovesSelector(state)
+  }
+}
+
 export const DamaBoard = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Board)
 

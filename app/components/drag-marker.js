@@ -4,11 +4,18 @@ import Circle from './circle'
 
 export default class DragMarker extends Component {
   render () {
-    const { marked } = this.props
-    const shadow = marked ? '0px 0px 10px blue' : '0px 0px 7px red'
+    const { type } = this.props
+    const [color, shadow] = (() => {
+      switch (type) {
+        case 'can-drop': return ['red', '0px 0px 7px red']
+        case 'can-drop-over': return ['red', '0px 0px 10px blue']
+      }
+    })()
+
+    if (!color || !shadow) return null
 
     return (
-      <Circle color='red' shadow={shadow}>
+      <Circle color={color} shadow={shadow}>
         <div style={{ margin: '10%' }}>
           <Circle color='orange' blur='3px' />
         </div>
@@ -18,5 +25,5 @@ export default class DragMarker extends Component {
 }
 
 DragMarker.propTypes = {
-  marked: PropTypes.bool
+  type: PropTypes.string.isRequired
 }

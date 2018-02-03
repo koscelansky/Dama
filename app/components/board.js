@@ -10,13 +10,93 @@ export default class Board extends Component {
   constructor (props) {
     super(props)
     this.hoverDropSquare = this.hoverDropSquare.bind(this)
+    this.pieceDrop = this.pieceDrop.bind(this)
+    this.isMovePossible = this.isMovePossible.bind(this)
     this.state = {
       markedSquaresForCapture: [],
       hintSquares: []
     }
   }
 
-  hoverDropSquare (move) {
+  resetState () {
+    const newState = {
+      markedSquaresForCapture: [],
+      hintSquares: []
+    }
+
+    if (!_.isEqual(this.state, newState)) {
+      this.setState(newState)
+    }
+  }
+
+  selectMoves (from, to) {
+    const { moves } = this.props
+    const hint = this.state.hintSquares
+
+    let possibleMoves = moves.filter(x => x.begin() === from && x.end() === to)
+    if (possibleMoves.length === 0) {
+      return null
+    }
+
+    if (possibleMoves.length === 1) {
+      return possibleMoves[0] // only one move is possible to selected square
+    }
+
+    // there are more then one way to go to to squares :)
+    // use hint to compute which move is the best match
+    let rankedMoves = possibleMoves.map(move => {
+      let rank = 0
+      let j = 0 // index in hint
+      for (const i of move.squares) {
+        if (i === hint[j]) {
+          rank++
+          j++
+        }
+      }
+      return { move, rank }
+    })
+
+    rankedMoves.sort((a, b) => b.rank - a.rank) // sort in reverse order
+    if (rankedMoves[0].rank > rankedMoves[1].rank) {
+      return rankedMoves[0].move
+    } else {
+      // so rank is equal we need to prioritize simple moves and then shorter moves
+      const simple = rankedMoves.find(x => !x.move.isCapture())
+      if (simple) {
+        return simple.move
+      }
+
+      const shortest = _
+        .takeWhile(rankedMoves, x => x.rank === rankedMoves[0].rank)
+        .map(x => x.move)
+        .sort((a, b) => a.squares.length - b.squares.length)
+
+      if (shortest[0].squares.length < shortest[1].squares.length) {
+        return shortest[0]
+      }
+    }
+
+    return null // still ambiguous
+  }
+
+  pieceDrop (from, to) {
+    this.resetState()
+
+    const move = this.selectMoves(from, to)
+    if (!move) {
+      throw new Error('Ambiguous move selected.')
+    }
+
+    return this.props.onPieceMove(move)
+  }
+
+  hoverDropSquare (from, to) {
+    if (from === to) {
+      this.resetState()
+    }
+
+    const move = this.selectMoves(from, to)
+    console.log(move)
     const capturedSquares = move ? _.sortBy([...move.getCapturedSquares()]) : []
 
     if (!_.isEqual(capturedSquares, this.state.markedSquaresForCapture)) {
@@ -24,29 +104,27 @@ export default class Board extends Component {
     }
 
     // undefined means do not touch hints (hover over white space...)
-    if (move === undefined) return
+    if (!move) return
 
-    if (move) {
-      const hint = move.end()
-      let hintSquares = [...this.state.hintSquares]
+    const hint = move.end()
+    let hintSquares = [...this.state.hintSquares]
 
-      while (hintSquares.length > 0 &&
-        !move.squares.includes(_.last(hintSquares))) {
-        hintSquares.pop()
-      }
-
-      if (_.last(hintSquares) !== hint) {
-        hintSquares.push(hint)
-      }
-
-      if (!_.isEqual(hintSquares, this.state.hintSquares)) {
-        this.setState({ hintSquares })
-      }
-    } else {
-      if (!_.isEqual([], this.state.hintSquares)) {
-        this.setState({ hintSquares: [] })
-      }
+    while (hintSquares.length > 0 &&
+      !move.squares.includes(_.last(hintSquares))) {
+      hintSquares.pop()
     }
+
+    if (_.last(hintSquares) !== hint) {
+      hintSquares.push(hint)
+    }
+
+    if (!_.isEqual(hintSquares, this.state.hintSquares)) {
+      this.setState({ hintSquares })
+    }
+  }
+
+  isMovePossible (from, to) {
+    return !!this.selectMoves(from, to)
   }
 
   renderSquare (n) {
@@ -58,12 +136,19 @@ export default class Board extends Component {
     let num = null
     let piece = null
     if (black) {
-      const squareNo = row * 4 + Math.floor(column / 2)
-
-      num = squareNo
+      num = row * 4 + Math.floor(column / 2)
 
       const markedForCapture = this.state.markedSquaresForCapture.includes(num)
-      piece = (<DragPiece square={squareNo} markedForCapture={markedForCapture} />)
+
+      const dragPossible = _.some(this.props.moves, x => x.begin() === num)
+
+      piece = (
+        <DragPiece
+          square={num}
+          markedForCapture={markedForCapture}
+          dragPossible={dragPossible}
+        />
+      )
     }
 
     return (
@@ -71,8 +156,9 @@ export default class Board extends Component {
         <DropSquare
           number={num}
           hint={this.state.hintSquares}
-          onPieceMove={this.props.onPieceMove}
+          onPieceDrop={this.pieceDrop}
           onHoverDropSquare={this.hoverDropSquare}
+          onCanDrop={this.isMovePossible}
         >
           { piece }
         </DropSquare>
@@ -95,5 +181,6 @@ export default class Board extends Component {
 }
 
 Board.propTypes = {
-  onPieceMove: PropTypes.func.isRequired
+  onPieceMove: PropTypes.func.isRequired,
+  moves: PropTypes.arrayOf(PropTypes.object)
 }

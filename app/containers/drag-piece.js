@@ -4,21 +4,12 @@ import { connect } from 'react-redux'
 import { DragSource } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
-import { appState } from '../app.js'
 import Piece from '../components/piece.js'
 import CaptureMark from '../components/capture-mark'
-import { possibleMovesSelector } from '../selectors'
 
 const dragSource = {
   canDrag (props, monitor) {
-    const moves = possibleMovesSelector(appState.getState())
-    const from = props.square
-
-    for (const move of moves) {
-      if (move.begin() === from) return true
-    }
-
-    return false
+    return props.dragPossible
   },
 
   beginDrag (props) {
@@ -85,6 +76,8 @@ DragPiece.propTypes = {
 
   // number of square where the piece is
   square: PropTypes.number.isRequired,
+
+  dragPossible: PropTypes.bool.isRequired,
 
   markedForCapture: PropTypes.bool
 }

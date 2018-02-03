@@ -15,7 +15,7 @@ const dropTarget = {
     const from = monitor.getItem().square
     const to = props.number
 
-    return props.onCanDrop(from, to)
+    return props.isDropPossible(from, to)
   }
 }
 
@@ -30,18 +30,32 @@ function collect (connect, monitor) {
 
 class DropSquare extends Component {
   render () {
-    const { connectDropTarget, isOver, canDrop, number } = this.props
-    let fill = number !== null ? 'sienna' : 'blanchedalmond'
+    const { isOver, canDrop, number, isHinted, originSquare } = this.props
 
-    const canDropMarker = canDrop ? (
+    const dragMarkerStyle = (() => {
+      if (canDrop && isOver) {
+        return 'can-drop-over'
+      } else if (canDrop && isHinted) {
+        return 'can-drop-hint'
+      } else if (canDrop) {
+        return 'can-drop'
+      } else if (this.props.isMovePossible(originSquare, number)) {
+        return 'is-move-possible'
+      }
+
+      return null
+    })()
+
+    const canDropMarker = dragMarkerStyle ? (
       <div style={{ padding: '39%' }}>
-        <DragMarker type={isOver ? 'can-drop-over' : 'can-drop'} />
+        <DragMarker type={dragMarkerStyle} />
       </div>
     ) : null
 
-    const label = number === null ? null : number + 1
+    let fill = number != null ? 'sienna' : 'blanchedalmond'
+    const label = number != null ? number + 1 : null
 
-    return connectDropTarget(
+    return this.props.connectDropTarget(
       <div>
         <Square label={label} fill={fill}>
           { this.props.children }
@@ -71,10 +85,18 @@ DropSquare.propTypes = {
   // number of square, if white, then null
   number: PropTypes.number,
 
+  // true if the square is hinted during the drag
+  isHinted: PropTypes.bool.isRequired,
+
+  // function will return true if some move is possible
+  // (true even if the move is ambiguous)
+  isMovePossible: PropTypes.func.isRequired,
+
   // function will be called for every hover when capture is possible
   onHoverDropSquare: PropTypes.func.isRequired,
 
-  onCanDrop: PropTypes.func.isRequired
+  // function to determine if the square can be dropped to
+  isDropPossible: PropTypes.func.isRequired
 }
 
 export default DropTarget('PIECE', dropTarget, collect)(DropSquare)

@@ -11,6 +11,7 @@ export default class Board extends Component {
     super(props)
     this.hoverDropSquare = this.hoverDropSquare.bind(this)
     this.pieceDrop = this.pieceDrop.bind(this)
+    this.canDragDrop = this.canDragDrop.bind(this)
     this.isMovePossible = this.isMovePossible.bind(this)
     this.state = {
       markedSquaresForCapture: [],
@@ -127,8 +128,12 @@ export default class Board extends Component {
     }
   }
 
-  isMovePossible (from, to) {
+  canDragDrop (from, to) {
     return !!this.selectMoves(from, to)
+  }
+
+  isMovePossible (from, to) {
+    return !!this.props.moves.find(x => (x.begin() === from && x.end() === to))
   }
 
   renderSquare (n) {
@@ -161,7 +166,9 @@ export default class Board extends Component {
         <DropSquare
           number={num}
           onHoverDropSquare={this.hoverDropSquare}
-          onCanDrop={this.isMovePossible}
+          isDropPossible={this.canDragDrop}
+          isHinted={this.state.hintSquares.includes(num)}
+          isMovePossible={this.isMovePossible}
         >
           { piece }
         </DropSquare>

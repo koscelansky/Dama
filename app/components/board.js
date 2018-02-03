@@ -82,6 +82,10 @@ export default class Board extends Component {
   pieceDrop (from, to) {
     this.resetState()
 
+    if (from == null || to == null) {
+      return // empty drop
+    }
+
     const move = this.selectMoves(from, to)
     if (!move) {
       throw new Error('Ambiguous move selected.')
@@ -96,7 +100,7 @@ export default class Board extends Component {
     }
 
     const move = this.selectMoves(from, to)
-    console.log(move)
+
     const capturedSquares = move ? _.sortBy([...move.getCapturedSquares()]) : []
 
     if (!_.isEqual(capturedSquares, this.state.markedSquaresForCapture)) {
@@ -140,13 +144,14 @@ export default class Board extends Component {
 
       const markedForCapture = this.state.markedSquaresForCapture.includes(num)
 
-      const dragPossible = _.some(this.props.moves, x => x.begin() === num)
+      const canDrag = _.some(this.props.moves, x => x.begin() === num)
 
       piece = (
         <DragPiece
           square={num}
           markedForCapture={markedForCapture}
-          dragPossible={dragPossible}
+          canDrag={canDrag}
+          onPieceDrop={this.pieceDrop}
         />
       )
     }
@@ -155,8 +160,6 @@ export default class Board extends Component {
       <div key={n} style={{ width: '12.5%' }}>
         <DropSquare
           number={num}
-          hint={this.state.hintSquares}
-          onPieceDrop={this.pieceDrop}
           onHoverDropSquare={this.hoverDropSquare}
           onCanDrop={this.isMovePossible}
         >

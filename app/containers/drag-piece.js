@@ -9,13 +9,24 @@ import CaptureMark from '../components/capture-mark'
 
 const dragSource = {
   canDrag (props, monitor) {
-    return props.dragPossible
+    return props.canDrag
   },
 
   beginDrag (props) {
     return {
       type: props.type,
       square: props.square
+    }
+  },
+
+  endDrag (props, monitor) {
+    // handling of drop is here because of drop outside of drop targets,
+    // then drop is not called and we need to handle it here, so to make
+    // ot consistent all drops are handled here
+    if (!monitor.didDrop()) {
+      props.onPieceDrop()
+    } else {
+      props.onPieceDrop(props.square, monitor.getDropResult().number)
     }
   }
 }
@@ -24,8 +35,7 @@ function collect (connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
     connectDragPreview: connect.dragPreview(),
-    isDragging: monitor.isDragging(),
-    canDrag: monitor.canDrag()
+    isDragging: monitor.isDragging()
   }
 }
 
@@ -77,9 +87,10 @@ DragPiece.propTypes = {
   // number of square where the piece is
   square: PropTypes.number.isRequired,
 
-  dragPossible: PropTypes.bool.isRequired,
+  markedForCapture: PropTypes.bool,
 
-  markedForCapture: PropTypes.bool
+  // will be called when piece is droped
+  onPieceDrop: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps)(DragSource('PIECE', dragSource, collect)(DragPiece))

@@ -6,7 +6,7 @@ import DragMarker from '../components/drag-marker'
 
 const dropTarget = {
   drop (props, monitor) {
-    return props.onPieceDrop(monitor.getItem().square, props.number)
+    return { number: props.number }
   },
 
   canDrop (props, monitor) {
@@ -67,13 +67,9 @@ DropSquare.propTypes = {
   isOver: PropTypes.bool.isRequired,
   canDrop: PropTypes.bool.isRequired,
   originSquare: PropTypes.number,
-  hint: PropTypes.arrayOf(PropTypes.number),
 
   // number of square, if white, then null
   number: PropTypes.number,
-
-  // function for move piece
-  onPieceDrop: PropTypes.func.isRequired,
 
   // function will be called for every hover when capture is possible
   onHoverDropSquare: PropTypes.func.isRequired,

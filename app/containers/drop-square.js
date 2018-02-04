@@ -10,7 +10,7 @@ const dropTarget = {
   },
 
   canDrop (props, monitor) {
-    if (!props.number) return false // white squares are no interesting
+    if (props.number == null) return false // white squares are no interesting
 
     const from = monitor.getItem().square
     const to = props.number

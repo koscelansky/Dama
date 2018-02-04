@@ -24,7 +24,7 @@ function mapStateToProps (state, ownProps) {
 }
 
 MovesList.propTypes = {
-  fen: PropTypes.string
+  moves: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default connect(mapStateToProps, null)(MovesList)

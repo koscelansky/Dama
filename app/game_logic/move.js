@@ -7,7 +7,7 @@ export class Move {
   }
 
   toString () {
-    return this.squares.join(this.type)
+    return this.squares.map(x => x + 1).join(this.type)
   }
 
   begin () {

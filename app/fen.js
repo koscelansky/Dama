@@ -43,7 +43,10 @@ export function fromFen (fen) {
 
     lastColor = p[0]
 
-    for (let j of p.substring(1).split(',')) {
+    const positions = p.substring(1).split(',')
+    if (positions.length > 8) return null
+
+    for (let j of positions) {
       if (j === '') return null
 
       let type = 'M'

@@ -150,7 +150,13 @@ function getCapturesInternal (pieces, position, piece, lastDirection) {
       result.push([landingPos])
 
       let newPieces = [...pieces]
-      newPieces[enemyPos] = null // we removed the piece
+      // we removed the piece, this is done by rather big hack, if we just assign
+      // null than for multiple captures it will appear as empty and queen could
+      // land there, and that is against the rules, as pieces are removed after
+      // whole move is completed and it is forbidden to jump over one piece more
+      // than once, by assigning the same color as capturing piece effectively
+      // forbid this, X is then just a placeholder to make it 2 chars long
+      newPieces[enemyPos] = piece[0] + 'X'
 
       let captures = getCapturesInternal(newPieces, landingPos, piece, getOppositeDirection(dir))
 

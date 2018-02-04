@@ -81,18 +81,20 @@ export default class Board extends Component {
   }
 
   pieceDrop (from, to) {
-    this.resetState()
+    try {
+      if (from == null || to == null) {
+        return // empty drop
+      }
 
-    if (from == null || to == null) {
-      return // empty drop
+      const move = this.selectMoves(from, to)
+      if (!move) {
+        throw new Error('Ambiguous move selected.')
+      }
+
+      return this.props.onPieceMove(move)
+    } finally {
+      this.resetState()
     }
-
-    const move = this.selectMoves(from, to)
-    if (!move) {
-      throw new Error('Ambiguous move selected.')
-    }
-
-    return this.props.onPieceMove(move)
   }
 
   hoverDropSquare (from, to) {

@@ -5,11 +5,12 @@ import PropTypes from 'prop-types'
 export default class Pawn extends Component {
   render () {
     const { black } = this.props
-    const pic = './svg/pieces/' + (black ? 'Chess_pdt45.svg' : 'Chess_plt45.svg')
+    const pic = './svg/pawn-' + (black ? 'black' : 'white') + '.svg'
 
     const objectStyle = {
       userSelect: 'none',
-      pointerEvents: 'none'
+      pointerEvents: 'none',
+      width: '100%'
     }
 
     return (

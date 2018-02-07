@@ -5,20 +5,18 @@ import { fromFen } from './fen.js'
 
 export default function damaApp (state = initialState, action) {
   switch (action.type) {
-    case MOVE_PIECE:
+    case MOVE_PIECE: {
       const { move } = action
 
-      // copy state
-      let newState = JSON.parse(JSON.stringify(state))
-
-      return performMove(newState, move)
-
-    case NEW_POSITION_FROM_FEN:
+      return Object.assign({}, state, { board: performMove(state.board, move)})
+    }
+    case NEW_POSITION_FROM_FEN: {
       const { fen } = action
 
-      return fromFen(fen) || state
-
-    default:
+      return Object.assign({}, state, {board: fromFen(fen) || state.board})
+    }
+    default: {
       return state
+    }
   }
 }

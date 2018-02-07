@@ -71,7 +71,7 @@ class DragPiece extends Component {
 
 function mapStateToProps (state, ownProps) {
   return {
-    type: state.pieces[ownProps.square]
+    type: state.board.pieces[ownProps.square]
   }
 }
 

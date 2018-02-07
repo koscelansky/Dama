@@ -1,12 +1,17 @@
-export function performMove (state, move) {
-  let movedPiece = state.pieces[move.begin()]
-  if (movedPiece == null) throw new Error('No piece on square ' + move.begin())
+export function performMove (board, move) {
+  const { pieces, turn } = board
 
-  state.pieces[move.begin()] = null
+  let movedPiece = pieces[move.begin()]
+  if (movedPiece == null || movedPiece[0] !== turn) {
+    throw new Error('Invalid piece on square ' + move.begin())
+  }
+
+  let newPieces = [...board.pieces]
+  newPieces[move.begin()] = null
 
   if (move.isCapture()) {
     for (let i of move.getCapturedSquares()) {
-      state.pieces[i] = null // remove from board captured piece
+      newPieces[i] = null // remove from board captured piece
     }
   }
 
@@ -20,9 +25,11 @@ export function performMove (state, move) {
     }
   }
 
-  state.pieces[move.end()] = movedPiece
+  newPieces[move.end()] = movedPiece
 
-  state.turn = state.turn === 'W' ? 'B' : 'W'
+  let newBoard = { pieces: newPieces}
 
-  return state
+  newBoard.turn = board.turn === 'W' ? 'B' : 'W'
+
+  return newBoard
 }

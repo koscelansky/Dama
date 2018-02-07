@@ -91,10 +91,10 @@ function getDirectionForPiece (piece) {
   return [Direction.SE, Direction.SW]
 }
 
-function getSimpleMoves (state) {
+function getSimpleMoves (board) {
   let result = []
 
-  const { turn, pieces } = state
+  const { turn, pieces } = board
   for (const [index, piece] of pieces.entries()) {
     if (piece == null || piece[0] !== turn) continue
 
@@ -175,10 +175,10 @@ function getCapturesInternal (pieces, position, piece, lastDirection) {
   return result
 }
 
-function getCaptures (state) {
+function getCaptures (board) {
   let captures = []
 
-  const { turn, pieces } = state
+  const { turn, pieces } = board
   for (const [index, piece] of pieces.entries()) {
     if (piece == null || piece[0] !== turn) continue
 
@@ -198,8 +198,8 @@ function getCaptures (state) {
   return result
 }
 
-export function getPossibleMoves (state) {
-  return [...getSimpleMoves(state), ...getCaptures(state)]
+export function getPossibleMoves (board) {
+  return [...getSimpleMoves(board), ...getCaptures(board)]
 }
 
 export function getSquaresBetween (from, to) {

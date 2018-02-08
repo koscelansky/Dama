@@ -1,3 +1,5 @@
+import { getPossibleMoves } from './possible-moves.js'
+
 export function performMove (board, move) {
   const { pieces, turn } = board
 
@@ -27,9 +29,29 @@ export function performMove (board, move) {
 
   newPieces[move.end()] = movedPiece
 
-  let newBoard = { pieces: newPieces}
+  let newBoard = { pieces: newPieces }
 
   newBoard.turn = board.turn === 'W' ? 'B' : 'W'
 
   return newBoard
+}
+
+const GameResult = Object.freeze({
+  Draw: 'draw',
+  WhiteWins: 'white-wins',
+  BlackWins: 'black-wins',
+  InProgress: 'in-progress'
+})
+
+export function getResult (board) {
+  const { pieces, turn } = board
+
+  if (pieces.find(x => x != null && x[0] === turn) == null) {
+    // if current player has no pieces, opponent wins
+    return turn === 'W' ? GameResult.BlackWins : GameResult.WhiteWins
+  }
+
+  if (getPossibleMoves(board).length === 0) {
+    return GameResult.Draw
+  }
 }

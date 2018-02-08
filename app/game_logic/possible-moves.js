@@ -25,7 +25,9 @@ function getOppositeDirection (direction) {
 }
 
 function getNextSquare (square, direction) {
-  if (square < 0 || square >= SQUARE_COUNT) throw new Error('Square not in range.')
+  if (square < 0 || square >= SQUARE_COUNT) {
+    throw new Error('Square not in range.')
+  }
 
   const X = null // just to make lookup more readable
 
@@ -84,11 +86,13 @@ function getNextSquare (square, direction) {
 }
 
 function getDirectionForPiece (piece) {
-  if (piece[1] === 'K') return [Direction.NE, Direction.NW, Direction.SE, Direction.SW]
-
-  if (piece[0] === 'B') return [Direction.NE, Direction.NW]
-
-  return [Direction.SE, Direction.SW]
+  if (piece[1] === 'K') {
+    return [Direction.NE, Direction.NW, Direction.SE, Direction.SW]
+  } else if (piece[0] === 'B') {
+    return [Direction.NE, Direction.NW]
+  } else {
+    return [Direction.SE, Direction.SW]
+  }
 }
 
 function getSimpleMoves (board) {

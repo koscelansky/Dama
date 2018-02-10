@@ -1,12 +1,16 @@
 
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import DragPiece from '../containers/drag-piece'
 import DropSquare from '../containers/drop-square'
 
-export default class Board extends Component {
+import { movePiece } from '../actions'
+import { possibleMovesSelector } from '../selectors'
+
+class Board extends Component {
   constructor (props) {
     super(props)
     this.hoverDropSquare = this.hoverDropSquare.bind(this)
@@ -151,7 +155,7 @@ export default class Board extends Component {
 
       const markedForCapture = this.state.markedSquaresForCapture.includes(num)
 
-      const canDrag = _.some(this.props.moves, x => x.begin() === num)
+      const canDrag = this.props.canSelectMove && _.some(this.props.moves, x => x.begin() === num)
 
       piece = (
         <DragPiece
@@ -196,3 +200,22 @@ Board.propTypes = {
   onPieceMove: PropTypes.func.isRequired,
   moves: PropTypes.arrayOf(PropTypes.object)
 }
+
+function mapDispatchToProps (dispatch) {
+  return {
+    onPieceMove: (move) => {
+      return dispatch(movePiece(move))
+    }
+  }
+}
+
+function mapStateToProps (state, ownProps) {
+  const nextPlayer = state.board.turn === 'W' ? 'white' : 'black'  
+
+  return {
+    moves: possibleMovesSelector(state),
+    canSelectMove: state[nextPlayer] === 'human'
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Board)

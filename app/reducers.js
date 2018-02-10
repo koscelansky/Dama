@@ -1,5 +1,5 @@
 import { MOVE_PIECE, NEW_POSITION_FROM_FEN } from './actions.js'
-import initialState from './game_logic/initial-state.js'
+import initialState from './initial-state.js'
 import { performMove } from './game_logic/perform-move.js'
 import { fromFen } from './fen.js'
 

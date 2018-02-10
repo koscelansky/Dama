@@ -11,7 +11,9 @@ const initialState = {
       'BM', 'BM', 'BM', 'BM'
     ],
     turn: 'W'
-  }
+  },
+  white: 'human',
+  black: 'human'
 }
 
 export default initialState

@@ -1,22 +1,18 @@
-
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-export default class Queen extends Component {
-  render () {
-    const { black } = this.props
-    const pic = './svg/pieces/' + (black ? 'Chess_qdt45.svg' : 'Chess_qlt45.svg')
+import Svg from './svg'
 
-    const objectStyle = {
-      userSelect: 'none',
-      pointerEvents: 'none'
-    }
+const Queen = (props) => {
+  const { black } = props
+  const pic = './svg/pieces/' + (black ? 'Chess_qdt45.svg' : 'Chess_qlt45.svg')
 
-    return (
-      <object type='image/svg+xml' data={pic} style={objectStyle} />
-    )
-  }
+  return (
+    <Svg data={pic} />
+  )
 }
+
+export default Queen
 
 Queen.propTypes = {
   black: PropTypes.bool

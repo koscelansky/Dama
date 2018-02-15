@@ -1,34 +1,35 @@
-import React, { Component } from 'react'
+import React from 'react'
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-export default class Circle extends Component {
-  render () {
-    const { color, blur, shadow } = this.props
+const CircleWrapper = styled.div`
+  position: relative;
+  border-radius: 50%;
+  background: ${props => props.color};
+  filter: blur(${props => props.blur});
+  box-shadow: ${props => props.shadow};
+  width: 100%;
 
-    const objectStyle = {
-      position: 'relative',
-      borderRadius: '50%',
-      background: color,
-      filter: `blur(${blur})`,
-      boxShadow: shadow
-    }
-
-    const contentStyle = {
-      position: 'absolute',
-      width: '100%',
-      height: '100%'
-    }
-
-    return (
-      <div style={objectStyle}>
-        <div style={contentStyle}>
-          { this.props.children }
-        </div>
-        <div style={{ paddingBottom: '100%', display: 'block' }} />
-      </div>
-    )
+  &::after {
+    padding-bottom: 100%;
+    display: block;
+    content: '';
   }
+`
+
+const Circle = (props) => {
+  const { color, blur, shadow } = props
+
+  return (
+    <CircleWrapper color={color} blur={blur} shadow={shadow}>
+      <div style={{ position: 'absolute', width: '100%' }}>
+        { props.children }
+      </div>
+    </CircleWrapper>
+  )
 }
+
+export default Circle
 
 Circle.propTypes = {
   color: PropTypes.string,

@@ -1,15 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
+import Svg from './svg'
 
-export default class CaptureMark extends Component {
-  render () {
-    const objectStyle = {
-      userSelect: 'none',
-      pointerEvents: 'none',
-      width: '100%'
-    }
-
-    return (
-      <object type='image/svg+xml' data='./svg/capture-mark.svg' style={objectStyle} />
-    )
-  }
+const CaptureMark = (props) => {
+  return (
+    <Svg data='./svg/capture-mark.svg' />
+  )
 }
+
+export default CaptureMark

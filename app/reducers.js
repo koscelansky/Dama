@@ -8,7 +8,7 @@ export default function damaApp (state = initialState, action) {
     case MOVE_PIECE: {
       const { move } = action
 
-      return Object.assign({}, state, { board: performMove(state.board, move)})
+      return Object.assign({}, state, { board: performMove(state.board, move) })
     }
     case NEW_POSITION_FROM_FEN: {
       const { fen } = action

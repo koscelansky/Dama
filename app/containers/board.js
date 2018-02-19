@@ -210,7 +210,7 @@ function mapDispatchToProps (dispatch) {
 }
 
 function mapStateToProps (state, ownProps) {
-  const nextPlayer = state.board.turn === 'W' ? 'white' : 'black'  
+  const nextPlayer = state.board.turn === 'W' ? 'white' : 'black'
 
   return {
     moves: possibleMovesSelector(state),

@@ -2,14 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
+import PlayerLabel from '../components/player-label'
+
 class Player extends Component {
   render () {
+    const { right, color } = this.props
     const text = this.props.type === 'ai' ? 'Computer' : 'Human'
 
     return (
-      <div>
-        <span style={{ fontSize: '7vw', transform: 'translateY(-0.2vw)', display: 'inline-block' }}>{ String.fromCharCode(9632) }</span>
-        <span style={{ fontSize: '5vw' }}>{ text }</span>
+      <div style={{ fontSize: '5vw' }}>
+        <PlayerLabel color={color} right={right}>{text}</PlayerLabel>
       </div>
     )
   }
@@ -28,7 +30,8 @@ function mapDispatchToProps (dispatch) {
 
 Player.propTypes = {
   color: PropTypes.string, // black | white
-  type: PropTypes.string // human | ai
+  type: PropTypes.string, // human | ai
+  right: PropTypes.bool // true if label should be on the right side
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Player)

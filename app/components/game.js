@@ -18,7 +18,7 @@ export default class Game extends Component {
               <Player color='white' />
             </div>
             <div style={{ float: 'right' }}>
-              <Player color='black' />
+              <Player color='black' right />
             </div>
             <div style={{ clear: 'both' }} />
           </div>

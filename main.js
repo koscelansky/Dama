@@ -32,7 +32,7 @@ function createWindow () {
     mainWindow.show()
   })
 
-    // Open the DevTools.
+  // Open the DevTools.
   mainWindow.webContents.openDevTools()
 
   mainWindow.on('closed', function () {

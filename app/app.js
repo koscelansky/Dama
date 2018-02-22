@@ -1,7 +1,8 @@
 
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
+import { applyMiddleware, createStore } from 'redux'
+import { logger } from 'redux-logger'
 import { Provider } from 'react-redux'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DragDropContext } from 'react-dnd'
@@ -21,7 +22,12 @@ class App extends Component {
   }
 }
 
-export const appState = createStore(damaApp)
+const middlewares = []
+
+// todo: add this only in development
+middlewares.push(logger)
+
+export const appState = createStore(damaApp, applyMiddleware(...middlewares))
 
 const AppRoot = DragDropContext(HTML5Backend)(App)
 

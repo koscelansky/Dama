@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { applyMiddleware, createStore } from 'redux'

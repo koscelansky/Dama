@@ -1,3 +1,4 @@
+import { GameResult } from './const.js'
 import { getPossibleMoves } from './possible-moves.js'
 
 export function performMove (board, move) {
@@ -43,22 +44,25 @@ export function performMove (board, move) {
   return newBoard
 }
 
-const GameResult = Object.freeze({
-  Draw: 'draw',
-  WhiteWins: 'white-wins',
-  BlackWins: 'black-wins',
-  InProgress: 'in-progress'
-})
+export function getGameResult (board, possibleMoves) {
+  possibleMoves = possibleMoves || getPossibleMoves(board)
 
-export function getResult (board) {
-  const { pieces, turn } = board
+  const { pieces, turn, fifteenMoveRule } = board
 
   if (pieces.find(x => x != null && x[0] === turn) == null) {
     // if current player has no pieces, opponent wins
     return turn === 'W' ? GameResult.BlackWins : GameResult.WhiteWins
   }
 
-  if (getPossibleMoves(board).length === 0) {
+  // fifteen move rule is meant for 15 whole rounds (two plies), so to detect
+  // draw we need to compare to 30 == 15 * 2
+  if (fifteenMoveRule === 30) {
     return GameResult.Draw
   }
+
+  if (possibleMoves.length === 0) {
+    return GameResult.Draw
+  }
+
+  return GameResult.InProgress
 }

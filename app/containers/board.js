@@ -8,7 +8,8 @@ import DragPiece from '../containers/drag-piece'
 import DropSquare from '../containers/drop-square'
 
 import { movePiece } from '../actions'
-import { possibleMovesSelector } from '../selectors'
+import { possibleMovesSelector, gameResultSelector } from '../selectors'
+import { GameResult } from '../game_logic/const'
 
 class Board extends Component {
   constructor (props) {
@@ -198,7 +199,8 @@ class Board extends Component {
 
 Board.propTypes = {
   onPieceMove: PropTypes.func.isRequired,
-  moves: PropTypes.arrayOf(PropTypes.object)
+  moves: PropTypes.arrayOf(PropTypes.object),
+  canSelectMove: PropTypes.bool
 }
 
 function mapDispatchToProps (dispatch) {
@@ -214,7 +216,7 @@ function mapStateToProps (state, ownProps) {
 
   return {
     moves: possibleMovesSelector(state),
-    canSelectMove: state[nextPlayer] === 'human'
+    canSelectMove: state[nextPlayer] === 'human' && gameResultSelector(state) === GameResult.InProgress
   }
 }
 

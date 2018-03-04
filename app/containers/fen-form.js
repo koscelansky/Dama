@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import FenInput from '../components/fen-input.js'
 
-import { getFenSelector } from '../selectors.js'
+import { toFenSelector } from '../selectors.js'
 import { isValidFen } from '../fen.js'
 import { newPositionFromFen } from '../actions.js'
 
@@ -55,7 +55,7 @@ class FenForm extends Component {
 
 function mapStateToProps (state, ownProps) {
   return {
-    fen: getFenSelector(state)
+    fen: toFenSelector(state)
   }
 }
 

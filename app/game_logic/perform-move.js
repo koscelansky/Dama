@@ -2,6 +2,7 @@ import { getPossibleMoves } from './possible-moves.js'
 
 export function performMove (board, move) {
   const { pieces, turn } = board
+  let { fifteenMoveRule } = board
 
   let movedPiece = pieces[move.begin()]
   if (movedPiece == null || movedPiece[0] !== turn) {
@@ -12,13 +13,18 @@ export function performMove (board, move) {
   newPieces[move.begin()] = null
 
   if (move.isCapture()) {
+    fifteenMoveRule = -1 // reset counter
+
+    // remove from board captured piece
     for (let i of move.getCapturedSquares()) {
-      newPieces[i] = null // remove from board captured piece
+      newPieces[i] = null
     }
   }
 
-  // handle promotions
   if (movedPiece[1] === 'M') {
+    fifteenMoveRule = -1 // reset counter
+
+    // handle promotions
     if (movedPiece[0] === 'W' && [28, 29, 30, 31].includes(move.end())) {
       movedPiece = 'WK'
     }
@@ -32,6 +38,7 @@ export function performMove (board, move) {
   let newBoard = { pieces: newPieces }
 
   newBoard.turn = board.turn === 'W' ? 'B' : 'W'
+  newBoard.fifteenMoveRule = fifteenMoveRule + 1
 
   return newBoard
 }

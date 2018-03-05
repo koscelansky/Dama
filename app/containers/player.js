@@ -6,12 +6,11 @@ import PlayerLabel from '../components/player-label'
 
 class Player extends Component {
   render () {
-    const { right, color } = this.props
-    const text = this.props.type === 'ai' ? 'Computer' : 'Human'
+    const { right, color, name } = this.props
 
     return (
       <div style={{ fontSize: '5vw' }}>
-        <PlayerLabel color={color} right={right}>{text}</PlayerLabel>
+        <PlayerLabel color={color} right={right}>{name}</PlayerLabel>
       </div>
     )
   }
@@ -19,7 +18,8 @@ class Player extends Component {
 
 function mapStateToProps (state, ownProps) {
   return {
-    type: state[ownProps.color]
+    type: state[ownProps.color].type,
+    name: state[ownProps.color].name
   }
 }
 
@@ -31,6 +31,7 @@ function mapDispatchToProps (dispatch) {
 Player.propTypes = {
   color: PropTypes.string, // black | white
   type: PropTypes.string, // human | ai
+  name: PropTypes.string, // name of the player
   right: PropTypes.bool // true if label should be on the right side
 }
 

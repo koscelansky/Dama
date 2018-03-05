@@ -5,6 +5,11 @@ import boardInitialState from './game_logic/board-init.js'
 import { performMove } from './game_logic/perform-move.js'
 import { fromFen } from './fen.js'
 
+const humanInitialState = {
+  type: 'human',
+  name: 'Human'
+}
+
 function board (state = boardInitialState, action) {
   switch (action.type) {
     case MOVE_PIECE: {
@@ -23,11 +28,11 @@ function board (state = boardInitialState, action) {
   }
 }
 
-function white (state = 'human', action) {
+function white (state = humanInitialState, action) {
   return state
 }
 
-function black (state = 'human', action) {
+function black (state = humanInitialState, action) {
   return state
 }
 

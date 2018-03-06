@@ -216,7 +216,7 @@ function mapStateToProps (state, ownProps) {
 
   return {
     moves: possibleMovesSelector(state),
-    canSelectMove: state[nextPlayer] === 'human' && gameResultSelector(state) === GameResult.InProgress
+    canSelectMove: state[nextPlayer].type === 'human' && gameResultSelector(state) === GameResult.InProgress
   }
 }
 

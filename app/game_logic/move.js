@@ -18,6 +18,10 @@ export class Move {
     return this.squares[this.squares.length - 1]
   }
 
+  length () {
+    return this.squares.length
+  }
+
   isCapture () {
     return this.type === 'x'
   }

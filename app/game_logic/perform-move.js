@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 import { GameResult } from './const.js'
 import { getPossibleMoves } from './possible-moves.js'
 

@@ -5,21 +5,15 @@ import { toFen } from './fen.js'
 
 export const possibleMovesSelector = createSelector(
   state => state.board,
-  function (board) {
-    return getPossibleMoves(board)
-  }
+  board => getPossibleMoves(board)
 )
 
 export const toFenSelector = createSelector(
   state => state.board,
-  function (board) {
-    return toFen(board)
-  }
+  board => toFen(board)
 )
 
 export const gameResultSelector = createSelector(
-  [ state => state.board, possibleMovesSelector ],
-  (board, possibleMoves) => {
-    return getGameResult(board, possibleMoves)
-  }
+  state => state.board,
+  board => getGameResult(board)
 )

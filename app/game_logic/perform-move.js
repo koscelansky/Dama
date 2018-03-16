@@ -1,7 +1,8 @@
 import { GameResult } from './const.js'
 import { getPossibleMoves } from './possible-moves.js'
 
-function getPiecesToHuff (board, move, possibleMoves) {
+function getPiecesToHuff (board, move) {
+  const possibleMoves = getPossibleMoves(board)
   const { pieces, turn } = board
 
   const getPiecesWithCapture = type =>
@@ -14,6 +15,15 @@ function getPiecesToHuff (board, move, possibleMoves) {
   for (const possibleCaptures of ['K', 'M'].map(x => getPiecesWithCapture(x))) {
     if (possibleCaptures.length) {
       if (!possibleCaptures.includes(move.begin())) {
+        return possibleCaptures
+      }
+
+      // if we do move with piece that can capture, but we do just plain move,
+      // then we can huff that piece, but we need to update the current position
+      // of that piece
+      if (!move.isCapture()) {
+        possibleCaptures.splice(possibleCaptures.indexOf(move.begin()), 1)
+        possibleCaptures.push(move.end())
         return possibleCaptures
       }
 
@@ -30,9 +40,7 @@ function getPiecesToHuff (board, move, possibleMoves) {
   return []
 }
 
-export function performMove (board, move, possibleMoves) {
-  possibleMoves = possibleMoves || getPossibleMoves(board)
-
+export function performMove (board, move) {
   const { pieces, turn } = board
   let { fifteenMoveRule } = board
 
@@ -41,7 +49,7 @@ export function performMove (board, move, possibleMoves) {
     throw new Error('Invalid piece on square ' + move.begin())
   }
 
-  console.log(getPiecesToHuff(board, move, possibleMoves))
+  console.log(getPiecesToHuff(board, move))
 
   let newPieces = [...board.pieces]
   newPieces[move.begin()] = null
@@ -77,8 +85,8 @@ export function performMove (board, move, possibleMoves) {
   }
 }
 
-export function getGameResult (board, possibleMoves) {
-  possibleMoves = possibleMoves || getPossibleMoves(board)
+export function getGameResult (board) {
+  const possibleMoves = getPossibleMoves(board)
 
   const { pieces, turn, fifteenMoveRule } = board
 

@@ -4,10 +4,13 @@ export class Move {
   constructor (type, squares) {
     this.type = type
     this.squares = squares
+    this.huff = null
   }
 
   toString () {
-    return this.squares.map(x => x + 1).join(this.type)
+    const huffStr = this.huff != null ? this.huff + ';' : ''
+
+    return huffStr + this.squares.map(x => x + 1).join(this.type)
   }
 
   begin () {

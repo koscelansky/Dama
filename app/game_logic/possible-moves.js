@@ -203,7 +203,15 @@ function getCaptures (board) {
 }
 
 export function getPossibleMoves (board) {
-  return [...getSimpleMoves(board), ...getCaptures(board)]
+  const pureMoves = [...getSimpleMoves(board), ...getCaptures(board)]
+
+  let result = [...pureMoves]
+  for (const i of board.piecesToHuff) {
+    result = result.concat(pureMoves.map(
+      x => Object.assign(Object.create(Object.getPrototypeOf(x)), x, { huff: i })
+    ))
+  }
+  return result
 }
 
 export function getSquaresBetween (from, to) {

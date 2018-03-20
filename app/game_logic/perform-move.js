@@ -49,8 +49,6 @@ export function performMove (board, move) {
     throw new Error('Invalid piece on square ' + move.begin())
   }
 
-  console.log(getPiecesToHuff(board, move))
-
   let newPieces = [...board.pieces]
   newPieces[move.begin()] = null
 
@@ -81,7 +79,7 @@ export function performMove (board, move) {
     pieces: newPieces,
     turn: board.turn === 'W' ? 'B' : 'W',
     fifteenMoveRule: fifteenMoveRule + 1,
-    piecesToHuff: []
+    piecesToHuff: getPiecesToHuff(board, move)
   }
 }
 

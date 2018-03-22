@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { DragSource } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
+import styled from 'styled-components'
 
 import Piece from '../components/piece.js'
 import CaptureMark from '../components/capture-mark'
@@ -45,15 +46,24 @@ class DragPiece extends Component {
   }
 
   render () {
-    const { connectDragSource, isDragging, canDrag, type, markedForCapture } = this.props
+    const { connectDragSource, isDragging, canDrag, type } = this.props
 
     if (type == null) return null
 
-    const captureMark = markedForCapture ? (
-      <div style={{ position: 'absolute', width: '100%', zIndex: '2', opacity: '0.8' }}>
-        <CaptureMark />
-      </div>
-    ) : null
+    const MarkWrapper = styled.div`
+      position: absolute;
+      width: 100%;
+      z-index: 2;
+      opacity: 0.8;
+    `
+
+    const mark = (() => {
+      switch (this.props.mark) {
+        case 'capture': return <CaptureMark />
+        case 'huff': return null
+        default: return null
+      }
+    })()
 
     return connectDragSource(
       <div style={{
@@ -63,7 +73,9 @@ class DragPiece extends Component {
         <div style={{ position: 'absolute', width: '100%', zIndex: '1' }}>
           <Piece type={type} />
         </div>
-        { captureMark }
+        <MarkWrapper>
+          { mark }
+        </MarkWrapper>
       </div>
     )
   }
@@ -87,7 +99,7 @@ DragPiece.propTypes = {
   // number of square where the piece is
   square: PropTypes.number.isRequired,
 
-  markedForCapture: PropTypes.bool,
+  mark: PropTypes.oneOf(['capture', 'huff']),
 
   // will be called when piece is droped
   onPieceDrop: PropTypes.func.isRequired

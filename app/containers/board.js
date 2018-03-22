@@ -154,14 +154,22 @@ class Board extends Component {
     if (black) {
       num = row * 4 + Math.floor(column / 2)
 
-      const markedForCapture = this.state.markedSquaresForCapture.includes(num)
+      const mark = (() => {
+        if (this.state.markedSquaresForCapture.includes(num)) {
+          return 'capture'
+        } else if (this.props.piecesToHuff.includes(num)) {
+          return 'huff'
+        } else {
+          return null
+        }
+      })()
 
       const canDrag = this.props.canSelectMove && _.some(this.props.moves, x => x.begin() === num)
 
       piece = (
         <DragPiece
           square={num}
-          markedForCapture={markedForCapture}
+          mark={mark}
           canDrag={canDrag}
           onPieceDrop={this.pieceDrop}
         />
@@ -200,6 +208,7 @@ class Board extends Component {
 Board.propTypes = {
   onPieceMove: PropTypes.func.isRequired,
   moves: PropTypes.arrayOf(PropTypes.object),
+  piecesToHuff: PropTypes.arrayOf(PropTypes.number),
   canSelectMove: PropTypes.bool
 }
 
@@ -216,6 +225,7 @@ function mapStateToProps (state, ownProps) {
 
   return {
     moves: possibleMovesSelector(state),
+    piecesToHuff: state.board.piecesToHuff,
     canSelectMove: state[nextPlayer].type === 'human' && gameResultSelector(state) === GameResult.InProgress
   }
 }

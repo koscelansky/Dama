@@ -56,6 +56,10 @@ class DragPiece extends Component {
       width: 100%;
       z-index: 2;
       opacity: 0.8;
+
+      &:hover {
+        filter: drop-shadow(0 0 2px orange);
+      }
     `
 
     const mark = (() => {

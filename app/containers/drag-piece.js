@@ -6,7 +6,8 @@ import { getEmptyImage } from 'react-dnd-html5-backend'
 import styled from 'styled-components'
 
 import Piece from '../components/piece.js'
-import CaptureMark from '../components/capture-mark'
+import CaptureMark from '../components/capture-mark.js'
+import HuffMark from '../components/huff-mark.js'
 
 const dragSource = {
   canDrag (props, monitor) {
@@ -60,7 +61,7 @@ class DragPiece extends Component {
     const mark = (() => {
       switch (this.props.mark) {
         case 'capture': return <CaptureMark />
-        case 'huff': return null
+        case 'huff': return <HuffMark />
         default: return null
       }
     })()

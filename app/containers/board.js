@@ -1,17 +1,12 @@
 
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import DragPiece from '../containers/drag-piece'
 import DropSquare from '../containers/drop-square'
 
-import { movePiece } from '../actions'
-import { possibleMovesSelector, gameResultSelector } from '../selectors'
-import { GameResult } from '../game_logic/const'
-
-class Board extends Component {
+export default class Board extends Component {
   constructor (props) {
     super(props)
     this.hoverDropSquare = this.hoverDropSquare.bind(this)
@@ -140,7 +135,9 @@ class Board extends Component {
   }
 
   isMovePossible (from, to) {
-    return !!this.props.moves.find(x => (x.begin() === from && x.end() === to))
+    const { moves } = this.props
+
+    return moves != null && !!moves.find(x => (x.begin() === from && x.end() === to))
   }
 
   renderSquare (n) {
@@ -164,7 +161,7 @@ class Board extends Component {
         }
       })()
 
-      const canDrag = this.props.canSelectMove && _.some(this.props.moves, x => x.begin() === num)
+      const canDrag = _.some(this.props.moves, x => x.begin() === num)
 
       piece = (
         <DragPiece
@@ -208,26 +205,5 @@ class Board extends Component {
 Board.propTypes = {
   onPieceMove: PropTypes.func.isRequired,
   moves: PropTypes.arrayOf(PropTypes.object),
-  piecesToHuff: PropTypes.arrayOf(PropTypes.number),
-  canSelectMove: PropTypes.bool
+  piecesToHuff: PropTypes.arrayOf(PropTypes.number)
 }
-
-function mapDispatchToProps (dispatch) {
-  return {
-    onPieceMove: (move) => {
-      return dispatch(movePiece(move))
-    }
-  }
-}
-
-function mapStateToProps (state, ownProps) {
-  const nextPlayer = state.board.turn === 'W' ? 'white' : 'black'
-
-  return {
-    moves: possibleMovesSelector(state),
-    piecesToHuff: state.board.piecesToHuff,
-    canSelectMove: state[nextPlayer].type === 'human' && gameResultSelector(state) === GameResult.InProgress
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Board)

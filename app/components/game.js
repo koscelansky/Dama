@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import Board from '../containers/board'
+import MoveSelector from '../containers/move-selector'
 import FenForm from '../containers/fen-form'
 import MovesList from '../containers/moves-list'
 import Player from '../containers/player'
@@ -24,7 +24,7 @@ export default class Game extends Component {
           </div>
         </div>
         <div>
-          <Board />
+          <MoveSelector />
         </div>
         <div>
           <MovesList />

@@ -8,7 +8,7 @@ export class Move {
   }
 
   toString () {
-    const huffStr = this.huff != null ? 'x' + this.huff + ';' : ''
+    const huffStr = this.huff != null ? '=' + (this.huff + 1) + ';' : ''
 
     return huffStr + this.squares.map(x => x + 1).join(this.type)
   }

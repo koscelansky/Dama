@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 import { Move } from './move.js'
 
 const Direction = Object.freeze({
@@ -203,11 +205,16 @@ function getCaptures (board) {
 }
 
 export function getPossibleMoves (board) {
-  const pureMoves = [...getSimpleMoves(board), ...getCaptures(board)]
+  board = _.clone(board)
 
-  let result = [...pureMoves]
+  let result = [...getSimpleMoves(board), ...getCaptures(board)]
   for (const i of board.piecesToHuff) {
-    result = result.concat(pureMoves.map(
+    board.pieces = [...board.pieces]
+    board.pieces[i] = null
+
+    const moves = [...getSimpleMoves(board), ...getCaptures(board)]
+
+    result = result.concat(moves.map(
       x => Object.assign(Object.create(Object.getPrototypeOf(x)), x, { huff: i })
     ))
   }

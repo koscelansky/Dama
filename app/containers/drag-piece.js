@@ -42,8 +42,21 @@ function collect (connect, monitor) {
 }
 
 class DragPiece extends Component {
+  constructor (props) {
+    super(props)
+
+    this.onClick = this.onClick.bind(this)
+  }
+
   componentDidMount () {
     this.props.connectDragPreview(getEmptyImage())
+  }
+
+  onClick (e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    this.props.onPieceClick(this.props.square, e)
   }
 
   render () {
@@ -78,7 +91,7 @@ class DragPiece extends Component {
         <div style={{ position: 'absolute', width: '100%', zIndex: '1' }}>
           <Piece type={type} />
         </div>
-        <MarkWrapper>
+        <MarkWrapper onClick={this.onClick}>
           { mark }
         </MarkWrapper>
       </div>
@@ -107,7 +120,10 @@ DragPiece.propTypes = {
   mark: PropTypes.oneOf(['capture', 'huff']),
 
   // will be called when piece is droped
-  onPieceDrop: PropTypes.func.isRequired
+  onPieceDrop: PropTypes.func.isRequired,
+
+  // will be called upon piece click
+  onPieceClick: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps)(DragSource('PIECE', dragSource, collect)(DragPiece))

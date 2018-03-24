@@ -50,6 +50,10 @@ export function performMove (board, move) {
   }
 
   let newPieces = [...board.pieces]
+  if (move.huff != null) {
+    newPieces[move.huff] = null
+  }
+
   newPieces[move.begin()] = null
 
   if (move.isCapture()) {

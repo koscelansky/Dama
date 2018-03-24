@@ -1,5 +1,7 @@
 // FEN format is described here https://en.wikipedia.org/wiki/Portable_Draughts_Notation
 // [FEN "[Turn]:[Color 1][K][Square number][,]...]:[Color 2][K][Square number][,]...]"]
+// as in Slovak checkers there is the huffing rule, we need to encode which
+// squares can be huffed, this is done by adding [:X[Square number][,]...]
 
 export function toFen (state) {
   const getPieces = (color) => {
@@ -18,13 +20,18 @@ export function toFen (state) {
   const whitePieces = 'W' + getPieces('W').join(',')
   const blackPieces = 'B' + getPieces('B').join(',')
 
-  return state.turn + ':' + whitePieces + ':' + blackPieces
+  let result = state.turn + ':' + whitePieces + ':' + blackPieces
+  if (state.piecesToHuff.length > 0) {
+    result += ':X' + state.piecesToHuff.map(x => x + 1).join(',')
+  }
+
+  return result
 }
 
 export function fromFen (fen) {
   const parts = fen.split(':')
 
-  if (parts.length !== 3) return null
+  if (parts.length !== 3 && parts.length !== 4) return null
 
   const turn = parts[0]
   if (turn.length !== 1 || (turn[0] !== 'B' && turn[0] !== 'W')) return null
@@ -72,7 +79,36 @@ export function fromFen (fen) {
     }
   }
 
-  return { turn: turn, pieces: pieces }
+  let piecesToHuff = []
+  if (parts[3] != null) {
+    const p = parts[3]
+
+    if (p === '') {
+      return null
+    }
+
+    const positions = p.substring(1).split(',')
+    for (let j of positions) {
+      if (j === '') {
+        return null
+      }
+
+      const pos = (+j) - 1
+      if (isNaN(pos) || pos < 0 || pos >= 32) {
+        return null
+      }
+
+      piecesToHuff.push(pos)
+    }
+
+    for (const i of piecesToHuff) {
+      if (pieces[i] == null || pieces[i][0] === turn) {
+        return null
+      }
+    }
+  }
+
+  return {turn, pieces, fifteenMoveRule: 0, piecesToHuff}
 }
 
 export function isValidFen (fen) {

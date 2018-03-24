@@ -11,17 +11,20 @@ export default class Board extends Component {
     super(props)
     this.hoverDropSquare = this.hoverDropSquare.bind(this)
     this.pieceDrop = this.pieceDrop.bind(this)
+    this.pieceClick = this.pieceClick.bind(this)
     this.canDragDrop = this.canDragDrop.bind(this)
     this.isMovePossible = this.isMovePossible.bind(this)
+    this.contextMenu = this.contextMenu.bind(this)
+
     this.state = {
-      markedSquaresForCapture: [],
+      captureSquares: [],
       hintSquares: []
     }
   }
 
   resetState () {
     const newState = {
-      markedSquaresForCapture: [],
+      captureSquares: [],
       hintSquares: []
     }
 
@@ -82,6 +85,10 @@ export default class Board extends Component {
 
   pieceDrop (from, to) {
     try {
+      if (this.props.select !== 'move') {
+        throw new Error('We should be here!')
+      }
+
       if (from == null || to == null) {
         return // empty drop
       }
@@ -97,7 +104,30 @@ export default class Board extends Component {
     }
   }
 
+  pieceClick (square, events) {
+    const { select, huff } = this.props
+
+    if (select === 'huff') {
+      if (huff.includes(square)) {
+        this.props.onPieceHuff(square)
+      } else if (events.button === 2) { // RMB
+        this.props.onPieceHuff(-1)
+      }
+    }
+  }
+
+  contextMenu (e) {
+    e.preventDefault()
+    e.stopPropagation()
+
+    this.pieceClick(-1, e)
+  }
+
   hoverDropSquare (from, to) {
+    if (this.props.select !== 'move') {
+      throw new Error('We should be here!')
+    }
+
     if (from === to) {
       this.resetState()
     }
@@ -106,8 +136,8 @@ export default class Board extends Component {
 
     const capturedSquares = move ? _.sortBy([...move.getCapturedSquares()]) : []
 
-    if (!_.isEqual(capturedSquares, this.state.markedSquaresForCapture)) {
-      this.setState({ markedSquaresForCapture: capturedSquares })
+    if (!_.isEqual(capturedSquares, this.state.captureSquares)) {
+      this.setState({ captureSquares: capturedSquares })
     }
 
     // undefined means do not touch hints (hover over white space...)
@@ -131,16 +161,18 @@ export default class Board extends Component {
   }
 
   canDragDrop (from, to) {
-    return !!this.selectMoves(from, to)
+    return this.props.select === 'move' && !!this.selectMoves(from, to)
   }
 
   isMovePossible (from, to) {
-    const { moves } = this.props
+    const { select, moves } = this.props
 
-    return moves != null && !!moves.find(x => (x.begin() === from && x.end() === to))
+    return select === 'move' && !!moves.find(x => (x.begin() === from && x.end() === to))
   }
 
   renderSquare (n) {
+    const { moves, huff, select, pieces } = this.props
+
     const row = Math.floor(n / 8)
     const column = n % 8
 
@@ -151,26 +183,29 @@ export default class Board extends Component {
     if (black) {
       num = row * 4 + Math.floor(column / 2)
 
-      const mark = (() => {
-        if (this.state.markedSquaresForCapture.includes(num)) {
-          return 'capture'
-        } else if (this.props.piecesToHuff.includes(num)) {
-          return 'huff'
-        } else {
-          return null
-        }
-      })()
+      if (pieces[num] != null) {
+        const mark = (() => {
+          if (select === 'move' && this.state.captureSquares.includes(num)) {
+            return 'capture'
+          } else if (select === 'huff' && huff.includes(num)) {
+            return 'huff'
+          } else {
+            return null
+          }
+        })()
 
-      const canDrag = _.some(this.props.moves, x => x.begin() === num)
+        const canDrag = select === 'move' && _.some(moves, x => x.begin() === num)
 
-      piece = (
-        <DragPiece
-          square={num}
-          mark={mark}
-          canDrag={canDrag}
-          onPieceDrop={this.pieceDrop}
-        />
-      )
+        piece = (
+          <DragPiece
+            square={num}
+            mark={mark}
+            canDrag={canDrag}
+            onPieceDrop={this.pieceDrop}
+            onPieceClick={this.pieceClick}
+          />
+        )
+      }
     }
 
     return (
@@ -195,7 +230,7 @@ export default class Board extends Component {
     }
 
     return (
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap' }} onContextMenu={this.contextMenu}>
         { squares }
       </div>
     )
@@ -204,6 +239,10 @@ export default class Board extends Component {
 
 Board.propTypes = {
   onPieceMove: PropTypes.func.isRequired,
+  onPieceHuff: PropTypes.func.isRequired,
   moves: PropTypes.arrayOf(PropTypes.object),
-  piecesToHuff: PropTypes.arrayOf(PropTypes.number)
+  pieces: PropTypes.arrayOf(PropTypes.string).isRequired,
+
+  // moves or huff is filled, in case of show board is just readonly
+  select: PropTypes.oneOf(['huff', 'move', 'show']).isRequired
 }

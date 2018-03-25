@@ -23,8 +23,9 @@ class App extends Component {
 
 const middlewares = []
 
-// todo: add this only in development
-middlewares.push(logger)
+if (process.env.NODE_ENV === 'development') {
+  middlewares.push(logger)
+}
 
 export const appState = createStore(damaApp, applyMiddleware(...middlewares))
 

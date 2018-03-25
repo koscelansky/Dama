@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "start": "electron .",
-    "build": "browserify app/app.js -t babelify -o public/js/generated/bundle.js",
-    "watch": "watchify app/app.js -t babelify -o public/js/generated/bundle.js --debug --verbose",
+    "build": "browserify ./app/app.js -t babelify -g [ envify --NODE_ENV production ] -g uglifyify | uglifyjs --compress --mangle > ./public/js/generated/bundle.js",
+    "watch": "watchify ./app/app.js -t babelify -g [ envify --NODE_ENV development ] -o ./public/js/generated/bundle.js --debug --verbose",
     "test": "standard"
   },
   "author": {
@@ -24,7 +24,10 @@
     "babelify": "^8.0.0",
     "electron": "~1.7.12",
     "electron-reload": "^1.2.2",
+    "envify": "^4.1.0",
     "standard": "^11.0.0",
+    "uglify-js": "^3.3.16",
+    "uglifyify": "^4.0.5",
     "watchify": "^3.11.0"
   },
   "dependencies": {

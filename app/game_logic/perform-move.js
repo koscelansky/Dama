@@ -2,7 +2,7 @@ import { GameResult } from './const.js'
 import { getPossibleMoves } from './possible-moves.js'
 
 function getPiecesToHuff (board, move) {
-  const possibleMoves = getPossibleMoves(board)
+  const possibleMoves = getPossibleMoves(board).filter(x => x.huff === move.huff)
   const { pieces, turn } = board
 
   const getPiecesWithCapture = type =>

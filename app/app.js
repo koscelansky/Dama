@@ -1,3 +1,6 @@
+// polyfill must be the first import in this file
+import 'babel-polyfill'
+
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { applyMiddleware, createStore } from 'redux'

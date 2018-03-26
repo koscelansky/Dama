@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom'
 import { applyMiddleware, createStore } from 'redux'
 import { logger } from 'redux-logger'
 import { Provider } from 'react-redux'
-import HTML5Backend from 'react-dnd-html5-backend'
+import TouchBackend from 'react-dnd-touch-backend'
 import { DragDropContext } from 'react-dnd'
 
 import Game from './components/game'
@@ -32,7 +32,7 @@ if (process.env.NODE_ENV === 'development') {
 
 export const appState = createStore(damaApp, applyMiddleware(...middlewares))
 
-const AppRoot = DragDropContext(HTML5Backend)(App)
+const AppRoot = DragDropContext(TouchBackend({ enableMouseEvents: true }))(App)
 
 ReactDOM.render(
   <Provider store={appState}>

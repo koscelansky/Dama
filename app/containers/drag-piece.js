@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { DragSource } from 'react-dnd'
-import { getEmptyImage } from 'react-dnd-html5-backend'
 import styled from 'styled-components'
 
 import Piece from '../components/piece.js'
@@ -46,10 +45,6 @@ class DragPiece extends Component {
     super(props)
 
     this.onClick = this.onClick.bind(this)
-  }
-
-  componentDidMount () {
-    this.props.connectDragPreview(getEmptyImage())
   }
 
   onClick (e) {

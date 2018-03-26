@@ -22,7 +22,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babelify": "^8.0.0",
-    "electron": "~1.7.12",
+    "electron": "^1.8.4",
     "electron-reload": "^1.2.2",
     "envify": "^4.1.0",
     "standard": "^11.0.0",

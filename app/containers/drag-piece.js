@@ -8,6 +8,28 @@ import Piece from '../components/piece.js'
 import CaptureMark from '../components/capture-mark.js'
 import HuffMark from '../components/huff-mark.js'
 
+const PieceWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  z-Index: 1;
+  ${({ active }) => active && `filter: drop-shadow(0 0 2px orange);`}
+
+  &:hover {
+    ${({ active }) => active && `filter: drop-shadow(0 0 5px blue);`}
+  }
+`
+
+const MarkWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+  opacity: 0.8;
+
+  &:hover {
+    filter: drop-shadow(0 0 2px orange);
+  }
+`
+
 const dragSource = {
   canDrag (props, monitor) {
     return props.canDrag
@@ -57,18 +79,9 @@ class DragPiece extends Component {
   render () {
     const { connectDragSource, isDragging, canDrag, type } = this.props
 
-    if (type == null) return null
-
-    const MarkWrapper = styled.div`
-      position: absolute;
-      width: 100%;
-      z-index: 2;
-      opacity: 0.8;
-
-      &:hover {
-        filter: drop-shadow(0 0 2px orange);
-      }
-    `
+    if (type == null) {
+      return null
+    }
 
     const mark = (() => {
       switch (this.props.mark) {
@@ -83,9 +96,9 @@ class DragPiece extends Component {
         opacity: isDragging ? 0.5 : 1,
         cursor: canDrag ? 'move' : 'default'
       }}>
-        <div style={{ position: 'absolute', width: '100%', zIndex: '1' }}>
+        <PieceWrapper active={canDrag && !isDragging}>
           <Piece type={type} />
-        </div>
+        </PieceWrapper>
         <MarkWrapper onClick={this.onClick}>
           { mark }
         </MarkWrapper>

@@ -125,7 +125,7 @@ export default class Board extends Component {
 
   hoverDropSquare (from, to) {
     if (this.props.select !== 'move') {
-      throw new Error('We should be here!')
+      throw new Error('We shouldn\'t be here!')
     }
 
     if (from === to) {

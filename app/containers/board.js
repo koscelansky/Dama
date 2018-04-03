@@ -183,7 +183,8 @@ export default class Board extends Component {
     if (black) {
       num = row * 4 + Math.floor(column / 2)
 
-      if (pieces[num] != null) {
+      const type = pieces[num]
+      if (type != null) {
         const mark = (() => {
           if (select === 'move' && this.state.captureSquares.includes(num)) {
             return 'capture'
@@ -198,6 +199,7 @@ export default class Board extends Component {
 
         piece = (
           <DragPiece
+            type={type}
             square={num}
             mark={mark}
             canDrag={canDrag}

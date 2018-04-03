@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 import { DragSource } from 'react-dnd'
 import styled from 'styled-components'
 
@@ -107,12 +106,6 @@ class DragPiece extends Component {
   }
 }
 
-function mapStateToProps (state, ownProps) {
-  return {
-    type: state.board.pieces[ownProps.square]
-  }
-}
-
 DragPiece.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   connectDragPreview: PropTypes.func.isRequired,
@@ -134,4 +127,4 @@ DragPiece.propTypes = {
   onPieceClick: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps)(DragSource('PIECE', dragSource, collect)(DragPiece))
+export default DragSource('PIECE', dragSource, collect)(DragPiece)

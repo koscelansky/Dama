@@ -1,14 +1,24 @@
-import styled from 'styled-components'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-const PlayerLabel = styled.span`
-  &::${props => props.right ? 'after' : 'before'} {
-    font-size: 1.7em;
-    display: inline-block;
-    transform: 'translateY(-0.15em)';
-    content: '${props => props.color === 'white' ? '□' : '■'}';
-  }
-`
+import Pawn from './pawn'
+
+const PlayerLabel = (props) => {
+  const float = props.right ? 'right' : 'left'
+  const pawn =
+    <div style={{float, width: '1.2em', verticalAlign: 'middle'}}>
+      <Pawn black={props.color === 'black'} />
+    </div>
+
+  return (
+    <React.Fragment>
+      { pawn }
+      <div style={{float}}>
+        { props.children }
+      </div>
+    </React.Fragment>
+  )
+}
 
 export default PlayerLabel
 

@@ -6,6 +6,7 @@ const Svg = styled.object.attrs({
   user-select: none;
   pointer-events: none;
   width: 100%;
+  display: block;
 `
 
 export default Svg

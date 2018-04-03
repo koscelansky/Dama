@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "start": "electron .",
-    "build": "browserify ./app/app.js -t babelify -g [ envify --NODE_ENV production ] -g uglifyify | uglifyjs --compress --mangle > ./public/js/generated/bundle.js",
-    "watch": "watchify ./app/app.js -t babelify -g [ envify --NODE_ENV development ] -o ./public/js/generated/bundle.js --debug --verbose",
+    "build": "cross-env NODE_ENV=production browserify ./app/app.js -t babelify -g uglifyify | uglifyjs --compress --mangle > ./public/js/generated/bundle.js",
+    "watch": "cross-env NODE_ENV=development watchify ./app/app.js -t babelify -o ./public/js/generated/bundle.js --debug --verbose",
     "test": "standard"
   },
   "author": {
@@ -20,12 +20,14 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-styled-components": "^1.5.1",
+    "babel-plugin-transform-inline-environment-variables": "^0.3.0",
+    "babel-plugin-transform-react-jsx-source": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babelify": "^8.0.0",
+    "cross-env": "^5.1.4",
     "electron": "^1.8.4",
     "electron-reload": "^1.2.2",
-    "envify": "^4.1.0",
     "standard": "^11.0.0",
     "uglify-js": "^3.3.16",
     "uglifyify": "^4.0.5",

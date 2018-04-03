@@ -1,4 +1,18 @@
 {
     "presets": ["env", "react"],
-    "plugins": ["babel-plugin-styled-components"]
+    "env" : {
+        "development" : {
+            "plugins": [
+                "transform-react-jsx-source",
+                "transform-inline-environment-variables",
+                "styled-components"
+            ]
+        },
+        "production" : {
+            "plugins": [
+                "transform-inline-environment-variables",
+                "styled-components"
+            ]
+        }
+    }
 }

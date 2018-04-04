@@ -5,14 +5,12 @@ import Pawn from './pawn'
 
 const PlayerLabel = (props) => {
   const float = props.right ? 'right' : 'left'
-  const pawn =
-    <div style={{float, width: '1.2em', verticalAlign: 'middle'}}>
-      <Pawn black={props.color === 'black'} />
-    </div>
 
   return (
     <React.Fragment>
-      { pawn }
+      <div style={{float, width: '1.2em', verticalAlign: 'middle'}}>
+        <Pawn black={props.color === 'black'} />
+      </div>
       <div style={{float}}>
         { props.children }
       </div>

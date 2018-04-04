@@ -10,7 +10,7 @@ import HuffMark from '../components/huff-mark.js'
 const PieceWrapper = styled.div`
   position: absolute;
   width: 100%;
-  z-Index: 1;
+  z-index: 1;
   ${({ active }) => active && `filter: drop-shadow(0 0 2px orange);`}
 
   &:hover {

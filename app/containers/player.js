@@ -1,25 +1,34 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
 import PlayerLabel from '../components/player-label'
 
+const Wrapper = styled.div`
+  font-size: 5vw;
+  ${({ active }) => active && `filter: drop-shadow(0 0 2px orange);`}
+`
+
 class Player extends Component {
   render () {
-    const { right, color, name } = this.props
+    const { right, color, name, turn } = this.props
 
     return (
-      <div style={{ fontSize: '5vw' }}>
+      <Wrapper active={turn}>
         <PlayerLabel color={color} right={right}>{name}</PlayerLabel>
-      </div>
+      </Wrapper>
     )
   }
 }
 
 function mapStateToProps (state, ownProps) {
+  const colorAbbreviation = ownProps.color === 'white' ? 'W' : 'B'
+
   return {
     type: state[ownProps.color].type,
-    name: state[ownProps.color].name
+    name: state[ownProps.color].name,
+    turn: state.board.turn === colorAbbreviation
   }
 }
 

@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import MoveSelector from '../containers/move-selector'
 import FenForm from '../containers/fen-form'
 import MovesList from '../containers/moves-list'
-import Player from '../containers/player'
+import PlayersHeader from './players-header'
 
 export default class Game extends Component {
   render () {
@@ -13,15 +13,7 @@ export default class Game extends Component {
           <FenForm />
         </div>
         <div>
-          <div style={{ margin: '3%' }}>
-            <div style={{ float: 'left' }}>
-              <Player color='white' />
-            </div>
-            <div style={{ float: 'right' }}>
-              <Player color='black' right />
-            </div>
-            <div style={{ clear: 'both' }} />
-          </div>
+          <PlayersHeader />
         </div>
         <div>
           <MoveSelector />

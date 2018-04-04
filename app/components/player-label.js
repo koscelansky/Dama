@@ -19,6 +19,6 @@ const PlayerLabel = (props) => {
 export default PlayerLabel
 
 PlayerLabel.propTypes = {
-  color: PropTypes.string, // white|black
-  right: PropTypes.bool // true if color sqaure should be on right
+  color: PropTypes.oneOf(['white', 'black']),
+  right: PropTypes.bool // true if color square should be on right
 }

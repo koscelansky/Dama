@@ -4,18 +4,33 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import PlayerLabel from '../components/player-label'
+import Ai from './ai'
 
 const Wrapper = styled.div`
   font-size: 5vw;
   ${({ active }) => active && `filter: drop-shadow(0 0 2px orange);`}
 `
 
+const AiWrapper = styled.div`
+  display: inline-block;
+  width: 1.2em;
+  font-size: 1ex;
+  margin-right: 1ex;
+`
+
 class Player extends Component {
   render () {
-    const { right, color, name, turn } = this.props
+    const { right, color, name, turn, type } = this.props
+
+    const ai = turn && type.startsWith('ai-') && (
+      <AiWrapper>
+        <Ai type={type} />
+      </AiWrapper>
+    )
 
     return (
       <Wrapper active={turn}>
+        { ai }
         <PlayerLabel color={color} right={right}>{name}</PlayerLabel>
       </Wrapper>
     )
@@ -39,7 +54,7 @@ function mapDispatchToProps (dispatch) {
 
 Player.propTypes = {
   color: PropTypes.oneOf(['black', 'white']),
-  type: PropTypes.oneOf(['human', 'ai']),
+  type: PropTypes.oneOf(['human', 'ai-random']),
   name: PropTypes.string, // name of the player
   right: PropTypes.bool // true if label should be on the right side
 }

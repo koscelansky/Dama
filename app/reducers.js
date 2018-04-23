@@ -10,6 +10,11 @@ const humanInitialState = {
   name: 'Human'
 }
 
+const aiRandomInitialState = {
+  type: 'ai-random',
+  name: 'Random'
+}
+
 const guiInitialState = {
   huffed: null
 }
@@ -36,7 +41,7 @@ function white (state = humanInitialState, action) {
   return state
 }
 
-function black (state = humanInitialState, action) {
+function black (state = aiRandomInitialState, action) {
   return state
 }
 

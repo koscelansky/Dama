@@ -7,6 +7,27 @@ export class Move {
     this.huff = null
   }
 
+  static fromString (str) {
+    const parts = str.split(';')
+
+    let huff = null
+
+    let squaresStr = parts[0]
+    if (parts.length == 2) {
+      squaresStr = parts[1]
+
+      huff = +squaresStr.substring(1)
+    }
+
+    const type = squaresStr.includes('-') ? '-' : 'x'
+    const squares = squaresStr.split(type).map(x => x - 1)
+
+    let move = new Move(type, squares)
+    move.huff = huff
+
+    return move
+  }
+
   toString () {
     const huffStr = this.huff != null ? '=' + (this.huff + 1) + ';' : ''
 

@@ -13,7 +13,7 @@ export class Move {
     let huff = null
 
     let squaresStr = parts[0]
-    if (parts.length == 2) {
+    if (parts.length === 2) {
       squaresStr = parts[1]
 
       huff = +squaresStr.substring(1)

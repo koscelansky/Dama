@@ -30,7 +30,7 @@
     "electron-reload": "^1.2.2",
     "standard": "^11.0.0",
     "uglify-js": "^3.3.16",
-    "uglifyify": "^4.0.5",
+    "uglifyify": "^5.0.0",
     "watchify": "^3.11.0"
   },
   "dependencies": {

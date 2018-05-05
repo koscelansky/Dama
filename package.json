@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "electron .",
-    "build": "cross-env NODE_ENV=production browserify ./app/app.js -t babelify -g uglifyify | uglifyjs --compress --mangle > ./public/js/generated/bundle.js",
+    "build": "cross-env NODE_ENV=production browserify ./app/app.js -p [ tinyify --no-flat ] -t babelify -o ./public/js/generated/bundle.js",
     "watch": "cross-env NODE_ENV=development watchify ./app/app.js -t babelify -o ./public/js/generated/bundle.js --debug --verbose",
     "test": "standard"
   },
@@ -29,8 +29,7 @@
     "electron": "^2.0.0",
     "electron-reload": "^1.2.2",
     "standard": "^11.0.0",
-    "uglify-js": "^3.3.16",
-    "uglifyify": "^5.0.0",
+    "tinyify": "^2.4.0",
     "watchify": "^3.11.0"
   },
   "dependencies": {

@@ -18,7 +18,7 @@ class Ai extends Component {
     }
     this.worker.postMessage({
       board: this.props.board,
-      player: 'ai-minmax'
+      player: this.props.type
     })
   }
 
@@ -48,7 +48,7 @@ function mapDispatchToProps (dispatch) {
 }
 
 Ai.propTypes = {
-  type: PropTypes.oneOf(['ai-random']),
+  type: PropTypes.oneOf(['ai-random', 'ai-minmax']),
   board: PropTypes.shape({
     pieces: PropTypes.arrayOf(PropTypes.oneOf(['WM', 'WK', 'BM', 'BK', null])),
     turn: PropTypes.oneOf(['W', 'B']),

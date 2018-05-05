@@ -11,8 +11,8 @@ const humanInitialState = {
 }
 
 const aiRandomInitialState = {
-  type: 'ai-random',
-  name: 'Random'
+  type: 'ai-minmax',
+  name: 'MinMax'
 }
 
 const guiInitialState = {

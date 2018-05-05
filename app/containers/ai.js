@@ -16,7 +16,10 @@ class Ai extends Component {
     this.worker.onmessage = (e) => {
       this.props.onMoveCommited(Move.fromString(e.data))
     }
-    this.worker.postMessage({ board: this.props.board })
+    this.worker.postMessage({
+      board: this.props.board,
+      player: 'ai-minmax'
+    })
   }
 
   componentWillUnmount () {

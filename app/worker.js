@@ -1,4 +1,4 @@
-/* eslint-env serviceworker */
+/* eslint-env worker */
 
 import randomPlayer from './ai_player/random/random-player'
 import nimMaxPlayer from './ai_player/minmax/minmax-player'

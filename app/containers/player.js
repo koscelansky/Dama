@@ -11,11 +11,11 @@ const Wrapper = styled.div`
   ${({ active }) => active && `filter: drop-shadow(0 0 2px orange);`}
 `
 
-const AiWrapper = styled.div`
+const AiWrapper = styled.span`
   display: inline-block;
   width: 1.2em;
   font-size: 1ex;
-  margin-right: 1ex;
+  margin: 0 1ex 0 1ex;
 `
 
 class Player extends Component {

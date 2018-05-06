@@ -9,7 +9,7 @@ self.onmessage = (e) => {
       case 'ai-random':
         return randomPlayer(data.board)
       case 'ai-minmax':
-        return nimMaxPlayer(data.board)
+        return nimMaxPlayer(data.board, data.options)
     }
   })(e.data)
 

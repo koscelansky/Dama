@@ -13,7 +13,81 @@ const FenInput = styled.input.attrs({
   width: 100%;
   color: ${props => props.isDefault ? 'DarkGray' : 'Black'};
   border-color: ${props => props.isValid ? 'Black' : 'Red'};
+  border-width: 1px;
 `
+
+const Form = styled.form`
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(2, minmax(10em, 1fr));
+`
+
+const Caption = styled.h1`
+  grid-column-start: 1;
+  grid-column-end: span 2;
+  place-self: center;
+  margin: 10px 0 10px 0;
+  font-weight: 500;
+`
+
+const Group = styled.fieldset`
+  border-radius: 5px;
+  border-width: 1px;
+  bprder-color: DarkGray;
+`
+
+const FenGroup = Group.extend`
+  grid-column-start: 1;
+  grid-column-end: span 2;
+`
+
+const SubmitGroup = styled.fieldset`
+  grid-column-start: 1;
+  grid-column-end: span 2;
+  justify-self: end;
+  border-width: 0;
+`
+
+const BlockLabel = styled.label`
+  display: block;
+`
+
+const TypeSelect = (props) => {
+  const {name, value, onChange} = props
+
+  return (
+    <BlockLabel>
+      Type:&nbsp;
+      <select name={name} value={value} onChange={onChange}>
+        <option value='human'>Human</option>
+        <option value='ai-random'>Random</option>
+        <option value='ai-minmax'>MinMax</option>
+      </select>
+    </BlockLabel>
+  )
+}
+
+const NameSelect = (props) => {
+  const {name, value, onChange} = props
+
+  return (
+    <BlockLabel>
+      Name:&nbsp;
+      <input name={name} value={value} onChange={onChange} />
+    </BlockLabel>
+  )
+}
+
+const DepthSelect = (props) => {
+  const {name, value, onChange} = props
+
+  return (
+    <BlockLabel>
+      Depth:&nbsp;
+      <input type='number' min='1' max='9' name={name} value={value} onChange={onChange} />
+    </BlockLabel>
+  )
+}
 
 class NewGameDlg extends Component {
   constructor (props) {
@@ -21,8 +95,10 @@ class NewGameDlg extends Component {
     this.state = {
       whiteName: props.white.name,
       whiteType: props.white.type,
+      whiteDepth: props.white.depth,
       blackName: props.black.name,
       blackType: props.black.type,
+      blackDepth: props.black.depth,
       fen: props.fen
     }
 
@@ -33,12 +109,14 @@ class NewGameDlg extends Component {
   handleSubmit (event) {
     const white = {
       name: this.state.whiteName,
-      type: this.state.whiteType
+      type: this.state.whiteType,
+      depth: +this.state.whiteDepth
     }
 
     const black = {
       name: this.state.blackName,
-      type: this.state.blackType
+      type: this.state.blackType,
+      depth: +this.state.blackDepth
     }
 
     this.props.onSubmit(white, black, this.state.fen)
@@ -70,44 +148,55 @@ class NewGameDlg extends Component {
   }
 
   render () {
-    const { whiteName, whiteType, blackName, blackType, fen } = this.state
+    const { whiteName, whiteType, whiteDepth } = this.state
+    const { blackName, blackType, blackDepth } = this.state
+    const fen = this.state.fen
 
     const isFenDefault = fen === this.props.fen
     const isFenValid = isValidFen(fen)
 
+    const whiteParams = (() => {
+      switch (whiteType) {
+        case 'human': {
+          return <NameSelect name='whiteName' value={whiteName} onChange={this.handleChange} />
+        }
+        case 'ai-minmax': {
+          return <DepthSelect name='whiteDepth' value={whiteDepth} onChange={this.handleChange} />
+        }
+        default: {
+          return null
+        }
+      }
+    })()
+
+    const blackParams = (() => {
+      switch (blackType) {
+        case 'human': {
+          return <NameSelect name='blackName' value={blackName} onChange={this.handleChange} />
+        }
+        case 'ai-minmax': {
+          return <DepthSelect name='blackDepth' value={blackDepth} onChange={this.handleChange} />
+        }
+        default: {
+          return null
+        }
+      }
+    })()
+
     return (
-      <form onSubmit={this.handleSubmit}>
-        <fieldset>
+      <Form onSubmit={this.handleSubmit}>
+        <Caption>Start new game</Caption>
+        <Group>
           <legend>White</legend>
-          <label>
-            Name:
-            <input name='whiteName' type='text' value={whiteName} onChange={this.handleChange} />
-          </label>
-          <label>
-            Type:
-            <select name='whiteType' value={whiteType} onChange={this.handleChange}>
-              <option value='human'>Human</option>
-              <option value='ai-random'>Random</option>
-              <option value='ai-minmax'>MinMax</option>
-            </select>
-          </label>
-        </fieldset>
-        <fieldset>
+          <TypeSelect name='whiteType' value={whiteType} onChange={this.handleChange} />
+          { whiteParams }
+        </Group>
+        <Group>
           <legend>Black</legend>
-          <label>
-            Name:
-            <input name='blackName' type='text' value={blackName} onChange={this.handleChange} />
-          </label>
-          <label>
-            Type:
-            <select name='blackType' value={blackType} onChange={this.handleChange}>
-              <option value='human'>Human</option>
-              <option value='ai-random'>Random</option>
-              <option value='ai-minmax'>MinMax</option>
-            </select>
-          </label>
-        </fieldset>
-        <fieldset>
+          <TypeSelect name='blackType' value={blackType} onChange={this.handleChange} />
+          { blackParams }
+        </Group>
+        <FenGroup>
           <legend>FEN</legend>
           <FenInput
             name='fen'
@@ -116,9 +205,11 @@ class NewGameDlg extends Component {
             isDefault={isFenDefault}
             isValid={isFenValid}
           />
-        </fieldset>
-        <input type='submit' value='Submit' />
-      </form>
+        </FenGroup>
+        <SubmitGroup>
+          <input type='submit' value='OK' />
+        </SubmitGroup>
+      </Form>
     )
   }
 }
@@ -126,11 +217,13 @@ class NewGameDlg extends Component {
 NewGameDlg.propTypes = {
   white: PropTypes.shape({
     name: PropTypes.string,
-    type: PropTypes.string
+    type: PropTypes.string,
+    depth: PropTypes.number
   }).isRequired,
   black: PropTypes.shape({
     name: PropTypes.string,
-    type: PropTypes.string
+    type: PropTypes.string,
+    depth: PropTypes.number
   }).isRequired,
   fen: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired

@@ -22,12 +22,16 @@ function negamax (board, depth) {
   return max
 }
 
-export default function (board) {
+export default function (board, options = {}) {
+  const depth = options.depth || 4
+  console.log(options)
+  console.log(depth)
+
   const rankedMoves = []
   for (const i of getPossibleMoves(board)) {
     const nextBoard = performMove(board, i)
 
-    const value = -negamax(nextBoard, 4)
+    const value = -negamax(nextBoard, depth)
     rankedMoves.push({ move: i, rank: value })
   }
 

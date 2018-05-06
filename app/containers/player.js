@@ -22,13 +22,16 @@ const AiWrapper = styled.span`
 
 class Player extends Component {
   render () {
-    const { right, color, name, turn, type } = this.props
+    const { right, color, name, turn, type, options } = this.props
 
-    const ai = turn && type.startsWith('ai-') && (
-      <AiWrapper>
-        <Ai type={type} />
-      </AiWrapper>
-    )
+    let ai = null
+    if (turn && type.startsWith('ai-')) {
+      ai = (
+        <AiWrapper>
+          <Ai type={type} options={options} />
+        </AiWrapper>
+      )
+    }
 
     return (
       <Wrapper active={turn}>
@@ -43,10 +46,28 @@ function mapStateToProps (state, ownProps) {
   const colorAbbreviation = ownProps.color === 'white' ? 'W' : 'B'
   const result = gameResultSelector(state)
 
+  const type = state[ownProps.color].type
+
+  const [name, options] = (() => {
+    switch (type) {
+      case 'ai-random': {
+        return ['Random', {}]
+      }
+      case 'ai-minmax': {
+        const depth = state[ownProps.color].depth
+        return ['MinMax ' + depth, { depth }]
+      }
+      case 'human': {
+        return [state[ownProps.color].name, {}]
+      }
+    }
+  })()
+
   return {
-    type: state[ownProps.color].type,
-    name: state[ownProps.color].name,
-    turn: state.board.turn === colorAbbreviation && result === GameResult.InProgress
+    type,
+    name,
+    turn: state.board.turn === colorAbbreviation && result === GameResult.InProgress,
+    options
   }
 }
 
@@ -59,7 +80,8 @@ Player.propTypes = {
   color: PropTypes.oneOf(['black', 'white']),
   type: PropTypes.oneOf(['human', 'ai-random', 'ai-minmax']),
   name: PropTypes.string, // name of the player
-  right: PropTypes.bool // true if label should be on the right side
+  right: PropTypes.bool, // true if label should be on the right side
+  options: PropTypes.any // options passed to ai player
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Player)

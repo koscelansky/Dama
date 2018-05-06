@@ -2,7 +2,7 @@
   "name": "dama",
   "version": "0.0.0",
   "description": "Dama",
-  "main": "main.js",
+  "private": true,
   "license": "MIT",
   "scripts": {
     "start": "electron .",

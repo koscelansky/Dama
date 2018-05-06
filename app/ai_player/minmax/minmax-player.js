@@ -22,7 +22,7 @@ function negamax (board, depth) {
   return max
 }
 
-export default function getBestMove (board) {
+export default function (board) {
   const rankedMoves = []
   for (const i of getPossibleMoves(board)) {
     const nextBoard = performMove(board, i)

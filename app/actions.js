@@ -1,6 +1,6 @@
 export const GUI_HUFF_PIECE = 'GUI_HUFF_PIECE'
 export const MOVE_PIECE = 'MOVE_PIECE'
-export const NEW_POSITION_FROM_FEN = 'NEW_POSITION_FROM_FEN'
+export const NEW_GAME = 'NEW_GAME'
 
 export function guiHuffPiece (square) {
   return {
@@ -16,9 +16,11 @@ export function movePiece (move) {
   }
 }
 
-export function newPositionFromFen (fen) {
+export function newGame (white, black, fen) {
   return {
-    type: NEW_POSITION_FROM_FEN,
+    type: NEW_GAME,
+    white,
+    black,
     fen
   }
 }

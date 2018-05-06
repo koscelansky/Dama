@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
 
 import MoveSelector from '../containers/move-selector'
-import FenForm from '../containers/fen-form'
 import MovesList from '../containers/moves-list'
 import PlayersHeader from './players-header'
+
+import NewGameDlg from '../containers/new-game-dlg'
 
 export default class Game extends Component {
   render () {
     return (
       <div>
-        <div>
-          <FenForm />
-        </div>
+        <NewGameDlg />
         <div>
           <PlayersHeader />
         </div>

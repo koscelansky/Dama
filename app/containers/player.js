@@ -57,7 +57,7 @@ function mapDispatchToProps (dispatch) {
 
 Player.propTypes = {
   color: PropTypes.oneOf(['black', 'white']),
-  type: PropTypes.oneOf(['human', 'ai-random']),
+  type: PropTypes.oneOf(['human', 'ai-random', 'ai-minmax']),
   name: PropTypes.string, // name of the player
   right: PropTypes.bool // true if label should be on the right side
 }

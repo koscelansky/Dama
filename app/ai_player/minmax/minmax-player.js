@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 import evaluate from './evaluate'
 import { getPossibleMoves } from '../../game_logic/possible-moves'
 import { performMove } from '../../game_logic/perform-move'
@@ -21,17 +23,16 @@ function negamax (board, depth) {
 }
 
 export default function getBestMove (board) {
-  let max = -Infinity
-  let bestMove = null
+  const rankedMoves = []
   for (const i of getPossibleMoves(board)) {
     const nextBoard = performMove(board, i)
 
     const value = -negamax(nextBoard, 4)
-    if (value > max) {
-      max = value
-      bestMove = i
-    }
+    rankedMoves.push({ move: i, rank: value })
   }
 
-  return bestMove
+  const bestMoves = rankedMoves.sort((a, b) => b.rank - a.rank)
+    .filter((item, idx, array) => item.rank === array[0].rank)
+
+  return bestMoves[_.random(bestMoves.length - 1)].move
 }

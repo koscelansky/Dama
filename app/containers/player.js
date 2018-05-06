@@ -5,6 +5,8 @@ import styled from 'styled-components'
 
 import PlayerLabel from '../components/player-label'
 import Ai from './ai'
+import { gameResultSelector } from '../selectors'
+import { GameResult } from '../game_logic/const'
 
 const Wrapper = styled.div`
   font-size: 5vw;
@@ -39,11 +41,12 @@ class Player extends Component {
 
 function mapStateToProps (state, ownProps) {
   const colorAbbreviation = ownProps.color === 'white' ? 'W' : 'B'
+  const result = gameResultSelector(state)
 
   return {
     type: state[ownProps.color].type,
     name: state[ownProps.color].name,
-    turn: state.board.turn === colorAbbreviation
+    turn: state.board.turn === colorAbbreviation && result === GameResult.InProgress
   }
 }
 

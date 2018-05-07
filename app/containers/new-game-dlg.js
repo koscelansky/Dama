@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { fromJS, toJS } from 'immutable'
 
 import { newGame } from '../actions.js'
 import { toFenSelector } from '../selectors.js'
@@ -93,13 +94,19 @@ class NewGameDlg extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      whiteName: props.white.name,
-      whiteType: props.white.type,
-      whiteDepth: props.white.depth,
-      blackName: props.black.name,
-      blackType: props.black.type,
-      blackDepth: props.black.depth,
-      fen: props.fen
+      data: fromJS({
+        white: {
+          name: props.white.name,
+          type: props.white.type,
+          depth: props.white.depth
+        },
+        black: {
+          name: props.black.name,
+          type: props.black.type,
+          depth: props.black.depth
+        },
+        fen: props.fen
+      })
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -107,93 +114,92 @@ class NewGameDlg extends Component {
   }
 
   handleSubmit (event) {
-    const white = {
-      name: this.state.whiteName,
-      type: this.state.whiteType,
-      depth: +this.state.whiteDepth
-    }
+    const data = this.state.data
 
-    const black = {
-      name: this.state.blackName,
-      type: this.state.blackType,
-      depth: +this.state.blackDepth
-    }
-
-    this.props.onSubmit(white, black, this.state.fen)
+    this.props.onSubmit(data.get('white').toJS(), data.get('black').toJS(), data.get('fen'))
     event.preventDefault()
   }
 
   handleChange (event) {
     const target = event.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
+    let value = target.value
     const name = target.name
 
     if (value === '' && name === 'fen') {
-      this.setState({
-        [name]: this.props[name]
-      })
-    } else {
-      this.setState({
-        [name]: value
-      })
+      value = this.props.fen
     }
+
+    this.setState(({data}) => ({
+      data: data.setIn(name.split('.'), value)
+    }))
 
     event.preventDefault()
   }
 
   componentDidUpdate (prevProps, prevState) {
     if (prevProps.fen !== this.props.fen) {
-      this.setState({ fen: this.props.fen })
+      this.setState(({data}) => ({
+        data: data.set('fen', this.props.fen)
+      }))
     }
   }
 
   render () {
-    const { whiteName, whiteType, whiteDepth } = this.state
-    const { blackName, blackType, blackDepth } = this.state
-    const fen = this.state.fen
+    const data = this.state.data
+
+    const fen = data.get('fen')
 
     const isFenDefault = fen === this.props.fen
     const isFenValid = isValidFen(fen)
 
-    const whiteParams = (() => {
-      switch (whiteType) {
+    const getParams = (color) => {
+      switch (data.getIn([color, 'type'])) {
         case 'human': {
-          return <NameSelect name='whiteName' value={whiteName} onChange={this.handleChange} />
+          return (
+            <NameSelect
+              name={color + '.name'}
+              value={data.getIn([color, 'name'])}
+              onChange={this.handleChange}
+            />
+          )
         }
         case 'ai-minmax': {
-          return <DepthSelect name='whiteDepth' value={whiteDepth} onChange={this.handleChange} />
+          return (
+            <DepthSelect
+              name={color + '.depth'}
+              value={data.getIn([color, 'depth'])}
+              onChange={this.handleChange}
+            />
+          )
         }
         default: {
           return null
         }
       }
-    })()
+    }
 
-    const blackParams = (() => {
-      switch (blackType) {
-        case 'human': {
-          return <NameSelect name='blackName' value={blackName} onChange={this.handleChange} />
-        }
-        case 'ai-minmax': {
-          return <DepthSelect name='blackDepth' value={blackDepth} onChange={this.handleChange} />
-        }
-        default: {
-          return null
-        }
-      }
-    })()
+    const whiteParams = getParams('white')
+    const blackParams = getParams('black')
 
     return (
       <Form onSubmit={this.handleSubmit}>
         <Caption>Start new game</Caption>
         <Group>
           <legend>White</legend>
-          <TypeSelect name='whiteType' value={whiteType} onChange={this.handleChange} />
+          <TypeSelect
+            name='white.type'
+            value={data.getIn(['white', 'type'])}
+            onChange={this.handleChange}
+          />
           { whiteParams }
         </Group>
         <Group>
           <legend>Black</legend>
-          <TypeSelect name='blackType' value={blackType} onChange={this.handleChange} />
+          <TypeSelect
+            name='black.type'
+            value={data.getIn(['black', 'type'])}
+            onChange={this.handleChange}
+          />
           { blackParams }
         </Group>
         <FenGroup>

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Overlay = styled.div`
@@ -37,6 +38,10 @@ const Modal = (props) => {
       </Window>
     </Overlay>
   )
+}
+
+Modal.propTypes = {
+  show: PropTypes.bool
 }
 
 export default Modal

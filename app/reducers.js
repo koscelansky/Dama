@@ -79,7 +79,19 @@ function gui (state = guiInitialState, action) {
   }
 }
 
+function pageLoad (state = true, action) {
+  switch (action.type) {
+    case NEW_GAME: {
+      return false
+    }
+    default: {
+      return state
+    }
+  }
+}
+
 const mainReducer = combineReducers({
+  pageLoad,
   board,
   gui,
   white,

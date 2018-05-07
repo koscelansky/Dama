@@ -9,7 +9,6 @@ import { gameResultSelector } from '../selectors'
 import { GameResult } from '../game_logic/const'
 
 const Wrapper = styled.div`
-  font-size: 5vw;
   ${({ active }) => active && `filter: drop-shadow(0 0 2px orange);`}
 `
 

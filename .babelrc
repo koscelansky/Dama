@@ -1,14 +1,17 @@
 {
-    "presets": ["env", "react"],
-    "env" : {
-        "development" : {
+    "presets": [
+        "env",
+        "react"
+    ],
+    "env": {
+        "development": {
             "plugins": [
                 "transform-react-jsx-source",
                 "transform-inline-environment-variables",
                 "styled-components"
             ]
         },
-        "production" : {
+        "production": {
             "plugins": [
                 "transform-inline-environment-variables",
                 "styled-components"

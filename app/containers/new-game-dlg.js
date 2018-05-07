@@ -129,6 +129,11 @@ class NewGameDlg extends Component {
       value = this.props.fen
     }
 
+    if (name.endsWith('depth')) {
+      value = parseInt(value)
+      value = isNaN(value) ? 4 : value
+    }
+
     this.setState(({data}) => ({
       data: data.setIn(name.split('.'), value)
     }))

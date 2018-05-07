@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { fromJS, toJS } from 'immutable'
+import { fromJS } from 'immutable'
 
 import { newGame } from '../actions.js'
 import { toFenSelector } from '../selectors.js'
@@ -34,7 +34,7 @@ const Caption = styled.h1`
 const Group = styled.fieldset`
   border-radius: 5px;
   border-width: 1px;
-  bprder-color: DarkGray;
+  border-color: DarkGray;
 `
 
 const FenGroup = Group.extend`

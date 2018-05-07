@@ -38,7 +38,7 @@ const AppRoot = DragDropContext(TouchBackend({ enableMouseEvents: true }))(App)
 injectGlobal`
   body {
     background-color: cornsilk;
-    font-family: 'Tahoma', 'Geneva', 'sans-serif';
+    font-family: Tahoma, Geneva, sans-serif;
   }
 `
 

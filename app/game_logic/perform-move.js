@@ -34,6 +34,8 @@ function getPiecesToHuff (board, move) {
           return [move.end()]
         }
       }
+
+      return []
     }
   }
 

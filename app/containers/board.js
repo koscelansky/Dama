@@ -2,9 +2,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
+import styled from 'styled-components'
 
 import DragPiece from '../containers/drag-piece'
 import DropSquare from '../containers/drop-square'
+
+const Gridwrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+`
 
 export default class Board extends Component {
   constructor (props) {
@@ -211,17 +217,16 @@ export default class Board extends Component {
     }
 
     return (
-      <div key={n} style={{ width: '12.5%' }}>
-        <DropSquare
-          number={num}
-          onHoverDropSquare={this.hoverDropSquare}
-          isDropPossible={this.canDragDrop}
-          isHinted={this.state.hintSquares.includes(num)}
-          isMovePossible={this.isMovePossible}
-        >
-          { piece }
-        </DropSquare>
-      </div>
+      <DropSquare
+        key={n}
+        number={num}
+        onHoverDropSquare={this.hoverDropSquare}
+        isDropPossible={this.canDragDrop}
+        isHinted={this.state.hintSquares.includes(num)}
+        isMovePossible={this.isMovePossible}
+      >
+        { piece }
+      </DropSquare>
     )
   }
 
@@ -232,9 +237,9 @@ export default class Board extends Component {
     }
 
     return (
-      <div style={{ display: 'flex', flexWrap: 'wrap' }} onContextMenu={this.contextMenu}>
+      <Gridwrapper onContextMenu={this.contextMenu}>
         { squares }
-      </div>
+      </Gridwrapper>
     )
   }
 }

@@ -19,10 +19,12 @@ const Overlay = styled.div`
 const Window = styled.div`
   background-color: white;
   border-radius: 5px;
-  min-width: 500px;
-  min-height: 300px;
   padding: 30px;
   z-index: 1001;
+  width: 80%;
+  min-width: 380px;
+  max-width: 600px;
+  box-sizing: border-box;
 `
 
 const Modal = (props) => {

@@ -39,6 +39,12 @@ injectGlobal`
   body {
     background-color: cornsilk;
     font-family: Tahoma, Geneva, sans-serif;
+    min-width: 420px;
+  }
+
+  textarea, input, button, select {
+    font-family: inherit;
+    font-size: inherit;
   }
 `
 

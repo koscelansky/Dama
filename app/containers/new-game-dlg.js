@@ -20,21 +20,14 @@ const FenInput = styled.input.attrs({
 const Form = styled.form`
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: repeat(2, minmax(10em, 1fr));
-`
-
-const Caption = styled.h1`
-  grid-column-start: 1;
-  grid-column-end: span 2;
-  place-self: center;
-  margin: 10px 0 10px 0;
-  font-weight: 500;
+  grid-template-columns: repeat(2, 1fr);
 `
 
 const Group = styled.fieldset`
   border-radius: 5px;
   border-width: 1px;
   border-color: DarkGray;
+  border-style: solid;
 `
 
 const FenGroup = Group.extend`
@@ -50,7 +43,20 @@ const SubmitGroup = styled.fieldset`
 `
 
 const BlockLabel = styled.label`
-  display: block;
+  display: flex;
+  align-items: center;
+
+  input {
+    width: 100%;
+    flex: 1;
+    margin: 5px;
+  }
+
+  select {
+    width: 100%;
+    flex: 1;
+    margin: 5px;
+  }
 `
 
 const TypeSelect = (props) => {
@@ -188,7 +194,6 @@ class NewGameDlg extends Component {
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Caption>Start new game</Caption>
         <Group>
           <legend>White</legend>
           <TypeSelect

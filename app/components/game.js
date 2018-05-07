@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import MoveSelector from '../containers/move-selector'
 import MovesList from '../containers/moves-list'
 import Player from '../containers/player'
+import WelcomeDlg from '../containers/welcome-dlg'
 
 const Layout = styled.div`
   display: grid;
@@ -11,8 +12,8 @@ const Layout = styled.div`
 `
 
 const PlayerWrapper = styled.div`
-  margin: 3%;
-  font-size: 6.5vw;
+  margin: 5%;
+  font-size: 6vw;
 `
 
 const WhitePlayerWrapper = PlayerWrapper
@@ -34,20 +35,23 @@ const FooterWrapper = styled.div`
 export default class Game extends Component {
   render () {
     return (
-      <Layout>
-        <WhitePlayerWrapper>
-          <Player color='white' />
-        </WhitePlayerWrapper>
-        <BlackPlayerWrapper>
-          <Player color='black' right />
-        </BlackPlayerWrapper>
-        <MoveSelectorWrapper>
-          <MoveSelector />
-        </MoveSelectorWrapper>
-        <FooterWrapper>
-          <MovesList />
-        </FooterWrapper>
-      </Layout>
+      <React.Fragment>
+        <WelcomeDlg />
+        <Layout>
+          <WhitePlayerWrapper>
+            <Player color='white' />
+          </WhitePlayerWrapper>
+          <BlackPlayerWrapper>
+            <Player color='black' right />
+          </BlackPlayerWrapper>
+          <MoveSelectorWrapper>
+            <MoveSelector />
+          </MoveSelectorWrapper>
+          <FooterWrapper>
+            <MovesList />
+          </FooterWrapper>
+        </Layout>
+      </React.Fragment>
     )
   }
 }

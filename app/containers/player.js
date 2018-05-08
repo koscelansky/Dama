@@ -10,6 +10,7 @@ import { GameResult } from '../game_logic/const'
 
 const Wrapper = styled.div`
   ${({ active }) => active && `filter: drop-shadow(0 0 2px orange);`}
+  margin: 0.3em 10px 0.5em 10px;
 `
 
 const AiWrapper = styled.span`

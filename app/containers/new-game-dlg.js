@@ -47,6 +47,7 @@ const BlockLabel = styled.label`
   align-items: center;
 
   input {
+    min-width: 0;
     width: 100%;
     flex: 1;
     margin: 5px;

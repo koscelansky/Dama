@@ -1,5 +1,5 @@
 import { GameResult } from './const.js'
-import { getPossibleMoves } from './possible-moves.js'
+import { getPossibleMoves, getSquaresBetween } from './possible-moves.js'
 
 function getPiecesToHuff (board, move) {
   const possibleMoves = getPossibleMoves(board).filter(x => x.huff === move.huff)
@@ -30,8 +30,22 @@ function getPiecesToHuff (board, move) {
       // OK, so we move with a piece, but we need to make sure that move cannot
       // be expanded, if so then return this offending piece
       for (const i of possibleMoves) {
-        if (i.length() > move.length() && move.squares.every(x => i.squares.includes(x))) {
-          return [move.end()]
+        if (i.length() > move.length()) {
+          // check if move is prefix of i, last square must be check extra
+          // because for kings last landing square is not just one (but it is
+          // a line)
+          let prefix = true
+          for (let j = 0; j < move.length() - 1; ++j) {
+            if (move.squares[j] !== i.squares[j]) {
+              prefix = false
+              break
+            }
+          }
+
+          const last = move.length() - 1
+          if (prefix && getSquaresBetween(move.end(), i.squares[last]) != null) {
+            return [move.end()]
+          }
         }
       }
 

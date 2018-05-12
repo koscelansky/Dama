@@ -227,10 +227,15 @@ export function getSquaresBetween (from, to) {
     let result = []
 
     while (square != null) {
+      if (square === to) {
+        return result
+      }
+
       square = getNextSquare(square, dir)
-      if (square === to) return result
 
       result.push(square)
     }
   }
+
+  return null
 }

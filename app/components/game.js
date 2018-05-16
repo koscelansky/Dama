@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 import MoveSelector from '../containers/move-selector'
-import MovesList from '../containers/moves-list'
+import Footer from '../containers/footer'
 import Player from '../containers/player'
 import WelcomeDlg from '../containers/welcome-dlg'
 
@@ -48,7 +48,7 @@ export default class Game extends Component {
             <MoveSelector />
           </MoveSelectorWrapper>
           <FooterWrapper>
-            <MovesList />
+            <Footer />
           </FooterWrapper>
         </Layout>
       </React.Fragment>

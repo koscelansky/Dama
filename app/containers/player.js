@@ -55,7 +55,7 @@ function mapStateToProps (state, ownProps) {
       }
       case 'ai-minmax': {
         const depth = state[ownProps.color].depth
-        return ['MinMax ' + depth, { depth }]
+        return ['MinMax ', { depth }]
       }
       case 'human': {
         return [state[ownProps.color].name, {}]

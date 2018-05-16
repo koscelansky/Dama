@@ -51,11 +51,11 @@ function mapStateToProps (state, ownProps) {
   const [name, options] = (() => {
     switch (type) {
       case 'ai-random': {
-        return ['Random', {}]
+        return ['Random', { time: null }]
       }
       case 'ai-minmax': {
-        const depth = state[ownProps.color].depth
-        return ['MinMax ', { depth }]
+        const time = state[ownProps.color].time
+        return ['MinMax ', { time }]
       }
       case 'human': {
         return [state[ownProps.color].name, {}]

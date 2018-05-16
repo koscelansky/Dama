@@ -86,13 +86,13 @@ const NameSelect = (props) => {
   )
 }
 
-const DepthSelect = (props) => {
+const TimeSelect = (props) => {
   const {name, value, onChange} = props
 
   return (
     <BlockLabel>
-      Depth:&nbsp;
-      <input type='number' min='1' max='9' name={name} value={value} onChange={onChange} />
+      Time:&nbsp;
+      <input type='number' min='2' max='300' name={name} value={value} onChange={onChange} />
     </BlockLabel>
   )
 }
@@ -105,12 +105,12 @@ class NewGameDlg extends Component {
         white: {
           name: props.white.name,
           type: props.white.type,
-          depth: props.white.depth
+          time: props.white.time
         },
         black: {
           name: props.black.name,
           type: props.black.type,
-          depth: props.black.depth
+          time: props.black.time
         },
         fen: props.fen
       })
@@ -136,9 +136,9 @@ class NewGameDlg extends Component {
       value = this.props.fen
     }
 
-    if (name.endsWith('depth')) {
+    if (name.endsWith('time')) {
       value = parseInt(value)
-      value = isNaN(value) ? 4 : value
+      value = isNaN(value) ? 10 : value
     }
 
     this.setState(({data}) => ({
@@ -177,9 +177,9 @@ class NewGameDlg extends Component {
         }
         case 'ai-minmax': {
           return (
-            <DepthSelect
-              name={color + '.depth'}
-              value={data.getIn([color, 'depth'])}
+            <TimeSelect
+              name={color + '.time'}
+              value={data.getIn([color, 'time'])}
               onChange={this.handleChange}
             />
           )

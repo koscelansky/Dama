@@ -14,8 +14,21 @@ class Ai extends Component {
   componentDidMount () {
     this.worker = work(worker)
     this.worker.onmessage = (e) => {
-      this.props.onMoveCommited(Move.fromJSON(e.data))
+      const data = JSON.parse(e.data)
+
+      if (data.done) {
+        this.props.onMoveCommited(Move.fromJSON(data.value))
+      }
+
+      this.bestMove = data.value
     }
+
+    const { time } = this.props.options
+
+    this.timer = time != null ? setTimeout(() => {
+      this.props.onMoveCommited(Move.fromJSON(this.bestMove))
+    }, time * 1000) : null
+
     this.worker.postMessage({
       board: this.props.board,
       options: this.props.options,
@@ -25,6 +38,7 @@ class Ai extends Component {
 
   componentWillUnmount () {
     this.worker.terminate()
+    this.timer != null && clearTimeout(this.timer)
   }
 
   render () {

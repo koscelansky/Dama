@@ -13,13 +13,13 @@ import { fromFen } from './fen.js'
 const whiteInitialState = {
   type: 'human',
   name: 'Human',
-  depth: 4
+  time: 10
 }
 
 const blackInitialState = {
   type: 'ai-minmax',
   name: 'Human',
-  depth: 4
+  time: 10
 }
 
 const guiInitialState = {

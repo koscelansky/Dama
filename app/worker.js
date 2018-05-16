@@ -13,5 +13,5 @@ self.onmessage = (e) => {
     }
   })(e.data)
 
-  self.postMessage(bestMove.toString())
+  self.postMessage(JSON.stringify(bestMove))
 }

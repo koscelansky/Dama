@@ -1,37 +1,21 @@
 import { getSquaresBetween } from './possible-moves'
 
 export class Move {
-  constructor (type, squares) {
+  constructor (type, squares, huff) {
     this.type = type
     this.squares = squares
-    this.huff = null
+    this.huff = huff != null ? huff : null
   }
 
-  static fromString (str) {
-    const parts = str.split(';')
-
-    let huff = null
-
-    let squaresStr = parts[0]
-    if (parts.length === 2) {
-      squaresStr = parts[1]
-
-      huff = +squaresStr.substring(1)
-    }
-
-    const type = squaresStr.includes('-') ? '-' : 'x'
-    const squares = squaresStr.split(type).map(x => x - 1)
-
-    let move = new Move(type, squares)
-    move.huff = huff
-
-    return move
+  static fromJSON (str) {
+    const data = JSON.parse(str)
+    return new Move(data.type, data.squares, data.huff)
   }
 
   toString () {
-    const huffStr = this.huff != null ? '=' + (this.huff + 1) + ';' : ''
+    const huffStr = this.huff != null ? '-' + (this.huff + 1) + '; ' : ''
 
-    return huffStr + this.squares.map(x => x + 1).join(this.type)
+    return '(' + huffStr + this.squares.map(x => x + 1).join(this.type) + ')'
   }
 
   begin () {

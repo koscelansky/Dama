@@ -14,7 +14,7 @@ class Ai extends Component {
   componentDidMount () {
     this.worker = work(worker)
     this.worker.onmessage = (e) => {
-      this.props.onMoveCommited(Move.fromString(e.data))
+      this.props.onMoveCommited(Move.fromJSON(e.data))
     }
     this.worker.postMessage({
       board: this.props.board,

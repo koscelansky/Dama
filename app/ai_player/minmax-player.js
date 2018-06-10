@@ -1,12 +1,13 @@
 import _ from 'lodash'
 
-import evaluate from './evaluate'
-import { getPossibleMoves } from '../../game_logic/possible-moves'
-import { performMove } from '../../game_logic/perform-move'
+import evaluate from './eval/evaluate'
+import { getPossibleMoves } from '../game_logic/possible-moves'
+import { performMove } from '../game_logic/perform-move'
 
 function negamax (board, depth) {
   if (depth === 0) {
-    return evaluate(board)
+    const evaluation = evaluate(board)
+    return board.turn === 'W' ? evaluation : -evaluation
   }
 
   let max = -Infinity
@@ -36,11 +37,11 @@ export default function * (board, options = {}) {
     const bestMoves = rankedMoves.sort((a, b) => b.rank - a.rank)
       .filter((item, idx, array) => item.rank === array[0].rank)
 
-    const bestMove = bestMoves[_.random(bestMoves.length - 1)].move
+    const best = bestMoves[_.random(bestMoves.length - 1)]
 
-    console.log('Finished depth ' + depth + ' best move ' + bestMove)
+    console.log('Finished depth ' + depth + ' best move ' + best.move + ' value ' + best.rank)
 
-    yield JSON.stringify(bestMove)
+    yield JSON.stringify(best.move)
 
     depth++
   }

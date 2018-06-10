@@ -1,8 +1,8 @@
 /* eslint-env worker */
 import 'babel-polyfill'
 
-import randomPlayer from './ai_player/random/random-player'
-import nimMaxPlayer from './ai_player/minmax/minmax-player'
+import randomPlayer from './ai_player/random-player'
+import nimMaxPlayer from './ai_player/minmax-player'
 
 self.onmessage = (e) => {
   const ai = (data => {

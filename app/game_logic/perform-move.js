@@ -104,8 +104,6 @@ export function performMove (board, move) {
 }
 
 export function getGameResult (board) {
-  const possibleMoves = getPossibleMoves(board)
-
   const { pieces, turn, fifteenMoveRule } = board
 
   if (pieces.find(x => x != null && x[0] === turn) == null) {
@@ -118,6 +116,8 @@ export function getGameResult (board) {
   if (fifteenMoveRule === 30) {
     return GameResult.Draw
   }
+
+  const possibleMoves = getPossibleMoves(board)
 
   if (possibleMoves.length === 0) {
     return GameResult.Draw

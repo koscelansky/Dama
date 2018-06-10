@@ -2,7 +2,7 @@
 import 'babel-polyfill'
 
 import randomPlayer from './ai_player/random-player'
-import nimMaxPlayer from './ai_player/minmax-player'
+import minMaxPlayer from './ai_player/minmax-player'
 
 self.onmessage = (e) => {
   const ai = (data => {
@@ -10,7 +10,7 @@ self.onmessage = (e) => {
       case 'ai-random':
         return randomPlayer(data.board)
       case 'ai-minmax':
-        return nimMaxPlayer(data.board, data.options)
+        return minMaxPlayer(data.board)
     }
   })(e.data)
 

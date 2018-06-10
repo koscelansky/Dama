@@ -103,17 +103,6 @@ const TimeSelect = (props) => {
   )
 }
 
-const AlphaBetaSelect = (props) => {
-  const {name, value, onChange} = props
-
-  return (
-    <BlockLabel>
-      Alpha-Beta pruning:&nbsp;
-      <input type='checkbox' name={name} defaultChecked={value} onChange={onChange} />
-    </BlockLabel>
-  )
-}
-
 class NewGameDlg extends Component {
   constructor (props) {
     super(props)
@@ -122,14 +111,12 @@ class NewGameDlg extends Component {
         white: {
           name: props.white.name,
           type: props.white.type,
-          time: props.white.time,
-          alphaBeta: props.white.alphaBeta
+          time: props.white.time
         },
         black: {
           name: props.black.name,
           type: props.black.type,
-          time: props.black.time,
-          alphaBeta: props.black.alphaBeta
+          time: props.black.time
         },
         fen: props.fen
       })
@@ -195,18 +182,11 @@ class NewGameDlg extends Component {
         }
         case 'ai-minmax': {
           return (
-            <React.Fragment>
-              <TimeSelect
-                name={color + '.time'}
-                value={data.getIn([color, 'time'])}
-                onChange={this.handleChange}
-              />
-              <AlphaBetaSelect
-                name={color + '.alphaBeta'}
-                value={data.getIn([color, 'alphaBeta'])}
-                onChange={this.handleChange}
-              />
-            </React.Fragment>
+            <TimeSelect
+              name={color + '.time'}
+              value={data.getIn([color, 'time'])}
+              onChange={this.handleChange}
+            />
           )
         }
         default: {
@@ -260,14 +240,12 @@ NewGameDlg.propTypes = {
   white: PropTypes.shape({
     name: PropTypes.string,
     type: PropTypes.string,
-    depth: PropTypes.number,
-    alphaBeta: PropTypes.bool
+    depth: PropTypes.number
   }).isRequired,
   black: PropTypes.shape({
     name: PropTypes.string,
     type: PropTypes.string,
-    depth: PropTypes.number,
-    alphaBeta: PropTypes.bool
+    depth: PropTypes.number
   }).isRequired,
   fen: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired

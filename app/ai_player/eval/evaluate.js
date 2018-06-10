@@ -8,13 +8,6 @@ import { GameResult } from '../../game_logic/const'
 // just easy material count, no special handling of kings, so the evaluation may
 // be high even if the playing side actually have two pawns against two kings
 function materialCount (board) {
-  const gameResult = getGameResult(board)
-  switch (gameResult) {
-    case GameResult.WhiteWins: return 100000
-    case GameResult.BlackWins: return -100000
-    case GameResult.Draw: return 0
-  }
-
   // we are still playing
   const { pieces } = board
 
@@ -35,6 +28,13 @@ function materialCount (board) {
 }
 
 export default function evaluate (board, type) {
+  const gameResult = getGameResult(board)
+  switch (gameResult) {
+    case GameResult.WhiteWins: return 100000
+    case GameResult.BlackWins: return -100000
+    case GameResult.Draw: return 0
+  }
+
   switch (type) {
     default:
     case 'material-count': return materialCount(board)

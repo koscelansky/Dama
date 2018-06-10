@@ -54,8 +54,8 @@ function mapStateToProps (state, ownProps) {
         return ['Random', { time: null }]
       }
       case 'ai-minmax': {
-        const time = state[ownProps.color].time
-        return ['MinMax ', { time }]
+        const { time } = state[ownProps.color]
+        return ['MinMax', { time }]
       }
       case 'human': {
         return [state[ownProps.color].name, {}]

@@ -44,13 +44,19 @@ const SubmitGroup = styled.fieldset`
 
 const BlockLabel = styled.label`
   display: flex;
-  align-items: center;
+  align-items: baseline;
 
   input {
-    min-width: 0;
     width: 100%;
+    min-width: 0;
     flex: 1;
     margin: 5px;
+  }
+
+  input[type='checkbox'] {
+    width: auto;
+    flex: none;
+    align-self: center;
   }
 
   select {
@@ -81,7 +87,7 @@ const NameSelect = (props) => {
   return (
     <BlockLabel>
       Name:&nbsp;
-      <input name={name} value={value} onChange={onChange} />
+      <input type='text' name={name} value={value} onChange={onChange} />
     </BlockLabel>
   )
 }
@@ -92,7 +98,18 @@ const TimeSelect = (props) => {
   return (
     <BlockLabel>
       Time:&nbsp;
-      <input type='number' min='2' max='300' name={name} value={value} onChange={onChange} />
+      <input type='number' min='1' max='300' name={name} value={value} onChange={onChange} />
+    </BlockLabel>
+  )
+}
+
+const AlphaBetaSelect = (props) => {
+  const {name, value, onChange} = props
+
+  return (
+    <BlockLabel>
+      Alpha-Beta pruning:&nbsp;
+      <input type='checkbox' name={name} defaultChecked={value} onChange={onChange} />
     </BlockLabel>
   )
 }
@@ -105,12 +122,14 @@ class NewGameDlg extends Component {
         white: {
           name: props.white.name,
           type: props.white.type,
-          time: props.white.time
+          time: props.white.time,
+          alphaBeta: props.white.alphaBeta
         },
         black: {
           name: props.black.name,
           type: props.black.type,
-          time: props.black.time
+          time: props.black.time,
+          alphaBeta: props.black.alphaBeta
         },
         fen: props.fen
       })
@@ -129,7 +148,7 @@ class NewGameDlg extends Component {
 
   handleChange (event) {
     const target = event.target
-    let value = target.value
+    let value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
 
     if (value === '' && name === 'fen') {
@@ -139,13 +158,12 @@ class NewGameDlg extends Component {
     if (name.endsWith('time')) {
       value = parseInt(value)
       value = isNaN(value) ? 10 : value
+      value = Math.clamp(value, 1, 300)
     }
 
     this.setState(({data}) => ({
       data: data.setIn(name.split('.'), value)
     }))
-
-    event.preventDefault()
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -177,11 +195,18 @@ class NewGameDlg extends Component {
         }
         case 'ai-minmax': {
           return (
-            <TimeSelect
-              name={color + '.time'}
-              value={data.getIn([color, 'time'])}
-              onChange={this.handleChange}
-            />
+            <React.Fragment>
+              <TimeSelect
+                name={color + '.time'}
+                value={data.getIn([color, 'time'])}
+                onChange={this.handleChange}
+              />
+              <AlphaBetaSelect
+                name={color + '.alphaBeta'}
+                value={data.getIn([color, 'alphaBeta'])}
+                onChange={this.handleChange}
+              />
+            </React.Fragment>
           )
         }
         default: {
@@ -235,12 +260,14 @@ NewGameDlg.propTypes = {
   white: PropTypes.shape({
     name: PropTypes.string,
     type: PropTypes.string,
-    depth: PropTypes.number
+    depth: PropTypes.number,
+    alphaBeta: PropTypes.bool
   }).isRequired,
   black: PropTypes.shape({
     name: PropTypes.string,
     type: PropTypes.string,
-    depth: PropTypes.number
+    depth: PropTypes.number,
+    alphaBeta: PropTypes.bool
   }).isRequired,
   fen: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired

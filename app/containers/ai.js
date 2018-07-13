@@ -3,16 +3,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import work from 'webworkify'
 
-import worker from '../worker'
 import Spinner from '../components/spinner'
 import { movePiece } from '../actions'
 import { Move } from '../game_logic/move'
 
 class Ai extends Component {
   componentDidMount () {
-    this.worker = work(worker)
+    // hard wired path is not ideal, however I cannot see a simple way
+    // to get current script path from within the browser
+    this.worker = new Worker('./js/generated/worker.js')
     this.worker.onmessage = (e) => {
       const data = JSON.parse(e.data)
 

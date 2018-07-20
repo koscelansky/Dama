@@ -40,6 +40,7 @@ injectGlobal`
     background-color: cornsilk;
     font-family: Tahoma, Geneva, sans-serif;
     min-width: 420px;
+    pagging: 2%;
   }
 
   textarea, input, button, select {

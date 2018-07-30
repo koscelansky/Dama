@@ -12,7 +12,7 @@ class Ai extends Component {
   componentDidMount () {
     // hard wired path is not ideal, however I cannot see a simple way
     // to get current script path from within the browser
-    this.worker = new Worker('./js/generated/worker.js')
+    this.worker = new Worker('./js/generated/worker.min.js')
     this.worker.onmessage = (e) => {
       const data = JSON.parse(e.data)
 

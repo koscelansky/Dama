@@ -6,7 +6,8 @@ module.exports = {
     worker: './app/worker.js'
   },
   output: {
-    path: path.join(__dirname, '/public/js/generated/')
+    path: path.join(__dirname, '/public/js/generated/'),
+    filename: '[name].min.js'
   },
   module: {
     rules: [

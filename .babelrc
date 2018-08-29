@@ -1,12 +1,12 @@
 {
     "presets": [
-        "env",
-        "react"
+        "@babel/preset-env",
+        "@babel/preset-react"
     ],
     "env": {
         "development": {
             "plugins": [
-                "transform-react-jsx-source",
+                "@babel/plugin-transform-react-jsx-source",
                 "transform-inline-environment-variables",
                 "styled-components"
             ]

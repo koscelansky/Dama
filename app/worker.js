@@ -1,5 +1,5 @@
 /* eslint-env worker */
-import 'babel-polyfill'
+import '@babel/polyfill'
 
 import randomPlayer from './ai_player/random-player'
 import minMaxPlayer from './ai_player/minmax-player'

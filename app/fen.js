@@ -108,7 +108,7 @@ export function fromFen (fen) {
     }
   }
 
-  return {turn, pieces, fifteenMoveRule: 0, piecesToHuff}
+  return { turn, pieces, fifteenMoveRule: 0, piecesToHuff }
 }
 
 export function isValidFen (fen) {

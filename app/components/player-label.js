@@ -8,7 +8,7 @@ const PlayerLabel = (props) => {
 
   return (
     <React.Fragment>
-      <div style={{float, width: '1.2em'}}>
+      <div style={{ float, width: '1.2em' }}>
         <Pawn black={props.color === 'black'} />
       </div>
       { props.children }

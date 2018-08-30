@@ -30,8 +30,8 @@ const Square = (props) => {
       <LabelWrapper>
         <SquareLabel>{ label }</SquareLabel>
       </LabelWrapper>
-      <div style={{position: 'absolute', width: '100%'}}>
-        <div style={{margin: '12%', position: 'relative'}}>
+      <div style={{ position: 'absolute', width: '100%' }}>
+        <div style={{ margin: '12%', position: 'relative' }}>
           { props.children }
         </div>
       </div>

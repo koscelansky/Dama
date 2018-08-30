@@ -67,7 +67,7 @@ const BlockLabel = styled.label`
 `
 
 const TypeSelect = (props) => {
-  const {name, value, onChange} = props
+  const { name, value, onChange } = props
 
   return (
     <BlockLabel>
@@ -82,7 +82,7 @@ const TypeSelect = (props) => {
 }
 
 const NameSelect = (props) => {
-  const {name, value, onChange} = props
+  const { name, value, onChange } = props
 
   return (
     <BlockLabel>
@@ -93,7 +93,7 @@ const NameSelect = (props) => {
 }
 
 const TimeSelect = (props) => {
-  const {name, value, onChange} = props
+  const { name, value, onChange } = props
 
   return (
     <BlockLabel>
@@ -148,14 +148,14 @@ class NewGameDlg extends Component {
       value = Math.clamp(value, 1, 300)
     }
 
-    this.setState(({data}) => ({
+    this.setState(({ data }) => ({
       data: data.setIn(name.split('.'), value)
     }))
   }
 
   componentDidUpdate (prevProps, prevState) {
     if (prevProps.fen !== this.props.fen) {
-      this.setState(({data}) => ({
+      this.setState(({ data }) => ({
         data: data.set('fen', this.props.fen)
       }))
     }

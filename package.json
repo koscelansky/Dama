@@ -24,7 +24,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.0",
-    "babel-plugin-styled-components": "^1.5.1",
+    "babel-plugin-styled-components": "^1.6.0",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "electron": "^2.0.8",
     "electron-reload": "^1.2.5",

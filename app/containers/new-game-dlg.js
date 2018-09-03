@@ -145,7 +145,7 @@ class NewGameDlg extends Component {
     if (name.endsWith('time')) {
       value = parseInt(value)
       value = isNaN(value) ? 10 : value
-      value = Math.clamp(value, 1, 300)
+      value = Math.min(300, Math.max(value, 1))
     }
 
     this.setState(({ data }) => ({

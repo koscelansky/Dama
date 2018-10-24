@@ -18,7 +18,7 @@ const PlayerWrapper = styled.div`
 
 const WhitePlayerWrapper = PlayerWrapper
 
-const BlackPlayerWrapper = PlayerWrapper.extend`
+const BlackPlayerWrapper = styled(PlayerWrapper)`
   justify-self: end;
 `
 

@@ -8,7 +8,7 @@ import { logger } from 'redux-logger'
 import { Provider } from 'react-redux'
 import TouchBackend from 'react-dnd-touch-backend'
 import { DragDropContext } from 'react-dnd'
-import { injectGlobal } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 
 import Game from './components/game'
 import damaApp from './reducers'
@@ -35,7 +35,7 @@ export const appState = createStore(damaApp, applyMiddleware(...middlewares))
 
 const AppRoot = DragDropContext(TouchBackend({ enableMouseEvents: true }))(App)
 
-injectGlobal`
+const GlobalStyle = createGlobalStyle`
   body {
     background-color: cornsilk;
     font-family: Tahoma, Geneva, sans-serif;
@@ -51,8 +51,11 @@ injectGlobal`
 `
 
 ReactDOM.render(
-  <Provider store={appState}>
-    <AppRoot />
-  </Provider>,
+  <React.Fragment>
+    <Provider store={appState}>
+      <AppRoot />
+    </Provider>
+    <GlobalStyle />
+  </React.Fragment>,
   document.getElementById('root')
 )

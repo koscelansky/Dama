@@ -30,7 +30,7 @@ const Group = styled.fieldset`
   border-style: solid;
 `
 
-const FenGroup = Group.extend`
+const FenGroup = styled(Group)`
   grid-column-start: 1;
   grid-column-end: span 2;
 `

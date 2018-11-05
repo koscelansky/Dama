@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import SquareLabel from './square-label'
 
 const LabelWrapper = styled.div`
-  font-size: 2.5vw;
   position: absolute;
   right: 0;
   margin: 4% 7%;

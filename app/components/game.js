@@ -12,8 +12,8 @@ const Layout = styled.div`
 `
 
 const PlayerWrapper = styled.div`
-  margin: 5%;
-  font-size: 6vw;
+  margin: 2%;
+  width: 100%;
 `
 
 const WhitePlayerWrapper = PlayerWrapper

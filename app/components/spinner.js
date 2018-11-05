@@ -15,7 +15,6 @@ const Spinner = styled.div`
   border-top: 0.2em solid blue;
   border-radius: 50%;
   box-sizing: border-box;
-  width: 100%;
   animation: ${spin} 2s linear infinite;
 
   &::after {

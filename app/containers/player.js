@@ -10,13 +10,17 @@ import { GameResult } from '../game_logic/const'
 
 const Wrapper = styled.div`
   ${({ active }) => active && `filter: drop-shadow(0 0 2px orange);`}
-  margin: 0.3em 10px 0.5em 10px;
+  margin-left: 0.1em;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: ${props => (props.right ? 'row-reverse' : 'row')};
+  align-items: center;
 `
 
 const AiWrapper = styled.span`
   display: inline-block;
-  width: 1.2em;
-  font-size: 1ex;
+  width: calc(1em + 2vmin);
+  font-size: calc(2vmin + 20px);
   margin: 0 1ex 0 1ex;
 `
 
@@ -26,17 +30,15 @@ class Player extends Component {
 
     let ai = null
     if (turn && type.startsWith('ai-')) {
-      ai = (
-        <AiWrapper>
-          <Ai type={type} options={options} />
-        </AiWrapper>
-      )
+      ai = <Ai type={type} options={options} />
     }
 
     return (
-      <Wrapper active={turn}>
-        { ai }
+      <Wrapper active={turn} right={right}>
         <PlayerLabel color={color} right={right}>{name}</PlayerLabel>
+        <AiWrapper>
+          { ai }
+        </AiWrapper>
       </Wrapper>
     )
   }

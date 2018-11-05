@@ -38,8 +38,8 @@ class CustomDragLayer extends Component {
       zIndex: 100,
       left: 0,
       top: 0,
-      width: '10%',
-      height: '10%'
+      width: '10vmin',
+      height: '10vmin'
     }
 
     return (

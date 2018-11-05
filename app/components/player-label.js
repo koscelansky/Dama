@@ -1,18 +1,34 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 import Pawn from './pawn'
 
-const PlayerLabel = (props) => {
-  const float = props.right ? 'right' : 'left'
+const PlayerFlexBox = styled.div`
+  display: flex;
+  flex-direction: ${props => (props.right ? 'row-reverse' : 'row')};
+  align-items: center;
+  text-align: ${props => (props.right ? 'right' : 'left')};
+`
 
+const PlayerName = styled.div`
+  font-size: calc(1rem + 3vmin);
+`
+
+const PlayerIcon = styled.div`
+  flex-basis: 25%;
+`
+
+const PlayerLabel = (props) => {
   return (
-    <React.Fragment>
-      <div style={{ float, width: '1.2em' }}>
+    <PlayerFlexBox right={props.right}>
+      <PlayerIcon>
         <Pawn black={props.color === 'black'} />
-      </div>
-      { props.children }
-    </React.Fragment>
+      </PlayerIcon>
+      <PlayerName right={props.right}>
+        { props.children }
+      </PlayerName>
+    </PlayerFlexBox>
   )
 }
 

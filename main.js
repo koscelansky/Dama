@@ -19,7 +19,7 @@ function createWindow () {
     width: 800,
     height: 600,
     show: false,
-    minWidth: 480
+    minWidth: 520
   })
 
   mainWindow.loadURL(url.format({

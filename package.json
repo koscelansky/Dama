@@ -29,7 +29,7 @@
     "electron": "^3.0.8",
     "electron-reload": "^1.2.5",
     "standard": "^12.0.1",
-    "stylelint": "9.7.0",
+    "stylelint": "9.7.1",
     "stylelint-config-recommended": "^2.1.0",
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-processor-styled-components": "^1.5.0",

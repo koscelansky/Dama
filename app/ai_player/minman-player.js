@@ -57,9 +57,9 @@ export default function * (board, options) {
 
     const best = bestMoves[_.random(bestMoves.length - 1)]
 
-    console.log('Min max')
-    console.log('Finished depth ' + depth + ' best move ' + best.move + ' value ' + best.rank)
-    console.log(bestMoves)
+    console.log('Min max depth ' + depth + ' best move ' + best.move + ' value ' + best.rank)
+    console.log(bestMoves.map(x => x.move.toString() + '=' + x.rank).join(' '))
+    console.log()
 
     yield JSON.stringify(best.move)
 

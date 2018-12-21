@@ -37,6 +37,8 @@ function getPlayerStatusString (player) {
   const result = (() => {
     if (type === 'human') {
       return JSON.stringify({ type }, null, 1)
+    } else if (type === 'ai-random') {
+      return JSON.stringify({ type }, null, 1)
     } else if (type === 'ai-minmax') {
       return JSON.stringify({ type, ...options }, null, 1)
     }

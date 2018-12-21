@@ -16,7 +16,7 @@ const DivWrapper = styled.div`
 
 class Footer extends Component {
   render () {
-    const { moves, result, fen } = this.props
+    const { moves, result, fen, white, black } = this.props
     const str = moves.join(' ')
 
     return (
@@ -24,23 +24,43 @@ class Footer extends Component {
         <DivWrapper>Result: {result}</DivWrapper>
         <DivWrapper>FEN: {fen}</DivWrapper>
         <DivWrapper>Possible moves: {str}</DivWrapper>
+        <DivWrapper>White: {white}</DivWrapper>
+        <DivWrapper>Black: {black}</DivWrapper>
       </div>
     )
   }
+}
+
+function getPlayerStatusString (player) {
+  const { type, name, ...options } = player
+
+  const result = (() => {
+    if (type === 'human') {
+      return JSON.stringify({ type }, null, 1)
+    } else if (type === 'ai-minmax') {
+      return JSON.stringify({ type, ...options }, null, 1)
+    }
+  })()
+
+  return result.replace(/-/g, String.fromCharCode(8209))
 }
 
 function mapStateToProps (state, ownProps) {
   return {
     result: gameResultSelector(state),
     moves: possibleMovesSelector(state),
-    fen: toFenSelector(state)
+    fen: toFenSelector(state),
+    white: getPlayerStatusString(state.white),
+    black: getPlayerStatusString(state.black)
   }
 }
 
 Footer.propTypes = {
   result: PropTypes.string.isRequired,
   moves: PropTypes.arrayOf(PropTypes.object).isRequired,
-  fen: PropTypes.string.isRequired
+  fen: PropTypes.string.isRequired,
+  black: PropTypes.string,
+  white: PropTypes.string
 }
 
 export default connect(mapStateToProps)(Footer)

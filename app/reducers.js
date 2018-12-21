@@ -14,14 +14,16 @@ const whiteInitialState = {
   type: 'human',
   name: 'Human',
   time: 10,
-  alphaBeta: false
+  alphaBeta: false,
+  evaluate: 'material-count'
 }
 
 const blackInitialState = {
   type: 'ai-minmax',
   name: 'Human',
   time: 10,
-  alphaBeta: false
+  alphaBeta: false,
+  evaluate: 'material-count'
 }
 
 const guiInitialState = {

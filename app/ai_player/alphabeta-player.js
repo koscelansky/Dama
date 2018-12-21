@@ -1,12 +1,20 @@
 import _ from 'lodash'
 
-import evaluate from './eval/evaluate'
+import { materialCount, weightedMaterialCount } from './evaluate'
 import { getPossibleMoves } from '../game_logic/possible-moves'
-import { performMove } from '../game_logic/perform-move'
+import { performMove, getGameResult } from '../game_logic/perform-move'
+import { GameResult } from '../game_logic/const'
 
-function negamax (board, depth, alpha, beta) {
+function negamax (board, depth, alpha, beta, evalFun) {
   if (depth === 0) {
-    const evaluation = evaluate(board)
+    const gameResult = getGameResult(board)
+    switch (gameResult) {
+      case GameResult.WhiteWins: return 100000
+      case GameResult.BlackWins: return -100000
+      case GameResult.Draw: return 0
+    }
+
+    const evaluation = evalFun(board)
     return board.turn === 'W' ? evaluation : -evaluation
   }
 
@@ -14,7 +22,7 @@ function negamax (board, depth, alpha, beta) {
   for (const i of getPossibleMoves(board)) {
     const nextBoard = performMove(board, i)
 
-    const value = -negamax(nextBoard, depth - 1, -beta, -alpha)
+    const value = -negamax(nextBoard, depth - 1, -beta, -alpha, evalFun)
     max = Math.max(value, max)
     alpha = Math.max(alpha, value)
     if (alpha >= beta) {
@@ -25,14 +33,22 @@ function negamax (board, depth, alpha, beta) {
   return max
 }
 
-export default function * (board) {
+export default function * (board, options) {
+  const evalFun = (type => {
+    switch (type) {
+      case 'weighted-material-count': return weightedMaterialCount
+      case 'material-count':
+      default: return materialCount
+    }
+  })(options.evaluate)
+
   let depth = 1
   while (depth < 100) {
     const rankedMoves = []
     for (const i of getPossibleMoves(board)) {
       const nextBoard = performMove(board, i)
 
-      const value = -negamax(nextBoard, depth - 1, -Infinity, Infinity)
+      const value = -negamax(nextBoard, depth - 1, -Infinity, Infinity, evalFun)
       rankedMoves.push({ move: i, rank: value })
     }
 
@@ -42,6 +58,7 @@ export default function * (board) {
 
     const best = bestMoves[_.random(bestMoves.length - 1)]
 
+    console.log('Alpha beta')
     console.log('Finished depth ' + depth + ' best move ' + best.move + ' value ' + best.rank)
     console.log(bestMoves)
 

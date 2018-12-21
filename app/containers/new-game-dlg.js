@@ -103,6 +103,31 @@ const TimeSelect = (props) => {
   )
 }
 
+const EvaluateSelect = (props) => {
+  const { name, value, onChange } = props
+
+  return (
+    <BlockLabel>
+      Type:&nbsp;
+      <select name={name} value={value} onChange={onChange}>
+        <option value='material-count'>Material Count</option>
+        <option value='weighted-material-count'>Weighted</option>
+      </select>
+    </BlockLabel>
+  )
+}
+
+const AlphaBetaCheckBox = (props) => {
+  const { name, value, onChange } = props
+
+  return (
+    <BlockLabel>
+      Alpha Beta Prunnig:&nbsp;
+      <input type='checkbox' name={name} checked={value} onChange={onChange} />
+    </BlockLabel>
+  )
+}
+
 class NewGameDlg extends Component {
   constructor (props) {
     super(props)
@@ -111,12 +136,16 @@ class NewGameDlg extends Component {
         white: {
           name: props.white.name,
           type: props.white.type,
-          time: props.white.time
+          time: props.white.time,
+          alphaBeta: props.white.alphaBeta,
+          evaluate: props.white.evaluate
         },
         black: {
           name: props.black.name,
           type: props.black.type,
-          time: props.black.time
+          time: props.black.time,
+          alphaBeta: props.black.alphaBeta,
+          evaluate: props.black.evaluate
         },
         fen: props.fen
       })
@@ -128,6 +157,8 @@ class NewGameDlg extends Component {
 
   handleSubmit (event) {
     const data = this.state.data
+
+    console.log(data.toJS())
 
     this.props.onSubmit(data.get('white').toJS(), data.get('black').toJS(), data.get('fen'))
     event.preventDefault()
@@ -182,11 +213,23 @@ class NewGameDlg extends Component {
         }
         case 'ai-minmax': {
           return (
-            <TimeSelect
-              name={color + '.time'}
-              value={data.getIn([color, 'time'])}
-              onChange={this.handleChange}
-            />
+            <React.Fragment>
+              <TimeSelect
+                name={color + '.time'}
+                value={data.getIn([color, 'time'])}
+                onChange={this.handleChange}
+              />
+              <EvaluateSelect
+                name={color + '.evaluate'}
+                value={data.getIn([color, 'evaluate'])}
+                onChange={this.handleChange}
+              />
+              <AlphaBetaCheckBox
+                name={color + '.alphaBeta'}
+                value={data.getIn([color, 'alphaBeta'])}
+                onChange={this.handleChange}
+              />
+            </React.Fragment>
           )
         }
         default: {
@@ -240,12 +283,16 @@ NewGameDlg.propTypes = {
   white: PropTypes.shape({
     name: PropTypes.string,
     type: PropTypes.string,
-    depth: PropTypes.number
+    evaluate: PropTypes.string,
+    time: PropTypes.number,
+    alphaBeta: PropTypes.bool
   }).isRequired,
   black: PropTypes.shape({
     name: PropTypes.string,
     type: PropTypes.string,
-    depth: PropTypes.number
+    evaluate: PropTypes.string,
+    time: PropTypes.number,
+    alphaBeta: PropTypes.bool
   }).isRequired,
   fen: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired

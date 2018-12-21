@@ -6,16 +6,19 @@ import { performMove, getGameResult } from '../game_logic/perform-move'
 import { GameResult } from '../game_logic/const'
 
 function negamax (board, depth, alpha, beta, evalFun) {
-  if (depth === 0) {
-    const gameResult = getGameResult(board)
-    switch (gameResult) {
-      case GameResult.WhiteWins: return 100000
-      case GameResult.BlackWins: return -100000
-      case GameResult.Draw: return 0
-    }
+  const gameResult = getGameResult(board)
 
-    const evaluation = evalFun(board)
-    return board.turn === 'W' ? evaluation : -evaluation
+  if (depth === 0 || gameResult !== GameResult.InProgress) {
+    const whiteSideEval = (() => {
+      switch (gameResult) {
+        case GameResult.WhiteWins: return 100000
+        case GameResult.BlackWins: return -100000
+        case GameResult.Draw: return 0
+        default: return evalFun(board)
+      }
+    })()
+
+    return board.turn === 'W' ? whiteSideEval : -whiteSideEval
   }
 
   let max = -Infinity

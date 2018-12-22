@@ -5,8 +5,8 @@ import randomPlayer from './ai_player/random-player'
 import alphaBetaPlayer from './ai_player/alphabeta-player'
 import minmaxPlayer from './ai_player/minman-player'
 
-self.onmessage = (e) => {
-  const ai = (data => {
+export function * GetBestMove (data) {
+  const ai = (() => {
     switch (data.player) {
       case 'ai-random':
         return randomPlayer(data.board, data.options)
@@ -17,14 +17,21 @@ self.onmessage = (e) => {
           return minmaxPlayer(data.board, data.options)
         }
     }
-  })(e.data)
+  })()
 
   while (true) {
     const res = ai.next()
 
-    self.postMessage(JSON.stringify(res))
+    yield JSON.stringify(res)
+
     if (res.done) {
       return
     }
+  }
+}
+
+self.onmessage = (e) => {
+  for (const i of GetBestMove(e.data)) {
+    self.postMessage(i)
   }
 }

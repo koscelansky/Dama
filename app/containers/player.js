@@ -17,11 +17,20 @@ const Wrapper = styled.div`
   align-items: center;
 `
 
-const AiWrapper = styled.span`
-  display: inline-block;
-  width: calc(1em + 2vmin);
+const AiWrapper = styled.div`
+  flex-basis: 20%;
   font-size: calc(2vmin + 20px);
-  margin: 0 1ex 0 1ex;
+`
+
+// it looks like there is no way to do what I need without this, it renders
+// differently in Firefox and Chrome (Electron), it looks like they calculate
+// the width of the spinner very differently (like 5x difference)
+const AiSpinnerMargin = styled.div`
+  margin: 20%;
+`
+
+const PlayerLabelWrapper = styled.div`
+  flex-basis: 80%;
 `
 
 class Player extends Component {
@@ -35,9 +44,13 @@ class Player extends Component {
 
     return (
       <Wrapper active={turn} right={right}>
-        <PlayerLabel color={color} right={right}>{name}</PlayerLabel>
+        <PlayerLabelWrapper>
+          <PlayerLabel color={color} right={right}>{name}</PlayerLabel>
+        </PlayerLabelWrapper>
         <AiWrapper>
-          { ai }
+          <AiSpinnerMargin>
+            { ai }
+          </AiSpinnerMargin>
         </AiWrapper>
       </Wrapper>
     )

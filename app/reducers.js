@@ -8,7 +8,7 @@ import {
 
 import boardInitialState from './game_logic/board-init.js'
 import { performMove } from './game_logic/perform-move.js'
-import { fromFen } from './fen.js'
+import { fromFen, isValidFen } from './fen.js'
 
 const whiteInitialState = {
   type: 'human',
@@ -28,6 +28,11 @@ const blackInitialState = {
 
 const guiInitialState = {
   huffed: null
+}
+
+const historyInitialState = {
+  fen: null,
+  moves: []
 }
 
 function board (state = boardInitialState, action) {
@@ -83,6 +88,25 @@ function gui (state = guiInitialState, action) {
   }
 }
 
+function history (state = historyInitialState, action) {
+  switch (action.type) {
+    case NEW_GAME: {
+      if (isValidFen(action.fen)) {
+        return { fen: action.fen, moves: [] }
+      }
+      return state
+    }
+    case MOVE_PIECE: {
+      const { move } = action
+
+      return { ...state, moves: [...state.moves, move.toString()] }
+    }
+    default: {
+      return state
+    }
+  }
+}
+
 function pageLoad (state = true, action) {
   switch (action.type) {
     case NEW_GAME: {
@@ -99,7 +123,8 @@ const mainReducer = combineReducers({
   board,
   gui,
   white,
-  black
+  black,
+  history
 })
 
 export default mainReducer

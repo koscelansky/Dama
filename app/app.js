@@ -7,7 +7,7 @@ import { applyMiddleware, createStore } from 'redux'
 import { logger } from 'redux-logger'
 import { Provider } from 'react-redux'
 import TouchBackend from 'react-dnd-touch-backend'
-import { DragDropContext } from 'react-dnd'
+import { DndProvider } from 'react-dnd'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import Game from './components/game'
@@ -25,10 +25,12 @@ const ScaledContent = styled.div`
 class App extends Component {
   render () {
     return (
-      <ScaledContent>
-        <Game />
-        <CustomDragLayer />
-      </ScaledContent>
+      <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
+        <ScaledContent>
+          <Game />
+          <CustomDragLayer />
+        </ScaledContent>
+      </DndProvider>
     )
   }
 }
@@ -40,8 +42,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export const appState = createStore(damaApp, applyMiddleware(...middlewares))
-
-const AppRoot = DragDropContext(TouchBackend({ enableMouseEvents: true }))(App)
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -66,7 +66,7 @@ const GlobalStyle = createGlobalStyle`
 ReactDOM.render(
   <React.Fragment>
     <Provider store={appState}>
-      <AppRoot />
+      <App />
     </Provider>
     <GlobalStyle />
   </React.Fragment>,

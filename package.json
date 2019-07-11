@@ -47,7 +47,7 @@
     "react-dnd-touch-backend": "^0.8.3",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
-    "redux": "^4.0.3",
+    "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "reselect": "^4.0.0",
     "styled-components": "^4.3.2"

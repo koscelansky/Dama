@@ -40,7 +40,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "immutable": "^3.8.2",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.14",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dnd": "^9.2.1",

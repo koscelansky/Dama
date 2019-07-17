@@ -98,7 +98,7 @@ function getDirectionForPiece (piece) {
 }
 
 function getSimpleMoves (board) {
-  let result = []
+  const result = []
 
   const { turn, pieces } = board
   for (const [index, piece] of pieces.entries()) {
@@ -139,12 +139,12 @@ function getFirstEnemyInDirection (pieces, position, piece, direction) {
 }
 
 function getCapturesInternal (pieces, position, piece, lastDirection) {
-  let result = []
+  const result = []
 
   for (const dir of getDirectionForPiece(piece)) {
     if (dir === lastDirection) continue // this direcion is forbidden
 
-    let enemyPos = getFirstEnemyInDirection(pieces, position, piece, dir)
+    const enemyPos = getFirstEnemyInDirection(pieces, position, piece, dir)
     if (enemyPos == null) continue // no piece to capture
 
     let landingPos = enemyPos
@@ -155,7 +155,7 @@ function getCapturesInternal (pieces, position, piece, lastDirection) {
 
       result.push([landingPos])
 
-      let newPieces = [...pieces]
+      const newPieces = [...pieces]
       // we removed the piece, this is done by rather big hack, if we just assign
       // null than for multiple captures it will appear as empty and queen could
       // land there, and that is against the rules, as pieces are removed after
@@ -164,10 +164,10 @@ function getCapturesInternal (pieces, position, piece, lastDirection) {
       // forbid this, X is then just a placeholder to make it 2 chars long
       newPieces[enemyPos] = piece[0] + 'X'
 
-      let captures = getCapturesInternal(newPieces, landingPos, piece, getOppositeDirection(dir))
+      const captures = getCapturesInternal(newPieces, landingPos, piece, getOppositeDirection(dir))
 
       if (captures.length !== 0) {
-        for (let i of captures) {
+        for (const i of captures) {
           i.unshift(landingPos)
         }
 
@@ -182,22 +182,22 @@ function getCapturesInternal (pieces, position, piece, lastDirection) {
 }
 
 function getCaptures (board) {
-  let captures = []
+  const captures = []
 
   const { turn, pieces } = board
   for (const [index, piece] of pieces.entries()) {
     if (piece == null || piece[0] !== turn) continue
 
-    let moreCaptures = getCapturesInternal(pieces, index, piece, null)
-    for (let i of moreCaptures) {
+    const moreCaptures = getCapturesInternal(pieces, index, piece, null)
+    for (const i of moreCaptures) {
       i.unshift(index)
     }
 
     captures.push(...moreCaptures)
   }
 
-  let result = []
-  for (let i of captures) {
+  const result = []
+  for (const i of captures) {
     result.push(new Move('x', i))
   }
 
@@ -222,9 +222,9 @@ export function getPossibleMoves (board) {
 }
 
 export function getSquaresBetween (from, to) {
-  for (let dir of [Direction.NE, Direction.NW, Direction.SE, Direction.SW]) {
+  for (const dir of [Direction.NE, Direction.NW, Direction.SE, Direction.SW]) {
     let square = from
-    let result = []
+    const result = []
 
     while (square != null) {
       if (square === to) {

@@ -52,7 +52,7 @@ class DropSquare extends Component {
       </div>
     ) : null
 
-    let fill = number != null ? 'sienna' : 'blanchedalmond'
+    const fill = number != null ? 'sienna' : 'blanchedalmond'
     const label = number != null ? number + 1 : null
 
     return this.props.connectDropTarget(

@@ -65,7 +65,7 @@ export function performMove (board, move) {
     throw new Error('Invalid piece on square ' + move.begin())
   }
 
-  let newPieces = [...board.pieces]
+  const newPieces = [...board.pieces]
   if (move.huff != null) {
     newPieces[move.huff] = null
   }
@@ -76,7 +76,7 @@ export function performMove (board, move) {
     fifteenMoveRule = -1 // reset counter
 
     // remove from board captured piece
-    for (let i of move.getCapturedSquares()) {
+    for (const i of move.getCapturedSquares()) {
       newPieces[i] = null
     }
   }

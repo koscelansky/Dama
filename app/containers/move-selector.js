@@ -54,7 +54,7 @@ class MoveSelector extends Component {
   render () {
     const { readonly, huffed } = this.props
 
-    let pieces = [...this.props.pieces]
+    const pieces = [...this.props.pieces]
     if (huffed != null && huffed >= 0) {
       pieces[huffed] = null
     }

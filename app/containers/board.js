@@ -43,7 +43,7 @@ export default class Board extends Component {
     const { moves } = this.props
     const hint = this.state.hintSquares
 
-    let possibleMoves = moves.filter(x => x.begin() === from && x.end() === to)
+    const possibleMoves = moves.filter(x => x.begin() === from && x.end() === to)
     if (possibleMoves.length === 0) {
       return null
     }
@@ -54,7 +54,7 @@ export default class Board extends Component {
 
     // there are more then one way to go to to squares :)
     // use hint to compute which move is the best match
-    let rankedMoves = possibleMoves.map(move => {
+    const rankedMoves = possibleMoves.map(move => {
       let rank = 0
       let j = 0 // index in hint
       for (const i of move.squares) {
@@ -150,7 +150,7 @@ export default class Board extends Component {
     if (!move) return
 
     const hint = move.end()
-    let hintSquares = [...this.state.hintSquares]
+    const hintSquares = [...this.state.hintSquares]
 
     while (hintSquares.length > 0 &&
       !move.squares.includes(_.last(hintSquares))) {

@@ -5,7 +5,7 @@
 
 export function toFen (state) {
   const getPieces = (color) => {
-    let result = []
+    const result = []
 
     for (const [i, value] of state.pieces.entries()) {
       if (value != null && value[0] === color) {
@@ -36,10 +36,10 @@ export function fromFen (fen) {
   const turn = parts[0]
   if (turn.length !== 1 || (turn[0] !== 'B' && turn[0] !== 'W')) return null
 
-  let pieces = new Array(32).fill(null)
+  const pieces = new Array(32).fill(null)
   let lastColor = null
 
-  for (let i of [1, 2]) {
+  for (const i of [1, 2]) {
     const p = parts[i]
 
     if (p === '') continue
@@ -69,8 +69,8 @@ export function fromFen (fen) {
       if (pieces[pos] !== null) return null
 
       const forbiddenPosForMen = {
-        'B': [0, 1, 2, 3],
-        'W': [28, 29, 30, 31]
+        B: [0, 1, 2, 3],
+        W: [28, 29, 30, 31]
       }[lastColor]
 
       if (type === 'M' && forbiddenPosForMen.includes(pos)) return null
@@ -79,7 +79,7 @@ export function fromFen (fen) {
     }
   }
 
-  let piecesToHuff = []
+  const piecesToHuff = []
   if (parts[3] != null) {
     const p = parts[3]
 
@@ -88,7 +88,7 @@ export function fromFen (fen) {
     }
 
     const positions = p.substring(1).split(',')
-    for (let j of positions) {
+    for (const j of positions) {
       if (j === '') {
         return null
       }

@@ -28,7 +28,7 @@
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "electron": "^5.0.7",
     "electron-reload": "^1.4.1",
-    "standard": "^13.0.2",
+    "standard": "^13.1.0",
     "stylelint": "10.1.0",
     "stylelint-config-recommended": "^2.2.0",
     "stylelint-config-styled-components": "^0.1.1",

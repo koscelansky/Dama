@@ -22,7 +22,7 @@
     "@babel/core": "^7.6.4",
     "@babel/plugin-transform-react-jsx-source": "^7.5.0",
     "@babel/preset-env": "^7.6.3",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-react": "^7.7.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-styled-components": "^1.10.6",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",

@@ -27,11 +27,11 @@ const Square = (props) => {
   return (
     <SquareDiv fill={fill}>
       <LabelWrapper>
-        <SquareLabel>{ label }</SquareLabel>
+        <SquareLabel>{label}</SquareLabel>
       </LabelWrapper>
       <div style={{ position: 'absolute', width: '100%' }}>
         <div style={{ margin: '12%', position: 'relative' }}>
-          { props.children }
+          {props.children}
         </div>
       </div>
     </SquareDiv>

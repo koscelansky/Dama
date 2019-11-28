@@ -58,8 +58,8 @@ class DropSquare extends Component {
     return this.props.connectDropTarget(
       <div>
         <Square label={label} fill={fill}>
-          { this.props.children }
-          { canDropMarker }
+          {this.props.children}
+          {canDropMarker}
         </Square>
       </div>
     )

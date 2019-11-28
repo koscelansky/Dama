@@ -213,7 +213,7 @@ class NewGameDlg extends Component {
         }
         case 'ai-minmax': {
           return (
-            <React.Fragment>
+            <>
               <TimeSelect
                 name={color + '.time'}
                 value={data.getIn([color, 'time'])}
@@ -229,7 +229,7 @@ class NewGameDlg extends Component {
                 value={data.getIn([color, 'alphaBeta'])}
                 onChange={this.handleChange}
               />
-            </React.Fragment>
+            </>
           )
         }
         default: {
@@ -250,7 +250,7 @@ class NewGameDlg extends Component {
             value={data.getIn(['white', 'type'])}
             onChange={this.handleChange}
           />
-          { whiteParams }
+          {whiteParams}
         </Group>
         <Group>
           <legend>Black</legend>
@@ -259,7 +259,7 @@ class NewGameDlg extends Component {
             value={data.getIn(['black', 'type'])}
             onChange={this.handleChange}
           />
-          { blackParams }
+          {blackParams}
         </Group>
         <FenGroup>
           <legend>FEN</legend>

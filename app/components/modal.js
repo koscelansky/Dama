@@ -36,7 +36,7 @@ const Modal = (props) => {
   return (
     <Overlay>
       <Window>
-        { props.children }
+        {props.children}
       </Window>
     </Overlay>
   )

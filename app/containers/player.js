@@ -9,7 +9,7 @@ import { gameResultSelector } from '../selectors'
 import { GameResult } from '../game_logic/const'
 
 const Wrapper = styled.div`
-  ${({ active }) => active && `filter: drop-shadow(0 0 2px orange);`}
+  ${({ active }) => active && 'filter: drop-shadow(0 0 2px orange);'}
   margin-left: 0.1em;
   display: flex;
   justify-content: space-between;
@@ -49,7 +49,7 @@ class Player extends Component {
         </PlayerLabelWrapper>
         <AiWrapper>
           <AiSpinnerMargin>
-            { ai }
+            {ai}
           </AiSpinnerMargin>
         </AiWrapper>
       </Wrapper>

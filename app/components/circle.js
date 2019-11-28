@@ -23,7 +23,7 @@ const Circle = (props) => {
   return (
     <CircleWrapper color={color} blur={blur} shadow={shadow}>
       <div style={{ position: 'absolute', width: '100%' }}>
-        { props.children }
+        {props.children}
       </div>
     </CircleWrapper>
   )

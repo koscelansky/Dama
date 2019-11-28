@@ -15,12 +15,12 @@ const Gridwrapper = styled.div`
 export default class Board extends Component {
   constructor (props) {
     super(props)
-    this.hoverDropSquare = this.hoverDropSquare.bind(this)
-    this.pieceDrop = this.pieceDrop.bind(this)
-    this.pieceClick = this.pieceClick.bind(this)
+    this.handleHoverDropSquare = this.handleHoverDropSquare.bind(this)
+    this.handlePieceDrop = this.handlePieceDrop.bind(this)
+    this.handlePieceClick = this.handlePieceClick.bind(this)
     this.canDragDrop = this.canDragDrop.bind(this)
     this.isMovePossible = this.isMovePossible.bind(this)
-    this.contextMenu = this.contextMenu.bind(this)
+    this.handleContextMenu = this.handleContextMenu.bind(this)
 
     this.state = {
       captureSquares: [],
@@ -89,7 +89,7 @@ export default class Board extends Component {
     return null // still ambiguous
   }
 
-  pieceDrop (from, to) {
+  handlePieceDrop (from, to) {
     try {
       if (this.props.select !== 'move') {
         throw new Error('We should be here!')
@@ -110,7 +110,7 @@ export default class Board extends Component {
     }
   }
 
-  pieceClick (square, events) {
+  handlePieceClick (square, events) {
     const { select, huff } = this.props
 
     if (select === 'huff') {
@@ -122,14 +122,14 @@ export default class Board extends Component {
     }
   }
 
-  contextMenu (e) {
+  handleContextMenu (e) {
     e.preventDefault()
     e.stopPropagation()
 
     this.pieceClick(-1, e)
   }
 
-  hoverDropSquare (from, to) {
+  handleHoverDropSquare (from, to) {
     if (this.props.select !== 'move') {
       throw new Error('We shouldn\'t be here!')
     }
@@ -209,8 +209,8 @@ export default class Board extends Component {
             square={num}
             mark={mark}
             canDrag={canDrag}
-            onPieceDrop={this.pieceDrop}
-            onPieceClick={this.pieceClick}
+            onPieceDrop={this.handlePieceDrop}
+            onPieceClick={this.handlePieceClick}
           />
         )
       }
@@ -220,12 +220,12 @@ export default class Board extends Component {
       <DropSquare
         key={n}
         number={num}
-        onHoverDropSquare={this.hoverDropSquare}
+        onHoverDropSquare={this.handleHoverDropSquare}
         isDropPossible={this.canDragDrop}
         isHinted={this.state.hintSquares.includes(num)}
         isMovePossible={this.isMovePossible}
       >
-        { piece }
+        {piece}
       </DropSquare>
     )
   }
@@ -237,8 +237,8 @@ export default class Board extends Component {
     }
 
     return (
-      <Gridwrapper onContextMenu={this.contextMenu}>
-        { squares }
+      <Gridwrapper onContextMenu={this.handleContextMenu}>
+        {squares}
       </Gridwrapper>
     )
   }

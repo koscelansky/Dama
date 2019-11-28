@@ -64,11 +64,11 @@ const GlobalStyle = createGlobalStyle`
 `
 
 ReactDOM.render(
-  <React.Fragment>
+  <>
     <Provider store={appState}>
       <App />
     </Provider>
     <GlobalStyle />
-  </React.Fragment>,
+  </>,
   document.getElementById('root')
 )

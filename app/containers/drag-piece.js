@@ -11,10 +11,10 @@ const PieceWrapper = styled.div`
   position: absolute;
   width: 100%;
   z-index: 1;
-  ${({ active }) => active && `filter: drop-shadow(0 0 2px orange);`}
+  ${({ active }) => active && 'filter: drop-shadow(0 0 2px orange);'}
 
   &:hover {
-    ${({ active }) => active && `filter: drop-shadow(0 0 5px blue);`}
+    ${({ active }) => active && 'filter: drop-shadow(0 0 5px blue);'}
   }
 `
 
@@ -65,10 +65,10 @@ class DragPiece extends Component {
   constructor (props) {
     super(props)
 
-    this.onClick = this.onClick.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
-  onClick (e) {
+  handleClick (e) {
     e.preventDefault()
     e.stopPropagation()
 
@@ -94,12 +94,13 @@ class DragPiece extends Component {
       <div style={{
         opacity: isDragging ? 0.5 : 1,
         cursor: canDrag ? 'move' : 'default'
-      }}>
+      }}
+      >
         <PieceWrapper active={canDrag && !isDragging}>
           <Piece type={type} />
         </PieceWrapper>
-        <MarkWrapper onClick={this.onClick}>
-          { mark }
+        <MarkWrapper onClick={this.handleClick}>
+          {mark}
         </MarkWrapper>
       </div>
     )

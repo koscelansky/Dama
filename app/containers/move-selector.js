@@ -12,11 +12,11 @@ import { GameResult } from '../game_logic/const'
 class MoveSelector extends Component {
   constructor (props) {
     super(props)
-    this.pieceMove = this.pieceMove.bind(this)
-    this.pieceHuff = this.pieceHuff.bind(this)
+    this.handlePieceMove = this.handlePieceMove.bind(this)
+    this.handlePieceHuff = this.handlePieceHuff.bind(this)
   }
 
-  pieceMove (move) {
+  handlePieceMove (move) {
     // add huff to move
     const huffed = this.state
     if (huffed != null && huffed >= 0) {
@@ -26,7 +26,7 @@ class MoveSelector extends Component {
     this.props.onMoveCommited(move)
   }
 
-  pieceHuff (square) {
+  handlePieceHuff (square) {
     this.props.onPieceHuff(square)
   }
 
@@ -74,8 +74,8 @@ class MoveSelector extends Component {
 
     return (
       <Board
-        onPieceMove={this.pieceMove}
-        onPieceHuff={this.pieceHuff}
+        onPieceMove={this.handlePieceMove}
+        onPieceHuff={this.handlePieceHuff}
         huff={piecesToHuff}
         moves={simpleMoves}
         select={select}

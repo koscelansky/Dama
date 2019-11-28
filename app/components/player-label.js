@@ -26,7 +26,7 @@ const PlayerLabel = (props) => {
         <Pawn black={props.color === 'black'} />
       </PlayerIcon>
       <PlayerName right={props.right}>
-        { props.children }
+        {props.children}
       </PlayerName>
     </PlayerFlexBox>
   )

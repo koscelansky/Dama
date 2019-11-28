@@ -36,7 +36,7 @@ const FooterWrapper = styled.div`
 export default class Game extends Component {
   render () {
     return (
-      <React.Fragment>
+      <>
         <WelcomeDlg />
         <Layout>
           <WhitePlayerWrapper>
@@ -52,7 +52,7 @@ export default class Game extends Component {
             <Footer />
           </FooterWrapper>
         </Layout>
-      </React.Fragment>
+      </>
     )
   }
 }

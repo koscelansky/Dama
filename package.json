@@ -9,7 +9,7 @@
     "start": "electron .",
     "build": "webpack --config webpack.prod.js",
     "watch": "webpack --config webpack.dev.js",
-    "test": "standard && stylelint ./app/**/**.js"
+    "test": "standard && stylelint ./app/**/**.js && webpack --config webpack.prod.js"
   },
   "author": {
     "name": "Peter Koscelansky"

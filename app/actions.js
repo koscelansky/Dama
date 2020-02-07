@@ -38,4 +38,3 @@ export function closeModal () {
     type: CLOSE_MODAL
   }
 }
-

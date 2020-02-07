@@ -117,17 +117,6 @@ const EvaluateSelect = (props) => {
   )
 }
 
-const AlphaBetaCheckBox = (props) => {
-  const { name, value, onChange } = props
-
-  return (
-    <BlockLabel>
-      Alpha Beta Prunnig:&nbsp;
-      <input type='checkbox' name={name} checked={value} onChange={onChange} />
-    </BlockLabel>
-  )
-}
-
 class NewGameDlg extends Component {
   constructor (props) {
     super(props)
@@ -137,14 +126,12 @@ class NewGameDlg extends Component {
           name: props.white.name,
           type: props.white.type,
           time: props.white.time,
-          alphaBeta: props.white.alphaBeta,
           evaluate: props.white.evaluate
         },
         black: {
           name: props.black.name,
           type: props.black.type,
           time: props.black.time,
-          alphaBeta: props.black.alphaBeta,
           evaluate: props.black.evaluate
         },
         fen: props.fen
@@ -224,11 +211,6 @@ class NewGameDlg extends Component {
                 value={data.getIn([color, 'evaluate'])}
                 onChange={this.handleChange}
               />
-              <AlphaBetaCheckBox
-                name={color + '.alphaBeta'}
-                value={data.getIn([color, 'alphaBeta'])}
-                onChange={this.handleChange}
-              />
             </>
           )
         }
@@ -284,15 +266,13 @@ NewGameDlg.propTypes = {
     name: PropTypes.string,
     type: PropTypes.string,
     evaluate: PropTypes.string,
-    time: PropTypes.number,
-    alphaBeta: PropTypes.bool
+    time: PropTypes.number
   }).isRequired,
   black: PropTypes.shape({
     name: PropTypes.string,
     type: PropTypes.string,
     evaluate: PropTypes.string,
-    time: PropTypes.number,
-    alphaBeta: PropTypes.bool
+    time: PropTypes.number
   }).isRequired,
   fen: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired

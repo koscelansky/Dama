@@ -24,7 +24,7 @@
   "devDependencies": {
     "@babel/core": "^7.7.5",
     "@babel/plugin-transform-react-jsx-source": "^7.7.4",
-    "@babel/preset-env": "^7.7.6",
+    "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.7.4",
     "@iconify/icons-cil": "^1.0.0",
     "@iconify/react": "^1.1.1",

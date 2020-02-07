@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
+import { showFen } from '../actions'
+
 import {
   gameResultSelector,
-  possibleMovesSelector,
-  toFenSelector
+  possibleMovesSelector
 } from '../selectors'
 
 const DivWrapper = styled.div`
@@ -15,14 +16,26 @@ const DivWrapper = styled.div`
 `
 
 class Footer extends Component {
+  constructor (props) {
+    super(props)
+    this.handleFenClick = this.handleFenClick.bind(this)
+  }
+
+  handleFenClick (event) {
+    this.props.onFenClick()
+    event.preventDefault()
+  }
+
   render () {
-    const { moves, result, fen, white, black, history } = this.props
+    const { moves, result, white, black, history } = this.props
     const str = moves.join(' ')
 
     return (
       <div>
         <DivWrapper>Result: {result}</DivWrapper>
-        <DivWrapper>FEN: {fen}</DivWrapper>
+        <DivWrapper>
+          <button onClick={this.handleFenClick}>Show FEN</button>
+        </DivWrapper>
         <DivWrapper>Possible moves: {str}</DivWrapper>
         <DivWrapper>White: {white}</DivWrapper>
         <DivWrapper>Black: {black}</DivWrapper>
@@ -63,20 +76,27 @@ function mapStateToProps (state, ownProps) {
   return {
     result: gameResultSelector(state),
     moves: possibleMovesSelector(state),
-    fen: toFenSelector(state),
     white: getPlayerStatusString(state.white),
     black: getPlayerStatusString(state.black),
     history: getMoveHistory(state.history)
   }
 }
 
+function mapDispatchToProps (dispatch) {
+  return {
+    onFenClick: () => {
+      return dispatch(showFen())
+    }
+  }
+}
+
 Footer.propTypes = {
   result: PropTypes.string.isRequired,
   moves: PropTypes.arrayOf(PropTypes.object).isRequired,
-  fen: PropTypes.string.isRequired,
   black: PropTypes.string,
   white: PropTypes.string,
-  history: PropTypes.string
+  history: PropTypes.string,
+  onFenClick: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps)(Footer)
+export default connect(mapStateToProps, mapDispatchToProps)(Footer)

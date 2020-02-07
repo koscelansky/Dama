@@ -6,22 +6,13 @@ import styled from 'styled-components'
 import Modal from '../components/modal'
 import NewGameDlg from './new-game-dlg'
 
-const Caption = styled.h1`
-  grid-column-start: 1;
-  grid-column-end: span 2;
-  place-self: center;
-  margin: 10px 0 10px 0;
-  font-weight: 500;
-`
-
 const WelcomeDlg = (props) => {
   if (!props.show) {
     return null
   }
 
   return (
-    <Modal show>
-      <Caption>Start new game</Caption>
+    <Modal show caption='Start new game'>
       <NewGameDlg />
     </Modal>
   )
@@ -29,7 +20,7 @@ const WelcomeDlg = (props) => {
 
 function mapStateToProps (state, ownProps) {
   return {
-    show: state.pageLoad
+    show: state.pageState === 'new'
   }
 }
 

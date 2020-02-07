@@ -3,7 +3,9 @@ import { combineReducers } from 'redux'
 import {
   MOVE_PIECE,
   GUI_HUFF_PIECE,
-  NEW_GAME
+  NEW_GAME,
+  SHOW_FEN,
+  CLOSE_MODAL
 } from './actions.js'
 
 import boardInitialState from './game_logic/board-init.js'
@@ -14,7 +16,6 @@ const whiteInitialState = {
   type: 'human',
   name: 'Human',
   time: 10,
-  alphaBeta: true,
   evaluate: 'weighted-material-count'
 }
 
@@ -22,7 +23,6 @@ const blackInitialState = {
   type: 'ai-minmax',
   name: 'Human',
   time: 10,
-  alphaBeta: true,
   evaluate: 'weighted-material-count'
 }
 
@@ -107,10 +107,22 @@ function history (state = historyInitialState, action) {
   }
 }
 
-function pageLoad (state = true, action) {
+function pageState (state = 'new', action) {
   switch (action.type) {
     case NEW_GAME: {
-      return false
+      if (state !== 'new' && state !== 'in-progress') {
+        throw new Error('Only new and in progress can be restarted.')
+      }
+      return 'in-progress'
+    }
+    case SHOW_FEN: {
+      return 'show-fen'
+    }
+    case CLOSE_MODAL: {
+      if (state !== 'show-fen') {
+        throw new Error('Currently on show-fen can be closed.')
+      }
+      return 'in-progress'
     }
     default: {
       return state
@@ -119,7 +131,7 @@ function pageLoad (state = true, action) {
 }
 
 const mainReducer = combineReducers({
-  pageLoad,
+  pageState,
   board,
   gui,
   white,

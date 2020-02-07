@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import CloseIcon from './close-icon'
+
 const Overlay = styled.div`
   position: fixed;
   align-items: center;
@@ -19,12 +21,31 @@ const Overlay = styled.div`
 const Window = styled.div`
   background-color: white;
   border-radius: 5px;
-  padding: 30px;
+  padding: 20px;
   z-index: 1001;
   width: 80%;
   min-width: 380px;
   max-width: 600px;
   box-sizing: border-box;
+  position: relative;
+`
+
+const Caption = styled.h1`
+  grid-column-start: 1;
+  grid-column-end: span 2;
+  place-self: center;
+  margin: 0 0 10px 0;
+  font-weight: 500;
+`
+
+const CloseButton = styled.button`
+  width: 5%;
+  position: absolute;
+  right: 15px;
+  top; 15px;
+  border-width: 0;
+  background-color: Transparent;
+  outline: none;
 `
 
 const Modal = (props) => {
@@ -33,17 +54,25 @@ const Modal = (props) => {
     return null
   }
 
+  const close = props.onCloseClick != null
+
   return (
     <Overlay>
       <Window>
-        {props.children}
+        {close && <CloseButton onClick={props.onCloseClick}><CloseIcon /></CloseButton>}
+        <Caption>{props.caption}</Caption>
+        <>
+          {props.children}
+        </>
       </Window>
     </Overlay>
   )
 }
 
 Modal.propTypes = {
-  show: PropTypes.bool
+  show: PropTypes.bool,
+  caption: PropTypes.string,
+  onCloseClick: PropTypes.func
 }
 
 export default Modal

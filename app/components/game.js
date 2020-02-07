@@ -5,6 +5,7 @@ import MoveSelector from '../containers/move-selector'
 import Footer from '../containers/footer'
 import Player from '../containers/player'
 import WelcomeDlg from '../containers/welcome-dlg'
+import FenDlg from '../containers/fen-dlg'
 
 const Layout = styled.div`
   display: grid;
@@ -37,6 +38,7 @@ export default class Game extends Component {
   render () {
     return (
       <>
+        <FenDlg />
         <WelcomeDlg />
         <Layout>
           <WhitePlayerWrapper>

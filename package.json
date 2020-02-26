@@ -27,7 +27,7 @@
     "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
     "@iconify/icons-cil": "^1.0.0",
-    "@iconify/react": "^1.1.1",
+    "@iconify/react": "^1.1.2",
     "babel-loader": "^8.0.6",
     "babel-plugin-styled-components": "^1.10.7",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",

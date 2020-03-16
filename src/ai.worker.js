@@ -1,10 +1,9 @@
 /* eslint-env worker */
-import '@babel/polyfill'
 
 import randomPlayer from './ai_player/random-player'
 import alphaBetaPlayer from './ai_player/alphabeta-player'
 
-export function * GetBestMove (data) {
+function * GetBestMove (data) {
   const ai = (() => {
     switch (data.player) {
       case 'ai-minmax':
@@ -26,6 +25,8 @@ export function * GetBestMove (data) {
   }
 }
 
+// somehow this will fail in production, so this will work around it
+/* eslint-disable no-restricted-globals */
 self.onmessage = (e) => {
   for (const i of GetBestMove(e.data)) {
     self.postMessage(i)

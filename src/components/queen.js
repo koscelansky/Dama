@@ -3,9 +3,12 @@ import PropTypes from 'prop-types'
 
 import Svg from './svg'
 
+import BlackQueen from '../svg/pieces/Chess_qdt45.svg'
+import WhiteQueen from '../svg/pieces/Chess_qlt45.svg'
+
 const Queen = (props) => {
   const { black } = props
-  const pic = './svg/pieces/' + (black ? 'Chess_qdt45.svg' : 'Chess_qlt45.svg')
+  const pic = (black ? BlackQueen : WhiteQueen)
 
   return (
     <Svg data={pic} />

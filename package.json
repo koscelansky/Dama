@@ -8,7 +8,7 @@
     "@testing-library/react": "^10.0.1",
     "@testing-library/user-event": "^10.0.0",
     "immutable": "^4.0.0-rc.12",
-    "react": "^16.13.0",
+    "react": "^16.13.1",
     "react-dnd": "^10.0.2",
     "react-dnd-touch-backend": "^10.0.2",
     "react-dom": "^16.13.0",

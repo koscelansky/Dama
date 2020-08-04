@@ -72,7 +72,8 @@ function mapStateToProps (state, ownProps) {
         const { time, evaluate, alphaBeta } = state[ownProps.color]
         return ['MinMax', { time, evaluate, alphaBeta }]
       }
-      case 'human': {
+      case 'human':
+      default: {
         return [state[ownProps.color].name, {}]
       }
     }

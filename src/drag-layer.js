@@ -25,6 +25,8 @@ class CustomDragLayer extends Component {
     switch (type) {
       case 'PIECE':
         return (<Piece type={item.type} />)
+      default:
+        console.error('Unknow drag type!')
     }
   }
 

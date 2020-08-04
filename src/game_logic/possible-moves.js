@@ -21,9 +21,9 @@ function getOppositeDirection (direction) {
       return Direction.NW
     case Direction.SW:
       return Direction.NE
+    default:
+      throw new Error('Unknow direction!')
   }
-
-  throw new Error('Unknow direction!')
 }
 
 function getNextSquare (square, direction) {

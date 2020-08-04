@@ -10,6 +10,7 @@ const DragMarker = (props) => {
       case 'can-drop-over': return ['red', '0px 0px 10px blue', 1]
       case 'can-drop-hint': return ['blue', '0px 0px 10px blue', 1]
       case 'is-move-possible': return ['red', '0px 0px 6px red', 0.3]
+      default: throw Error('What is your drag marker type?')
     }
   })()
 

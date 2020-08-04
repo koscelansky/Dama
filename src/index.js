@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { applyMiddleware, createStore } from 'redux'
 import { logger } from 'redux-logger'
 import { Provider } from 'react-redux'
-import TouchBackend from 'react-dnd-touch-backend'
+import { TouchBackend } from 'react-dnd-touch-backend'
 import { DndProvider } from 'react-dnd'
 import styled, { createGlobalStyle } from 'styled-components/macro'
 

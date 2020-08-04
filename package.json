@@ -4,21 +4,20 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.1.1",
-    "@testing-library/react": "^10.0.1",
-    "@testing-library/user-event": "^10.0.2",
+    "@testing-library/jest-dom": "^5.11.2",
+    "@testing-library/react": "^10.4.7",
+    "@testing-library/user-event": "^12.1.0",
     "immutable": "^4.0.0-rc.12",
     "react": "^16.13.1",
-    "react-dnd": "^10.0.2",
-    "react-dnd-touch-backend": "^10.0.2",
+    "react-dnd": "^11.1.3",
+    "react-dnd-touch-backend": "^11.1.3",
     "react-dom": "^16.13.1",
-    "react-redux": "^7.2.0",
+    "react-redux": "^7.2.1",
     "react-scripts": "3.4.1",
     "redux-logger": "^3.0.6",
     "reselect": "^4.0.0",
     "styled-components": "^5.1.1",
-    "worker-loader": "^2.0.0",
-    "workerize-loader": "^1.1.0"
+    "worker-loader": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -44,7 +43,7 @@
     ]
   },
   "devDependencies": {
-    "@iconify/icons-cil": "^1.0.0",
+    "@iconify/icons-cil": "^1.0.4",
     "@iconify/react": "^1.1.3",
     "standard": "^14.3.4",
     "stylelint": "^13.6.1",

@@ -17,7 +17,7 @@
     "redux-logger": "^3.0.6",
     "reselect": "^4.0.0",
     "styled-components": "^5.1.1",
-    "worker-loader": "^3.0.0"
+    "worker-loader": "^3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

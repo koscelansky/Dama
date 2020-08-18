@@ -1,65 +1,52 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 
 import { toFenSelector } from '../selectors'
-import { closeModal } from '../actions'
-import Modal from '../components/modal'
 
-const CopyButton = styled.button`
-  display: inline-block;
-`
-
-const Success = styled.span`
-  color: green;
-`
-
-const Failure = styled.span`
-  color: red;
-`
-
-const FenDlg = (props) => {
+const FenDlg = () => {
+  const [show, setShow] = useState(false)
   const [status, setStatus] = useState(null)
 
-  if (!props.show) {
-    return null
-  }
+  const fen = useSelector(state => toFenSelector(state))
 
-  const fen = props.fen
   const copyFen = () => {
     navigator.clipboard.writeText(fen)
       .then(() => setStatus('success'))
       .catch(() => setStatus('failure'))
   }
 
-  const copied = status != null
-  const text = status === 'success'
-    ? (<Success>Copied</Success>)
-    : (<Failure>Failed</Failure>)
+  const text = (() => {
+    switch (status) {
+      case 'success': return <span className='text-success'>Copied</span>
+      case 'failure': return <span className='text-danger'>Failed</span>
+      default: return null
+    }
+  })()
+
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
   return (
-    <Modal show caption='FEN' onCloseClick={props.onClose}>
-      <span>{fen}</span>&nbsp;
-      <CopyButton onClick={copyFen}>Copy</CopyButton>&nbsp;
-      {copied && <span>{text}</span>}
-    </Modal>
+    <>
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>FEN</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Control type='text' placeholder={fen} readOnly />
+          <div className='mt-2'>
+            <Button onClick={copyFen}>Copy</Button>&nbsp;
+            <span className='mx-2 d-inline-block align-middle'>{text}</span>
+          </div>
+        </Modal.Body>
+      </Modal>
+      <Button onClick={handleShow}>Show FEN</Button>
+    </>
   )
-}
-
-function mapStateToProps (state) {
-  return {
-    show: state.pageState === 'show-fen',
-    fen: toFenSelector(state)
-  }
-}
-
-function mapDispatchToProps (dispatch) {
-  return {
-    onClose: () => {
-      return dispatch(closeModal())
-    }
-  }
 }
 
 FenDlg.propTypes = {
@@ -68,4 +55,4 @@ FenDlg.propTypes = {
   onClose: PropTypes.func
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FenDlg)
+export default FenDlg

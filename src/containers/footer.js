@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import { showFen } from '../actions'
+import FenDlg from './fen-dlg'
 
 import {
   gameResultSelector,
@@ -16,16 +16,6 @@ const DivWrapper = styled.div`
 `
 
 class Footer extends Component {
-  constructor (props) {
-    super(props)
-    this.handleFenClick = this.handleFenClick.bind(this)
-  }
-
-  handleFenClick (event) {
-    this.props.onFenClick()
-    event.preventDefault()
-  }
-
   render () {
     const { moves, result, white, black, history } = this.props
     const str = moves.join(' ')
@@ -34,7 +24,7 @@ class Footer extends Component {
       <div>
         <DivWrapper>Result: {result}</DivWrapper>
         <DivWrapper>
-          <button onClick={this.handleFenClick}>Show FEN</button>
+          <FenDlg />
         </DivWrapper>
         <DivWrapper>Possible moves: {str}</DivWrapper>
         <DivWrapper>White: {white}</DivWrapper>
@@ -82,21 +72,12 @@ function mapStateToProps (state, ownProps) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    onFenClick: () => {
-      return dispatch(showFen())
-    }
-  }
-}
-
 Footer.propTypes = {
   result: PropTypes.string.isRequired,
   moves: PropTypes.arrayOf(PropTypes.object).isRequired,
   black: PropTypes.string,
   white: PropTypes.string,
-  history: PropTypes.string,
-  onFenClick: PropTypes.func.isRequired
+  history: PropTypes.string
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Footer)
+export default connect(mapStateToProps)(Footer)

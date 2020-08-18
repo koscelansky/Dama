@@ -3,9 +3,7 @@ import { combineReducers } from 'redux'
 import {
   MOVE_PIECE,
   GUI_HUFF_PIECE,
-  NEW_GAME,
-  SHOW_FEN,
-  CLOSE_MODAL
+  NEW_GAME
 } from './actions.js'
 
 import boardInitialState from './game_logic/board-init.js'
@@ -112,15 +110,6 @@ function pageState (state = 'new', action) {
     case NEW_GAME: {
       if (state !== 'new' && state !== 'in-progress') {
         throw new Error('Only new and in progress can be restarted.')
-      }
-      return 'in-progress'
-    }
-    case SHOW_FEN: {
-      return 'show-fen'
-    }
-    case CLOSE_MODAL: {
-      if (state !== 'show-fen') {
-        throw new Error('Currently on show-fen can be closed.')
       }
       return 'in-progress'
     }

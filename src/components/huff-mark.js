@@ -1,9 +1,11 @@
 import React from 'react'
 import Svg from './svg'
 
-const HuffMark = (props) => {
+import Mark from '../svg/huff-mark.svg'
+
+const HuffMark = () => {
   return (
-    <Svg data='./svg/huff-mark.svg' />
+    <Svg data={Mark} />
   )
 }
 

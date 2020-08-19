@@ -25,7 +25,7 @@ const Window = styled.div`
   z-index: 1001;
   width: 80%;
   min-width: 380px;
-  max-width: 600px;
+  max-width: 1000px;
   box-sizing: border-box;
   position: relative;
 `

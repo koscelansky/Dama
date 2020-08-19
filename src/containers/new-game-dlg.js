@@ -1,83 +1,30 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 import { fromJS } from 'immutable'
+import Form from 'react-bootstrap/Form'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Button from 'react-bootstrap/Button'
 
 import { newGame } from '../actions.js'
 import { toFenSelector } from '../selectors.js'
 import { isValidFen } from '../fen.js'
 
-const FenInput = styled.input.attrs({
-  type: 'text'
-})`
-  width: 100%;
-  color: ${props => props.isDefault ? 'DarkGray' : 'Black'};
-  border-color: ${props => props.isValid ? 'Black' : 'Red'};
-  border-width: 1px;
-`
-
-const Form = styled.form`
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: repeat(2, 1fr);
-`
-
-const Group = styled.fieldset`
-  border-radius: 5px;
-  border-width: 1px;
-  border-color: DarkGray;
-  border-style: solid;
-`
-
-const FenGroup = styled(Group)`
-  grid-column-start: 1;
-  grid-column-end: span 2;
-`
-
-const SubmitGroup = styled.fieldset`
-  grid-column-start: 1;
-  grid-column-end: span 2;
-  justify-self: end;
-  border-width: 0;
-`
-
-const BlockLabel = styled.label`
-  display: flex;
-  align-items: baseline;
-
-  input {
-    width: 100%;
-    min-width: 0;
-    flex: 1;
-    margin: 5px;
-  }
-
-  input[type='checkbox'] {
-    width: auto;
-    flex: none;
-    align-self: center;
-  }
-
-  select {
-    width: 100%;
-    flex: 1;
-    margin: 5px;
-  }
-`
-
 const TypeSelect = (props) => {
   const { name, value, onChange } = props
 
   return (
-    <BlockLabel>
-      Type:&nbsp;
-      <select name={name} value={value} onChange={onChange}>
-        <option value='human'>Human</option>
-        <option value='ai-random'>Random</option>
-        <option value='ai-minmax'>MinMax</option>
-      </select>
-    </BlockLabel>
+    <Form.Group as={Row} controlId='type-select'>
+      <Form.Label column sm='2'>Type</Form.Label>
+      <Col sm='10'>
+        <Form.Control as='select' custom name={name} value={value} onChange={onChange}>
+          <option value='human'>Human</option>
+          <option value='ai-random'>Random</option>
+          <option value='ai-minmax'>MinMax</option>
+        </Form.Control>
+      </Col>
+    </Form.Group>
   )
 }
 
@@ -85,10 +32,12 @@ const NameSelect = (props) => {
   const { name, value, onChange } = props
 
   return (
-    <BlockLabel>
-      Name:&nbsp;
-      <input type='text' name={name} value={value} onChange={onChange} />
-    </BlockLabel>
+    <Form.Group as={Row}>
+      <Form.Label column sm='2'>Name</Form.Label>
+      <Col sm='10'>
+        <Form.Control type='text' name={name} value={value} onChange={onChange} />
+      </Col>
+    </Form.Group>
   )
 }
 
@@ -96,10 +45,12 @@ const TimeSelect = (props) => {
   const { name, value, onChange } = props
 
   return (
-    <BlockLabel>
-      Time:&nbsp;
-      <input type='number' min='1' max='300' name={name} value={value} onChange={onChange} />
-    </BlockLabel>
+    <Form.Group as={Row}>
+      <Form.Label column sm='2'>Time</Form.Label>
+      <Col sm='10'>
+        <Form.Control type='number' min='1' max='300' name={name} value={value} onChange={onChange} />
+      </Col>
+    </Form.Group>
   )
 }
 
@@ -107,13 +58,15 @@ const EvaluateSelect = (props) => {
   const { name, value, onChange } = props
 
   return (
-    <BlockLabel>
-      Type:&nbsp;
-      <select name={name} value={value} onChange={onChange}>
-        <option value='material-count'>Material Count</option>
-        <option value='weighted-material-count'>Weighted</option>
-      </select>
-    </BlockLabel>
+    <Form.Group as={Row}>
+      <Form.Label column sm='2'>Type</Form.Label>
+      <Col sm='10'>
+        <Form.Control as='select' name={name} value={value} onChange={onChange}>
+          <option value='material-count'>Material Count</option>
+          <option value='weighted-material-count'>Weighted</option>
+        </Form.Control>
+      </Col>
+    </Form.Group>
   )
 }
 
@@ -144,8 +97,6 @@ class NewGameDlg extends Component {
 
   handleSubmit (event) {
     const data = this.state.data
-
-    console.log(data.toJS())
 
     this.props.onSubmit(data.get('white').toJS(), data.get('black').toJS(), data.get('fen'))
     event.preventDefault()
@@ -184,7 +135,6 @@ class NewGameDlg extends Component {
 
     const fen = data.get('fen')
 
-    const isFenDefault = fen === this.props.fen
     const isFenValid = isValidFen(fen)
 
     const getParams = (color) => {
@@ -224,38 +174,54 @@ class NewGameDlg extends Component {
     const blackParams = getParams('black')
 
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Group>
-          <legend>White</legend>
-          <TypeSelect
-            name='white.type'
-            value={data.getIn(['white', 'type'])}
-            onChange={this.handleChange}
-          />
-          {whiteParams}
-        </Group>
-        <Group>
-          <legend>Black</legend>
-          <TypeSelect
-            name='black.type'
-            value={data.getIn(['black', 'type'])}
-            onChange={this.handleChange}
-          />
-          {blackParams}
-        </Group>
-        <FenGroup>
-          <legend>FEN</legend>
-          <FenInput
-            name='fen'
-            value={fen}
-            onChange={this.handleChange}
-            isDefault={isFenDefault}
-            isValid={isFenValid}
-          />
-        </FenGroup>
-        <SubmitGroup>
-          <input type='submit' value='OK' />
-        </SubmitGroup>
+      <Form noValidate onSubmit={this.handleSubmit}>
+        <Row>
+          <Col>
+            <Form.Group>
+              <legend>White</legend>
+              <TypeSelect
+                name='white.type'
+                value={data.getIn(['white', 'type'])}
+                onChange={this.handleChange}
+              />
+              {whiteParams}
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group>
+              <legend>Black</legend>
+              <TypeSelect
+                name='black.type'
+                value={data.getIn(['black', 'type'])}
+                onChange={this.handleChange}
+              />
+              {blackParams}
+            </Form.Group>
+          </Col>
+        </Row>
+        <hr />
+        <Form.Group as={Row}>
+          <Form.Label column sm='1'>FEN</Form.Label>
+          <Col sm='11'>
+            <Form.Control
+              type='text'
+              name='fen'
+              value={fen}
+              onChange={this.handleChange}
+              isInvalid={!isFenValid}
+              isValid={isFenValid}
+            />
+          </Col>
+        </Form.Group>
+        <Row>
+          <Col>
+            <Form.Group>
+              <Button variant='primary' type='submit' size='lg' className='float-right'>
+                Start
+              </Button>
+            </Form.Group>
+          </Col>
+        </Row>
       </Form>
     )
   }

@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import React, { Component } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import { applyMiddleware, createStore } from 'redux'
 import { logger } from 'redux-logger'
@@ -21,17 +21,15 @@ const ScaledContent = styled.div`
   margin: 0 auto;
 `
 
-class App extends Component {
-  render () {
-    return (
-      <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
-        <ScaledContent>
-          <Game />
-          <CustomDragLayer />
-        </ScaledContent>
-      </DndProvider>
-    )
-  }
+const App = () => {
+  return (
+    <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
+      <ScaledContent>
+        <Game />
+        <CustomDragLayer />
+      </ScaledContent>
+    </DndProvider>
+  )
 }
 
 const middlewares = []
@@ -55,19 +53,14 @@ const GlobalStyle = createGlobalStyle`
     padding: 1%;
     margin: 0px;
   }
-
-  textarea, input, button, select {
-    font-family: inherit;
-    font-size: inherit;
-  }
 `
 
 ReactDOM.render(
-  <>
+  <React.StrictMode>
     <Provider store={appState}>
       <App />
     </Provider>
     <GlobalStyle />
-  </>,
+  </React.StrictMode>,
   document.getElementById('root')
 )

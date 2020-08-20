@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 
-import Pawn from './pawn'
+import Pawn from '../svg/pawn'
 
 const PlayerFlexBox = styled.div`
   display: flex;

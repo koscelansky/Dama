@@ -4,8 +4,8 @@ import { DragSource } from 'react-dnd'
 import styled from 'styled-components'
 
 import Piece from '../components/piece.js'
-import CaptureMark from '../components/capture-mark.js'
-import HuffMark from '../components/huff-mark.js'
+import CaptureMark from '../svg/capture-mark.js'
+import HuffMark from '../svg/huff-mark.js'
 
 const PieceWrapper = styled.div`
   position: absolute;

@@ -1,12 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Pawn from './pawn'
-import Queen from './queen'
+import Pawn from '../svg/pawn'
+import Queen from '../svg/queen'
 
-const Piece = (props) => {
-  const { type } = props
-
+const Piece = ({ type }) => {
   switch (type) {
     case 'WM': return <Pawn />
     case 'WK': return <Queen />

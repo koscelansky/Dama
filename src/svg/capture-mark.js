@@ -1,9 +1,11 @@
 import React from 'react'
 import Svg from './svg'
 
+import CaptureMarkData from './data/capture-mark.svg'
+
 const CaptureMark = (props) => {
   return (
-    <Svg data='./svg/capture-mark.svg' />
+    <Svg data={CaptureMarkData} />
   )
 }
 

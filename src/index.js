@@ -53,6 +53,10 @@ const GlobalStyle = createGlobalStyle`
     padding: 1%;
     margin: 0px;
   }
+
+  .welcome-dlg {
+    max-width: 50% !important;
+  }
 `
 
 ReactDOM.render(

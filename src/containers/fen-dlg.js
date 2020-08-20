@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import PropTypes from 'prop-types'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -47,12 +46,6 @@ const FenDlg = () => {
       <Button onClick={handleShow}>Show FEN</Button>
     </>
   )
-}
-
-FenDlg.propTypes = {
-  show: PropTypes.bool,
-  fen: PropTypes.string,
-  onClose: PropTypes.func
 }
 
 export default FenDlg

@@ -105,7 +105,7 @@ function history (state = historyInitialState, action) {
   }
 }
 
-function pageState (state = 'new', action) {
+function state (state = 'new', action) {
   switch (action.type) {
     case NEW_GAME: {
       if (state !== 'new' && state !== 'in-progress') {
@@ -120,7 +120,7 @@ function pageState (state = 'new', action) {
 }
 
 const mainReducer = combineReducers({
-  pageState,
+  state,
   board,
   gui,
   white,

@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
 
 import MoveSelector from '../containers/move-selector'
 import Footer from '../containers/footer'
@@ -33,26 +34,28 @@ const FooterWrapper = styled.div`
   grid-column-end: span 2;
 `
 
-export default class Game extends Component {
-  render () {
-    return (
-      <>
-        <WelcomeDlg />
-        <Layout>
-          <WhitePlayerWrapper>
-            <Player color='white' />
-          </WhitePlayerWrapper>
-          <BlackPlayerWrapper>
-            <Player color='black' right />
-          </BlackPlayerWrapper>
-          <MoveSelectorWrapper>
-            <MoveSelector />
-          </MoveSelectorWrapper>
-          <FooterWrapper>
-            <Footer />
-          </FooterWrapper>
-        </Layout>
-      </>
-    )
-  }
+const Game = () => {
+  const showWelcome = useSelector(state => state.state === 'new')
+
+  return (
+    <>
+      <WelcomeDlg show={showWelcome} />
+      <Layout>
+        <WhitePlayerWrapper>
+          <Player color='white' />
+        </WhitePlayerWrapper>
+        <BlackPlayerWrapper>
+          <Player color='black' right />
+        </BlackPlayerWrapper>
+        <MoveSelectorWrapper>
+          <MoveSelector />
+        </MoveSelectorWrapper>
+        <FooterWrapper>
+          <Footer />
+        </FooterWrapper>
+      </Layout>
+    </>
+  )
 }
+
+export default Game

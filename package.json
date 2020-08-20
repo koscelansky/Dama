@@ -46,8 +46,6 @@
     ]
   },
   "devDependencies": {
-    "@iconify/icons-cil": "^1.0.4",
-    "@iconify/react": "^1.1.3",
     "standard": "^14.3.4",
     "stylelint": "^13.6.1",
     "stylelint-config-recommended": "^3.0.0",

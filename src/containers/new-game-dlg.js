@@ -252,7 +252,7 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-function mapStateToProps (state, ownProps) {
+function mapStateToProps (state) {
   return {
     white: state.white,
     black: state.black,

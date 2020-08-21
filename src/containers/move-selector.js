@@ -114,7 +114,7 @@ function mapStateToProps (state, ownProps) {
     pieces: state.board.pieces,
     moves: possibleMovesSelector(state),
     huffed: state.gui.huffed,
-    readonly: state[nextPlayer].type !== 'human' || result !== GameResult.InProgress
+    readonly: state.gameSettings[nextPlayer].type !== 'human' || result !== GameResult.InProgress
   }
 }
 

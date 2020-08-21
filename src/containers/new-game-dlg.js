@@ -6,9 +6,9 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 
-import { newGame } from '../actions.js'
 import { toFenSelector } from '../selectors.js'
 import { isValidFen } from '../fen.js'
+import { newGame } from '../reducers/actions'
 
 const TypeSelect = ({ value, onChange }) => {
   return (
@@ -62,10 +62,10 @@ const EvaluateSelect = ({ value, onChange }) => {
 }
 
 const NewGameDlg = () => {
-  const whiteDef = useSelector(state => state.white)
+  const whiteDef = useSelector(state => state.gameSettings.white)
   const [white, updateWhite] = useImmer(whiteDef)
 
-  const blackDef = useSelector(state => state.black)
+  const blackDef = useSelector(state => state.gameSettings.black)
   const [black, updateBlack] = useImmer(blackDef)
 
   const fenDef = useSelector(state => toFenSelector(state))

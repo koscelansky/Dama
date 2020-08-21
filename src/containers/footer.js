@@ -66,8 +66,8 @@ function mapStateToProps (state, ownProps) {
   return {
     result: gameResultSelector(state),
     moves: possibleMovesSelector(state),
-    white: getPlayerStatusString(state.white),
-    black: getPlayerStatusString(state.black),
+    white: getPlayerStatusString(state.gameSettings.white),
+    black: getPlayerStatusString(state.gameSettings.black),
     history: getMoveHistory(state.history)
   }
 }

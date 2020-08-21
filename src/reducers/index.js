@@ -1,28 +1,15 @@
 import { combineReducers } from 'redux'
 
+import gameSettings from './game-settings'
+
 import {
   MOVE_PIECE,
-  GUI_HUFF_PIECE,
-  NEW_GAME
-} from './actions.js'
+  GUI_HUFF_PIECE
+} from '../actions.js'
 
-import boardInitialState from './game_logic/board-init.js'
-import { performMove } from './game_logic/perform-move.js'
-import { fromFen, isValidFen } from './fen.js'
-
-const whiteInitialState = {
-  type: 'human',
-  name: 'Human',
-  time: 10,
-  evaluate: 'weighted-material-count'
-}
-
-const blackInitialState = {
-  type: 'ai-minmax',
-  name: 'Human',
-  time: 10,
-  evaluate: 'weighted-material-count'
-}
+import boardInitialState from '../game_logic/board-init.js'
+import { performMove } from '../game_logic/perform-move.js'
+import { fromFen, isValidFen } from '../fen.js'
 
 const guiInitialState = {
   huffed: null
@@ -35,8 +22,8 @@ const historyInitialState = {
 
 function board (state = boardInitialState, action) {
   switch (action.type) {
-    case NEW_GAME: {
-      return fromFen(action.fen) || boardInitialState
+    case 'gameSettings/newGame': {
+      return fromFen(action.payload.fen) || boardInitialState
     }
     case MOVE_PIECE: {
       const { move } = action
@@ -49,31 +36,9 @@ function board (state = boardInitialState, action) {
   }
 }
 
-function white (state = whiteInitialState, action) {
-  switch (action.type) {
-    case NEW_GAME: {
-      return action.white
-    }
-    default: {
-      return state
-    }
-  }
-}
-
-function black (state = blackInitialState, action) {
-  switch (action.type) {
-    case NEW_GAME: {
-      return action.black
-    }
-    default: {
-      return state
-    }
-  }
-}
-
 function gui (state = guiInitialState, action) {
   switch (action.type) {
-    case NEW_GAME:
+    case 'gameSettings/newGame':
     case MOVE_PIECE: {
       return guiInitialState
     }
@@ -88,9 +53,9 @@ function gui (state = guiInitialState, action) {
 
 function history (state = historyInitialState, action) {
   switch (action.type) {
-    case NEW_GAME: {
-      if (isValidFen(action.fen)) {
-        return { fen: action.fen, moves: [] }
+    case 'gameSettings/newGame': {
+      if (isValidFen(action.payload.fen)) {
+        return { fen: action.payload.fen, moves: [] }
       }
       return state
     }
@@ -107,7 +72,7 @@ function history (state = historyInitialState, action) {
 
 function state (state = 'new', action) {
   switch (action.type) {
-    case NEW_GAME: {
+    case 'gameSettings/newGame': {
       if (state !== 'new' && state !== 'in-progress') {
         throw new Error('Only new and in progress can be restarted.')
       }
@@ -123,8 +88,7 @@ const mainReducer = combineReducers({
   state,
   board,
   gui,
-  white,
-  black,
+  gameSettings,
   history
 })
 

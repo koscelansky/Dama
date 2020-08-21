@@ -61,7 +61,9 @@ function mapStateToProps (state, ownProps) {
   const colorAbbreviation = ownProps.color === 'white' ? 'W' : 'B'
   const result = gameResultSelector(state)
 
-  const type = state[ownProps.color].type
+  const settings = state.gameSettings
+
+  const type = settings[ownProps.color].type
 
   const [name, options] = (() => {
     switch (type) {
@@ -69,12 +71,12 @@ function mapStateToProps (state, ownProps) {
         return ['Random', { time: null }]
       }
       case 'ai-minmax': {
-        const { time, evaluate, alphaBeta } = state[ownProps.color]
+        const { time, evaluate, alphaBeta } = settings[ownProps.color]
         return ['MinMax', { time, evaluate, alphaBeta }]
       }
       case 'human':
       default: {
-        return [state[ownProps.color].name, {}]
+        return [settings[ownProps.color].name, {}]
       }
     }
   })()
@@ -87,11 +89,6 @@ function mapStateToProps (state, ownProps) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-  }
-}
-
 Player.propTypes = {
   color: PropTypes.oneOf(['black', 'white']),
   type: PropTypes.oneOf(['human', 'ai-random', 'ai-minmax']),
@@ -100,4 +97,4 @@ Player.propTypes = {
   options: PropTypes.any // options passed to ai player
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Player)
+export default connect(mapStateToProps)(Player)

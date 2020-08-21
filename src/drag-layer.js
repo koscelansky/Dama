@@ -1,27 +1,36 @@
 
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { DragLayer } from 'react-dnd'
+import React from 'react'
+import { useDragLayer } from 'react-dnd'
+import styled from 'styled-components/macro'
 
 import Piece from './components/piece'
 
-function getItemStyles (props) {
-  const { currentOffset } = props
-  if (!currentOffset) {
-    return {
-      display: 'none'
-    }
-  }
+const Wrapper = styled.div`
+  position: fixed;
+  pointer-events: none;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 10vmin;
+  height: 10vmin;
+  display: ${props => (props.show ? 'block' : 'none')};
+  ${props => (props.show && `transform: translate(${props.x}px,${props.y}px);`)}
+`
 
-  const { x, y } = currentOffset
+const CustomDragLayer = () => {
+  const {
+    itemType,
+    isDragging,
+    item,
+    offset
+  } = useDragLayer((monitor) => ({
+    item: monitor.getItem(),
+    itemType: monitor.getItemType(),
+    offset: monitor.getSourceClientOffset(),
+    isDragging: monitor.isDragging()
+  }))
 
-  return {
-    transform: `translate(${x}px, ${y}px)`
-  }
-}
-
-class CustomDragLayer extends Component {
-  renderItem (type, item) {
+  const renderItem = (type, item) => {
     switch (type) {
       case 'PIECE':
         return (<Piece type={item.type} />)
@@ -30,47 +39,16 @@ class CustomDragLayer extends Component {
     }
   }
 
-  render () {
-    const { item, itemType, isDragging } = this.props
-    if (!isDragging) return null
+  if (!isDragging) return null
 
-    const layerStyles = {
-      position: 'fixed',
-      pointerEvents: 'none',
-      zIndex: 100,
-      left: 0,
-      top: 0,
-      width: '10vmin',
-      height: '10vmin'
-    }
+  const x = offset ? offset.x : 0
+  const y = offset ? offset.y : 0
 
-    return (
-      <div style={layerStyles}>
-        <div style={getItemStyles(this.props)}>
-          {this.renderItem(itemType, item)}
-        </div>
-      </div>
-    )
-  }
+  return (
+    <Wrapper show={offset != null} x={x} y={y}>
+      {renderItem(itemType, item)}
+    </Wrapper>
+  )
 }
 
-CustomDragLayer.propTypes = {
-  item: PropTypes.object,
-  itemType: PropTypes.string,
-  currentOffset: PropTypes.shape({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired
-  }),
-  isDragging: PropTypes.bool.isRequired
-}
-
-function collect (monitor) {
-  return {
-    item: monitor.getItem(),
-    itemType: monitor.getItemType(),
-    currentOffset: monitor.getSourceClientOffset(),
-    isDragging: monitor.isDragging()
-  }
-}
-
-export default DragLayer(collect)(CustomDragLayer)
+export default CustomDragLayer

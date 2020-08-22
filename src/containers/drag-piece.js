@@ -80,9 +80,6 @@ const DragPiece = ({ canDrag: moveable, onPieceClick, onPieceDrop, square, mark,
 }
 
 DragPiece.propTypes = {
-  connectDragSource: PropTypes.func.isRequired,
-  connectDragPreview: PropTypes.func.isRequired,
-  isDragging: PropTypes.bool.isRequired,
   canDrag: PropTypes.bool.isRequired,
 
   // type of piece (pawn or queen with color)

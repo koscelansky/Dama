@@ -13,8 +13,8 @@ const Wrapper = styled.div`
   top: 0;
   width: 10vmin;
   height: 10vmin;
-  display: ${props => (props.show ? 'block' : 'none')};
-  ${props => (props.show && `transform: translate(${props.x}px,${props.y}px);`)}
+  display: ${({ show }) => (show ? 'block' : 'none')};
+  ${({ show, x, y }) => (show && `transform: translate(${x}px,${y}px);`)}
 `
 
 const CustomDragLayer = () => {

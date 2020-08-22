@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Circle from './circle'
 
-const DragMarker = (props) => {
-  const { type } = props
+const DragMarker = ({ type }) => {
   const [color, shadow, opacity] = (() => {
     switch (type) {
       case 'can-drop': return ['red', '0px 0px 7px red', 1]

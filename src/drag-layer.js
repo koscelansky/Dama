@@ -33,7 +33,7 @@ const CustomDragLayer = () => {
   const renderItem = (type, item) => {
     switch (type) {
       case 'PIECE':
-        return (<Piece type={item.type} />)
+        return (<Piece type={item.piece} />)
       default:
         console.error('Unknow drag type!')
     }

@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { DragSource } from 'react-dnd'
+import { useDrag } from 'react-dnd'
 import styled from 'styled-components'
 
 import Piece from '../components/piece.js'
@@ -11,10 +11,13 @@ const PieceWrapper = styled.div`
   position: absolute;
   width: 100%;
   z-index: 1;
-  ${({ active }) => active && 'filter: drop-shadow(0 0 2px orange);'}
+  ${({ moveable }) => moveable && 'filter: drop-shadow(0 0 2px orange);'}
+
+  opacity: ${({ isDragging }) => (isDragging ? 0.3 : 1)};
+  cursor: ${({ moveable }) => (moveable ? 'move' : 'default')};
 
   &:hover {
-    ${({ active }) => active && 'filter: drop-shadow(0 0 5px blue);'}
+    ${({ moveable }) => moveable && 'filter: drop-shadow(0 0 5px blue);'}
   }
 `
 
@@ -29,82 +32,51 @@ const MarkWrapper = styled.div`
   }
 `
 
-const dragSource = {
-  canDrag (props, monitor) {
-    return props.canDrag
-  },
+const DragPiece = ({ canDrag: moveable, onPieceClick, onPieceDrop, square, mark, type }) => {
+  const [{ isDragging }, drag] = useDrag({
+    item: { square, piece: type, type: 'PIECE' },
+    end: (props, monitor) => {
+      console.log('end')
+      // handling of drop is here because of drop outside of drop targets,
+      // then drop is not called and we need to handle it here, so to make
+      // ot consistent all drops are handled here
+      if (!monitor.didDrop()) {
+        onPieceDrop()
+      } else {
+        onPieceDrop(square, monitor.getDropResult().number)
+      }
+    },
+    canDrag: () => moveable,
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging()
+    })
+  })
 
-  beginDrag (props) {
-    return {
-      type: props.type,
-      square: props.square
-    }
-  },
-
-  endDrag (props, monitor) {
-    // handling of drop is here because of drop outside of drop targets,
-    // then drop is not called and we need to handle it here, so to make
-    // ot consistent all drops are handled here
-    if (!monitor.didDrop()) {
-      props.onPieceDrop()
-    } else {
-      props.onPieceDrop(props.square, monitor.getDropResult().number)
-    }
-  }
-}
-
-function collect (connect, monitor) {
-  return {
-    connectDragSource: connect.dragSource(),
-    connectDragPreview: connect.dragPreview(),
-    isDragging: monitor.isDragging()
-  }
-}
-
-class DragPiece extends Component {
-  constructor (props) {
-    super(props)
-
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  handleClick (e) {
+  const handleClick = (e) => {
     e.preventDefault()
     e.stopPropagation()
 
-    this.props.onPieceClick(this.props.square, e)
+    onPieceClick(square, e)
   }
 
-  render () {
-    const { connectDragSource, isDragging, canDrag, type } = this.props
-
-    if (type == null) {
-      return null
+  const overlay = (() => {
+    switch (mark) {
+      case 'capture': return <CaptureMark />
+      case 'huff': return <HuffMark />
+      default: return null
     }
+  })()
 
-    const mark = (() => {
-      switch (this.props.mark) {
-        case 'capture': return <CaptureMark />
-        case 'huff': return <HuffMark />
-        default: return null
-      }
-    })()
-
-    return connectDragSource(
-      <div style={{
-        opacity: isDragging ? 0.5 : 1,
-        cursor: canDrag ? 'move' : 'default'
-      }}
-      >
-        <PieceWrapper active={canDrag && !isDragging}>
-          <Piece type={type} />
-        </PieceWrapper>
-        <MarkWrapper onClick={this.handleClick}>
-          {mark}
-        </MarkWrapper>
-      </div>
-    )
-  }
+  return (
+    <>
+      <PieceWrapper ref={drag} moveable={moveable} isDragging={isDragging}>
+        <Piece type={type} />
+      </PieceWrapper>
+      <MarkWrapper onClick={handleClick}>
+        {overlay}
+      </MarkWrapper>
+    </>
+  )
 }
 
 DragPiece.propTypes = {
@@ -128,4 +100,4 @@ DragPiece.propTypes = {
   onPieceClick: PropTypes.func.isRequired
 }
 
-export default DragSource('PIECE', dragSource, collect)(DragPiece)
+export default DragPiece

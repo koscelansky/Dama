@@ -8,18 +8,22 @@ const DropSquare = ({ children, number, isHinted, onHoverDropSquare, isMovePossi
   const [{ isOver, canDrop, origin }, drop] = useDrop({
     accept: 'PIECE',
     drop: () => ({ number }),
-    canDrop (_, monitor) {
+    canDrop (item) {
       if (number == null) return false // white squares are no interesting
 
-      const from = monitor.getItem().square
+      const from = item.square
       const to = number
 
       return isDropPossible(from, to)
     },
     hover: (item, monitor) => {
-      if (monitor.getItem() == null) return
+      // this check will ensure we will only call this once, since the react dnd
+      // seems to do this first and than, it will update the collected props.
+      // if it would do it differently, it will break the code, since we will
+      // never get isOver to false
+      if (isOver) return
 
-      const from = monitor.getItem().square
+      const from = item.square
       const to = number
 
       // from == to is there to also reset hints and captures, otherwise

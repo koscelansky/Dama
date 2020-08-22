@@ -32,10 +32,10 @@ const MarkWrapper = styled.div`
   }
 `
 
-const DragPiece = ({ canDrag: moveable, onPieceClick, onPieceDrop, square, mark, type }) => {
+const DragPiece = ({ moveable, onPieceClick, onPieceDrop, square, mark, type }) => {
   const [{ isDragging }, drag] = useDrag({
     item: { square, piece: type, type: 'PIECE' },
-    end: (props, monitor) => {
+    end: (_, monitor) => {
       console.log('end')
       // handling of drop is here because of drop outside of drop targets,
       // then drop is not called and we need to handle it here, so to make
@@ -80,7 +80,8 @@ const DragPiece = ({ canDrag: moveable, onPieceClick, onPieceDrop, square, mark,
 }
 
 DragPiece.propTypes = {
-  canDrag: PropTypes.bool.isRequired,
+  // test whether the piece can move in this turm
+  moveable: PropTypes.bool.isRequired,
 
   // type of piece (pawn or queen with color)
   type: PropTypes.string,

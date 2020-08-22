@@ -4,10 +4,8 @@ import { useDrop } from 'react-dnd'
 import Square from '../components/square'
 import DragMarker from '../components/drag-marker'
 
-const DropSquare = (props) => {
-  const { number, isHinted, onHoverDropSquare, isMovePossible } = props
-
-  const [{ isOver, canDrop, originSquare }, drop] = useDrop({
+const DropSquare = ({ children, number, isHinted, onHoverDropSquare, isMovePossible, isDropPossible }) => {
+  const [{ isOver, canDrop, origin }, drop] = useDrop({
     accept: 'PIECE',
     drop: () => ({ number }),
     canDrop (_, monitor) {
@@ -16,23 +14,23 @@ const DropSquare = (props) => {
       const from = monitor.getItem().square
       const to = number
 
-      return props.isDropPossible(from, to)
+      return isDropPossible(from, to)
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
-      originSquare: monitor.getItem() ? monitor.getItem().square : null
+      origin: monitor.getItem() ? monitor.getItem().square : null
     })
   })
 
   useEffect(() => {
-    const from = originSquare
+    const from = origin
     const to = number
 
     if (isOver) {
       onHoverDropSquare(from, to)
     }
-  }, [isOver])
+  }, [isOver, onHoverDropSquare, number, origin])
 
   const dragMarkerStyle = (() => {
     if (canDrop && isOver) {
@@ -41,7 +39,7 @@ const DropSquare = (props) => {
       return 'can-drop-hint'
     } else if (canDrop) {
       return 'can-drop'
-    } else if (isMovePossible(originSquare, number)) {
+    } else if (isMovePossible(origin, number)) {
       return 'is-move-possible'
     }
 
@@ -60,7 +58,7 @@ const DropSquare = (props) => {
   return (
     <div ref={drop}>
       <Square label={label} fill={fill}>
-        {props.children}
+        {children}
         {canDropMarker}
       </Square>
     </div>

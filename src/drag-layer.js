@@ -14,7 +14,6 @@ const Wrapper = styled.div`
   width: 10vmin;
   height: 10vmin;
   display: ${({ show }) => (show ? 'block' : 'none')};
-  ${({ show, x, y }) => (show && `transform: translate(${x}px,${y}px);`)}
 `
 
 const CustomDragLayer = () => {
@@ -45,7 +44,7 @@ const CustomDragLayer = () => {
   const y = offset ? offset.y : 0
 
   return (
-    <Wrapper show={offset != null} x={x} y={y}>
+    <Wrapper style={{ transform: `translate(${x}px,${y}px)` }} show={offset != null}>
       {renderItem(itemType, item)}
     </Wrapper>
   )

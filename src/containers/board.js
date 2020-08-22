@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import styled from 'styled-components'
@@ -11,8 +11,11 @@ const GridWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(8, 1fr);
 `
-const selectMoves = (from, to, moves, hinted) => {
-  const possibleMoves = moves.filter(x => x.begin() === from && x.end() === to)
+const selectMoves = (from, to, moves, hinted, huffed) => {
+  const possibleMoves = moves
+    .filter(x => x.begin() === from && x.end() === to)
+    .filter(x => x.huff === huffed)
+
   if (possibleMoves.length === 0) {
     return null
   }
@@ -58,13 +61,33 @@ const selectMoves = (from, to, moves, hinted) => {
   return null // still ambiguous
 }
 
-const Board = ({ select, pieces, moves, huff, onPieceMove, onPieceHuff }) => {
+const getPiecesToHuff = (moves) => {
+  return [...new Set(moves.filter(x => x.huff != null).map(x => x.huff))]
+}
+
+const Board = ({ active, pieces, moves, onPieceMove }) => {
   const [captured, setCaptured] = useState([])
   const [hinted, setHinted] = useState([])
 
+  // index of huffed squuare, or null if nothing is huffed
+  const [huffed, setHuffed] = useState(null)
+
+  useEffect(() => {
+    setHuffed(null)
+  }, [moves])
+
+  const allowedHuff = huffed == null ? getPiecesToHuff(moves) : []
+  const displayedPieces = (() => {
+    if (huffed == null) return pieces
+
+    const result = [...pieces]
+    result[huffed] = null
+    return result
+  })()
+
   const handlePieceDrop = (from, to) => {
     try {
-      if (select !== 'move') {
+      if (!active) {
         throw new Error('We should be here!')
       }
 
@@ -72,7 +95,7 @@ const Board = ({ select, pieces, moves, huff, onPieceMove, onPieceHuff }) => {
         return // empty drop
       }
 
-      const move = selectMoves(from, to, moves, hinted)
+      const move = selectMoves(from, to, moves, hinted, huffed)
       if (!move) {
         throw new Error('Ambiguous move selected.')
       }
@@ -85,11 +108,11 @@ const Board = ({ select, pieces, moves, huff, onPieceMove, onPieceHuff }) => {
   }
 
   const handlePieceClick = (square, event) => {
-    if (select === 'huff') {
-      if (huff.includes(square)) {
-        onPieceHuff(square)
+    if (active) {
+      if (allowedHuff.includes(square)) {
+        setHuffed(square)
       } else if (event.button === 2) { // RMB
-        onPieceHuff(-1)
+        setHuffed(null)
       }
     }
   }
@@ -98,21 +121,21 @@ const Board = ({ select, pieces, moves, huff, onPieceMove, onPieceHuff }) => {
     e.preventDefault()
     e.stopPropagation()
 
-    handlePieceClick(-1, e)
+    handlePieceClick(null, e)
   }
 
   const handleHoverDropSquare = (from, to) => {
-    if (select !== 'move') {
+    if (!active) {
       throw new Error("We shouldn't be here!")
     }
 
     if (from === to) {
-      setCaptured([])
-      setHinted([])
+      captured.length !== 0 && setCaptured([])
+      hinted.length !== 0 && setHinted([])
+      return
     }
 
-    const move = selectMoves(from, to, moves, hinted)
-
+    const move = selectMoves(from, to, moves, hinted, huffed)
     const capturedSquares = move ? _.sortBy([...move.getCapturedSquares()]) : []
 
     if (!_.isEqual(capturedSquares, captured)) {
@@ -140,11 +163,11 @@ const Board = ({ select, pieces, moves, huff, onPieceMove, onPieceHuff }) => {
   }
 
   const isDropPossible = (from, to) => {
-    return select === 'move' && !!selectMoves(from, to, moves, hinted)
+    return active && !!selectMoves(from, to, moves, hinted, huffed)
   }
 
   const isMovePossible = (from, to) => {
-    return select === 'move' && !!moves.find(x => (x.begin() === from && x.end() === to))
+    return active && !!moves.find(x => (x.begin() === from && x.end() === to))
   }
 
   const renderSquare = (n) => {
@@ -158,19 +181,19 @@ const Board = ({ select, pieces, moves, huff, onPieceMove, onPieceHuff }) => {
     if (black) {
       num = row * 4 + Math.floor(column / 2)
 
-      const type = pieces[num]
+      const type = displayedPieces[num]
       if (type != null) {
         const mark = (() => {
-          if (select === 'move' && captured.includes(num)) {
+          if (active && captured.includes(num)) {
             return 'capture'
-          } else if (select === 'huff' && huff.includes(num)) {
+          } else if (active && allowedHuff.includes(num)) {
             return 'huff'
           } else {
             return null
           }
         })()
 
-        const moveable = select === 'move' && _.some(moves, x => x.begin() === num)
+        const moveable = active && _.some(moves, x => x.begin() === num)
 
         piece = (
           <DragPiece
@@ -213,12 +236,11 @@ const Board = ({ select, pieces, moves, huff, onPieceMove, onPieceHuff }) => {
 
 Board.propTypes = {
   onPieceMove: PropTypes.func.isRequired,
-  onPieceHuff: PropTypes.func.isRequired,
   moves: PropTypes.arrayOf(PropTypes.object),
   pieces: PropTypes.arrayOf(PropTypes.string).isRequired,
 
   // moves or huff is filled, in case of show board is just readonly
-  select: PropTypes.oneOf(['huff', 'move', 'show']).isRequired
+  active: PropTypes.bool.isRequired
 }
 
 export default Board

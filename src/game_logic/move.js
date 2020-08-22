@@ -42,7 +42,7 @@ export class Move {
     for (let i = 0; i < this.squares.length - 1; ++i) {
       result = result.concat(getSquaresBetween(this.squares[i], this.squares[i + 1]))
     }
-
+    console.log(result)
     return result
   }
 }

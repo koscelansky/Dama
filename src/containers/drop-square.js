@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { useDrop } from 'react-dnd'
 import Square from '../components/square'
@@ -16,21 +16,24 @@ const DropSquare = ({ children, number, isHinted, onHoverDropSquare, isMovePossi
 
       return isDropPossible(from, to)
     },
+    hover: (item, monitor) => {
+      if (monitor.getItem() == null) return
+
+      const from = monitor.getItem().square
+      const to = number
+
+      // from == to is there to also reset hints and captures, otherwise
+      // there is no way how to know we are back to the square we started
+      if (monitor.canDrop() || from === to) {
+        onHoverDropSquare(from, to)
+      }
+    },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
       origin: monitor.getItem() ? monitor.getItem().square : null
     })
   })
-
-  useEffect(() => {
-    const from = origin
-    const to = number
-
-    if (isOver) {
-      onHoverDropSquare(from, to)
-    }
-  }, [isOver, onHoverDropSquare, number, origin])
 
   const dragMarkerStyle = (() => {
     if (canDrop && isOver) {

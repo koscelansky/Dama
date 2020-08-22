@@ -3,17 +3,12 @@ import { combineReducers } from 'redux'
 import gameSettings from './game-settings'
 
 import {
-  MOVE_PIECE,
-  GUI_HUFF_PIECE
+  MOVE_PIECE
 } from '../actions.js'
 
 import boardInitialState from '../game_logic/board-init.js'
 import { performMove } from '../game_logic/perform-move.js'
 import { fromFen, isValidFen } from '../fen.js'
-
-const guiInitialState = {
-  huffed: null
-}
 
 const historyInitialState = {
   fen: null,
@@ -29,21 +24,6 @@ function board (state = boardInitialState, action) {
       const { move } = action
 
       return performMove(state, move)
-    }
-    default: {
-      return state
-    }
-  }
-}
-
-function gui (state = guiInitialState, action) {
-  switch (action.type) {
-    case 'gameSettings/newGame':
-    case MOVE_PIECE: {
-      return guiInitialState
-    }
-    case GUI_HUFF_PIECE: {
-      return { huffed: action.square }
     }
     default: {
       return state
@@ -87,7 +67,6 @@ function state (state = 'new', action) {
 const mainReducer = combineReducers({
   state,
   board,
-  gui,
   gameSettings,
   history
 })

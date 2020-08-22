@@ -227,11 +227,11 @@ export function getSquaresBetween (from, to) {
     const result = []
 
     while (square != null) {
+      square = getNextSquare(square, dir)
+
       if (square === to) {
         return result
       }
-
-      square = getNextSquare(square, dir)
 
       result.push(square)
     }

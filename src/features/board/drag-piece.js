@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useDrag } from 'react-dnd'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
-import Piece from '../components/piece.js'
-import CaptureMark from '../svg/capture-mark.js'
-import HuffMark from '../svg/huff-mark.js'
+import Piece from './piece.js'
+import CaptureMark from '../../svg/capture-mark.js'
+import HuffMark from '../../svg/huff-mark.js'
 
 const PieceWrapper = styled.div`
   position: absolute;

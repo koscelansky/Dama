@@ -11,7 +11,6 @@ import styled, { createGlobalStyle } from 'styled-components/macro'
 
 import Game from './components/game'
 import damaApp from './reducers'
-import CustomDragLayer from './drag-layer'
 
 const ScaledContent = styled.div`
   position: relative;
@@ -26,7 +25,6 @@ const App = () => {
     <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
       <ScaledContent>
         <Game />
-        <CustomDragLayer />
       </ScaledContent>
     </DndProvider>
   )

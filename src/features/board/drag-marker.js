@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Circle from './circle'
+import Circle from '../../components/circle'
 
 const DragMarker = ({ type }) => {
   const [color, shadow, opacity] = (() => {

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Pawn from '../svg/pawn'
-import Queen from '../svg/queen'
+import Pawn from '../../svg/pawn'
+import Queen from '../../svg/queen'
 
 const Piece = ({ type }) => {
   switch (type) {

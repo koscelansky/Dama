@@ -3,7 +3,7 @@ import React from 'react'
 import { useDragLayer } from 'react-dnd'
 import styled from 'styled-components/macro'
 
-import Piece from './components/piece'
+import Piece from './piece'
 
 const Wrapper = styled.div`
   position: fixed;
@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   display: ${({ show }) => (show ? 'block' : 'none')};
 `
 
-const CustomDragLayer = () => {
+const DragLayer = () => {
   const {
     itemType,
     isDragging,
@@ -50,4 +50,4 @@ const CustomDragLayer = () => {
   )
 }
 
-export default CustomDragLayer
+export default DragLayer

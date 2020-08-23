@@ -1,10 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
-import SquareLabel from './square-label'
-
-const LabelWrapper = styled.div`
+const SquareLabel = styled.div`
+  color: white;
+  user-select: none;
+  cursor: default;
   position: absolute;
   right: 0;
   margin: 4% 7%;
@@ -26,9 +27,7 @@ const Square = (props) => {
 
   return (
     <SquareDiv fill={fill}>
-      <LabelWrapper>
-        <SquareLabel>{label}</SquareLabel>
-      </LabelWrapper>
+      <SquareLabel>{label}</SquareLabel>
       <div style={{ position: 'absolute', width: '100%' }}>
         <div style={{ margin: '12%', position: 'relative' }}>
           {props.children}

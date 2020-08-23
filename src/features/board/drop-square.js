@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useDrop } from 'react-dnd'
-import Square from '../components/square'
-import DragMarker from '../components/drag-marker'
+import Square from './square'
+import DragMarker from './drag-marker'
 
 const DropSquare = ({ children, number, isHinted, onHoverDropSquare, isMovePossible, isDropPossible }) => {
   const [{ isOver, canDrop, origin }, drop] = useDrop({
@@ -22,7 +22,7 @@ const DropSquare = ({ children, number, isHinted, onHoverDropSquare, isMovePossi
       // if it would do it differently, it will break the code, since we will
       // never get isOver to false
       if (isOver) return
-
+      console.log('now')
       const from = item.square
       const to = number
 

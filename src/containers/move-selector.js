@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import Board from '../containers/board'
+import Board from '../features/board/board'
 
 import { movePiece } from '../actions'
 import { possibleMovesSelector, gameResultSelector } from '../selectors'

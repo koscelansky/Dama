@@ -2,10 +2,11 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
-import DragPiece from '../containers/drag-piece'
-import DropSquare from '../containers/drop-square'
+import DragLayer from './drag-layer'
+import DragPiece from './drag-piece'
+import DropSquare from './drop-square'
 
 const GridWrapper = styled.div`
   display: grid;
@@ -228,9 +229,12 @@ const Board = ({ active, pieces, moves, onPieceMove }) => {
   }
 
   return (
-    <GridWrapper onContextMenu={handleContextMenu}>
-      {squares}
-    </GridWrapper>
+    <>
+      <DragLayer />
+      <GridWrapper onContextMenu={handleContextMenu}>
+        {squares}
+      </GridWrapper>
+    </>
   )
 }
 

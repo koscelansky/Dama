@@ -3,9 +3,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import Spinner from 'react-bootstrap/spinner'
 
-import Spinner from '../components/spinner'
-import { movePiece } from '../actions'
+import { movePiece } from '../reducers/actions'
 import { Move } from '../game_logic/move'
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -44,7 +44,9 @@ class Ai extends Component {
 
   render () {
     return (
-      <Spinner />
+      <Spinner animation='border' role='status'>
+        <span className='sr-only'>Thinking...</span>
+      </Spinner>
     )
   }
 }

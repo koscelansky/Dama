@@ -19,14 +19,6 @@ const Wrapper = styled.div`
 
 const AiWrapper = styled.div`
   flex-basis: 20%;
-  font-size: calc(2vmin + 20px);
-`
-
-// it looks like there is no way to do what I need without this, it renders
-// differently in Firefox and Chrome (Electron), it looks like they calculate
-// the width of the spinner very differently (like 5x difference)
-const AiSpinnerMargin = styled.div`
-  margin: 20%;
 `
 
 const PlayerLabelWrapper = styled.div`
@@ -48,9 +40,7 @@ class Player extends Component {
           <PlayerLabel color={color} right={right}>{name}</PlayerLabel>
         </PlayerLabelWrapper>
         <AiWrapper>
-          <AiSpinnerMargin>
-            {ai}
-          </AiSpinnerMargin>
+          {ai}
         </AiWrapper>
       </Wrapper>
     )

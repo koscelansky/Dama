@@ -1,34 +1,13 @@
 import { combineReducers } from 'redux'
 
 import gameSettings from './game-settings'
+import board from './board'
 
-import {
-  MOVE_PIECE
-} from '../actions.js'
-
-import boardInitialState from '../game_logic/board-init.js'
-import { performMove } from '../game_logic/perform-move.js'
-import { fromFen, isValidFen } from '../fen.js'
+import { isValidFen } from '../fen.js'
 
 const historyInitialState = {
   fen: null,
   moves: []
-}
-
-function board (state = boardInitialState, action) {
-  switch (action.type) {
-    case 'gameSettings/newGame': {
-      return fromFen(action.payload.fen) || boardInitialState
-    }
-    case MOVE_PIECE: {
-      const { move } = action
-
-      return performMove(state, move)
-    }
-    default: {
-      return state
-    }
-  }
 }
 
 function history (state = historyInitialState, action) {
@@ -39,10 +18,10 @@ function history (state = historyInitialState, action) {
       }
       return state
     }
-    case MOVE_PIECE: {
-      const { move } = action
+    case 'board/movePiece': {
+      const { payload } = action
 
-      return { ...state, moves: [...state.moves, move.toString()] }
+      return { ...state, moves: [...state.moves, payload.toString()] }
     }
     default: {
       return state

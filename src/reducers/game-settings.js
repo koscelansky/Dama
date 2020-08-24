@@ -20,9 +20,7 @@ const gameSettings = createSlice({
   reducers: {
     newGame: {
       reducer: (state, action) => {
-        state.white = action.payload.white
-        state.black = action.payload.black
-        state.fen = action.payload.fen
+        return action.payload
       },
       prepare: (white, black, fen) => ({ payload: { white, black, fen } })
     }

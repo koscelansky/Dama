@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 const Svg = styled.object.attrs({
   type: 'image/svg+xml'

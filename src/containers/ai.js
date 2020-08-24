@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Spinner from 'react-bootstrap/spinner'
+import Spinner from 'react-bootstrap/Spinner'
 
 import { movePiece } from '../reducers/actions'
 import { Move } from '../game_logic/move'

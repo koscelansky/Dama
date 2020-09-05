@@ -19,7 +19,7 @@
     "react-scripts": "3.4.3",
     "redux-logger": "^3.0.6",
     "reselect": "^4.0.0",
-    "styled-components": "^5.1.1",
+    "styled-components": "^5.2.0",
     "use-immer": "^0.4.1",
     "worker-loader": "^3.0.1"
   },

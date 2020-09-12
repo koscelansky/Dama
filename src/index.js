@@ -46,7 +46,6 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: cornsilk;
-    font-family: Tahoma, Geneva, sans-serif;
     min-width: 420px;
     padding: 1%;
     margin: 0px;

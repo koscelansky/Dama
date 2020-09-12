@@ -1,7 +1,6 @@
 
 import React from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Board from '../features/board'
 
@@ -9,10 +8,21 @@ import { movePiece } from '../reducers/actions'
 import { possibleMovesSelector, gameResultSelector } from '../selectors'
 import { GameResult } from '../game_logic/const'
 
-const MoveSelector = ({ onMoveCommited, moves, pieces, readonly }) => {
+const MoveSelector = () => {
+  const dispatch = useDispatch()
+
   const handlePieceMove = (move) => {
-    onMoveCommited(move)
+    dispatch(movePiece(move))
   }
+
+  const moves = useSelector(possibleMovesSelector)
+  const pieces = useSelector(state => state.board.pieces)
+  const readonly = useSelector(state => {
+    const player = state.board.turn === 'W' ? 'white' : 'black'
+    const result = gameResultSelector(state)
+
+    return state.gameSettings[player].type !== 'human' || result !== GameResult.InProgress
+  })
 
   return (
     <Board
@@ -24,30 +34,4 @@ const MoveSelector = ({ onMoveCommited, moves, pieces, readonly }) => {
   )
 }
 
-MoveSelector.propTypes = {
-  onMoveCommited: PropTypes.func.isRequired,
-  moves: PropTypes.arrayOf(PropTypes.object),
-  pieces: PropTypes.arrayOf(PropTypes.string),
-  readonly: PropTypes.bool
-}
-
-function mapDispatchToProps (dispatch) {
-  return {
-    onMoveCommited: (move) => {
-      return dispatch(movePiece(move))
-    }
-  }
-}
-
-function mapStateToProps (state, ownProps) {
-  const nextPlayer = state.board.turn === 'W' ? 'white' : 'black'
-  const result = gameResultSelector(state)
-
-  return {
-    pieces: state.board.pieces,
-    moves: possibleMovesSelector(state),
-    readonly: state.gameSettings[nextPlayer].type !== 'human' || result !== GameResult.InProgress
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MoveSelector)
+export default MoveSelector

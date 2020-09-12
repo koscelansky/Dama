@@ -19,14 +19,14 @@ const PlayerIcon = styled.div`
   flex-basis: 25%;
 `
 
-const PlayerLabel = (props) => {
+const PlayerLabel = ({ color, right, children }) => {
   return (
-    <PlayerFlexBox right={props.right}>
+    <PlayerFlexBox right={right}>
       <PlayerIcon>
-        <Pawn black={props.color === 'black'} />
+        <Pawn black={color === 'black'} />
       </PlayerIcon>
-      <PlayerName right={props.right}>
-        {props.children}
+      <PlayerName right={right}>
+        {children}
       </PlayerName>
     </PlayerFlexBox>
   )

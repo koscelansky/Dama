@@ -26,15 +26,15 @@ const Game = () => {
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col className='px-0'>
             <MoveSelector />
           </Col>
-          <Col sm='auto'>
+          <Col sm='3' className='pr-0 pl-1'>
             <History />
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col className='px-0'>
             <Footer />
           </Col>
         </Row>

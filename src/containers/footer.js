@@ -17,7 +17,7 @@ const DivWrapper = styled.div`
 
 class Footer extends Component {
   render () {
-    const { moves, result, white, black, history } = this.props
+    const { moves, result, white, black } = this.props
     const str = moves.join(' ')
 
     return (
@@ -29,7 +29,6 @@ class Footer extends Component {
         <DivWrapper>Possible moves: {str}</DivWrapper>
         <DivWrapper>White: {white}</DivWrapper>
         <DivWrapper>Black: {black}</DivWrapper>
-        <DivWrapper>History: {history}</DivWrapper>
       </div>
     )
   }
@@ -51,19 +50,12 @@ function getPlayerStatusString (player) {
   return result.replace(/-/g, String.fromCharCode(8209))
 }
 
-function getMoveHistory (history) {
-  const movesList = history.join(' ')
-
-  return 'Moves: ' + movesList + '.'
-}
-
 function mapStateToProps (state, ownProps) {
   return {
     result: gameResultSelector(state),
     moves: possibleMovesSelector(state),
     white: getPlayerStatusString(state.gameSettings.white),
-    black: getPlayerStatusString(state.gameSettings.black),
-    history: getMoveHistory(state.moveHistory)
+    black: getPlayerStatusString(state.gameSettings.black)
   }
 }
 
@@ -71,8 +63,7 @@ Footer.propTypes = {
   result: PropTypes.string.isRequired,
   moves: PropTypes.arrayOf(PropTypes.object).isRequired,
   black: PropTypes.string,
-  white: PropTypes.string,
-  history: PropTypes.string
+  white: PropTypes.string
 }
 
 export default connect(mapStateToProps)(Footer)

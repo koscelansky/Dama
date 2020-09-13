@@ -17,3 +17,8 @@ export const gameResultSelector = createSelector(
   state => state.board,
   board => getGameResult(board)
 )
+
+export const firstPlayer = createSelector(
+  state => state.gameSettings.fen,
+  fen => fen[0]
+)

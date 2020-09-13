@@ -8,6 +8,7 @@ import MoveSelector from '../containers/move-selector'
 import Footer from '../containers/footer'
 import Player from '../containers/player'
 import WelcomeDlg from '../containers/welcome-dlg'
+import History from '../features/history'
 
 const Game = () => {
   const showWelcome = useSelector(state => state.state === 'new')
@@ -27,6 +28,9 @@ const Game = () => {
         <Row>
           <Col>
             <MoveSelector />
+          </Col>
+          <Col sm='auto'>
+            <History />
           </Col>
         </Row>
         <Row>

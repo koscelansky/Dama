@@ -52,14 +52,9 @@ function getPlayerStatusString (player) {
 }
 
 function getMoveHistory (history) {
-  const { fen, moves } = history
-  const movesList = moves.join(' ')
+  const movesList = history.join(' ')
 
-  if (fen != null) {
-    return 'Initial FEN ' + fen + ' moves: ' + movesList + '.'
-  } else {
-    return 'Moves: ' + movesList + '.'
-  }
+  return 'Moves: ' + movesList + '.'
 }
 
 function mapStateToProps (state, ownProps) {
@@ -68,7 +63,7 @@ function mapStateToProps (state, ownProps) {
     moves: possibleMovesSelector(state),
     white: getPlayerStatusString(state.gameSettings.white),
     black: getPlayerStatusString(state.gameSettings.black),
-    history: getMoveHistory(state.history)
+    history: getMoveHistory(state.moveHistory)
   }
 }
 

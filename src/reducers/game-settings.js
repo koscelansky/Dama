@@ -11,7 +11,7 @@ const gameSettings = createSlice({
     },
     black: {
       type: 'ai-minmax',
-      name: 'Human',
+      name: 'AI',
       time: 10,
       evaluate: 'weighted-material-count'
     },
@@ -19,9 +19,7 @@ const gameSettings = createSlice({
   },
   reducers: {
     newGame: {
-      reducer: (state, action) => {
-        return action.payload
-      },
+      reducer: (_, action) => action.payload,
       prepare: (white, black, fen) => ({ payload: { white, black, fen } })
     }
   }

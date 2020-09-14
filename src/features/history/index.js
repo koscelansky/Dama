@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Table from 'react-bootstrap/Table'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 import styled from 'styled-components/macro'
 
 import { firstPlayer } from '../../selectors'
@@ -16,6 +18,27 @@ const MovesTable = styled(Table)`
   }
 `
 
+const MoveCell = ({ children }) => {
+  const ref = useRef()
+  const [show, setShow] = useState(false)
+
+  useLayoutEffect(() => {
+    if (ref.current) {
+      const current = ref.current
+
+      setShow(current.offsetWidth < current.scrollWidth)
+    }
+  }, [children])
+
+  const trigger = show ? ['hover', 'focus'] : []
+
+  return (
+    <OverlayTrigger trigger={trigger} overlay={<Tooltip>{children}</Tooltip>}>
+      <td className='text-truncate' ref={ref}>{children}</td>
+    </OverlayTrigger>
+  )
+}
+
 const History = () => {
   const moves = [...useSelector(state => state.moveHistory)]
 
@@ -29,8 +52,8 @@ const History = () => {
     rows.push(
       <tr key={i}>
         <td>{i + 1}</td>
-        <td>{moves[i * 2].toString()}</td>
-        <td>{(moves[i * 2 + 1] || '').toString()}</td>
+        <MoveCell>{moves[i * 2].toString()}</MoveCell>
+        <MoveCell>{(moves[i * 2 + 1] || '').toString()}</MoveCell>
       </tr>
     )
   }

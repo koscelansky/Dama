@@ -22,7 +22,7 @@ const DropSquare = ({ children, number, isHinted, onHoverDropSquare, isMovePossi
       // if it would do it differently, it will break the code, since we will
       // never get isOver to false
       if (isOver) return
-      console.log('now')
+
       const from = item.square
       const to = number
 

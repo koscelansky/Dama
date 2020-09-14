@@ -36,7 +36,6 @@ const DragPiece = ({ moveable, onPieceClick, onPieceDrop, square, mark, type }) 
   const [{ isDragging }, drag] = useDrag({
     item: { square, piece: type, type: 'PIECE' },
     end: (_, monitor) => {
-      console.log('end')
       // handling of drop is here because of drop outside of drop targets,
       // then drop is not called and we need to handle it here, so to make
       // ot consistent all drops are handled here

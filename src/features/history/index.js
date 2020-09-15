@@ -8,7 +8,6 @@ import styled from 'styled-components/macro'
 import { firstPlayer } from '../../selectors'
 
 const MovesTable = styled(Table)`
-  background-color: var(--white);
   table-layout: fixed;
   td, th {
     padding: 0.15rem;
@@ -16,6 +15,12 @@ const MovesTable = styled(Table)`
   th {
     text-align: center;
   }
+`
+
+const Background = styled.div`
+  background-color: var(--light);
+  height: 100%;
+  width: 100%;
 `
 
 const MoveCell = ({ children }) => {
@@ -59,18 +64,20 @@ const History = () => {
   }
 
   return (
-    <MovesTable striped bordered hover size='sm'>
-      <thead>
-        <tr>
-          <th style={{ width: '16%' }}>#</th>
-          <th style={{ width: '42%' }}>White</th>
-          <th style={{ width: '42%' }}>Black</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows}
-      </tbody>
-    </MovesTable>
+    <Background>
+      <MovesTable striped hover size='sm'>
+        <thead>
+          <tr>
+            <th style={{ width: '16%' }}>#</th>
+            <th style={{ width: '42%' }}>White</th>
+            <th style={{ width: '42%' }}>Black</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows}
+        </tbody>
+      </MovesTable>
+    </Background>
   )
 }
 

@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { applyMiddleware, createStore } from 'redux'
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { logger } from 'redux-logger'
 import { Provider } from 'react-redux'
 import { TouchBackend } from 'react-dnd-touch-backend'
@@ -10,7 +10,7 @@ import { DndProvider } from 'react-dnd'
 import styled, { createGlobalStyle } from 'styled-components/macro'
 
 import Game from './components/game'
-import damaApp from './reducers'
+import reducer from './reducers'
 
 const ScaledContent = styled.div`
   position: relative;
@@ -30,13 +30,17 @@ const App = () => {
   )
 }
 
-const middlewares = []
+const middleware = [...getDefaultMiddleware()]
 
 if (process.env.NODE_ENV === 'development') {
-  middlewares.push(logger)
+  middleware.push(logger)
 }
 
-export const appState = createStore(damaApp, applyMiddleware(...middlewares))
+export const appState = configureStore({
+  reducer,
+  middleware,
+  devTools: process.env.NODE_ENV !== 'production'
+})
 
 const GlobalStyle = createGlobalStyle`
   html {

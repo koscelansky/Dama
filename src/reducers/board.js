@@ -14,7 +14,7 @@ const board = createSlice({
     }
   },
   extraReducers: {
-    [newGame]: (state, action) => {
+    [newGame]: (_, action) => {
       return fromFen(action.payload.fen) || boardInitialState
     }
   }

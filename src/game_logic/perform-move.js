@@ -1,5 +1,6 @@
-import { GameResult } from './const.js'
-import { getPossibleMoves, getSquaresBetween } from './possible-moves.js'
+import { GameResult } from './const'
+import { getPossibleMoves, getSquaresBetween } from './possible-moves'
+import { Move } from './move'
 
 function getPiecesToHuff (board, move) {
   const possibleMoves = getPossibleMoves(board).filter(x => x.huff === move.huff)
@@ -56,7 +57,10 @@ function getPiecesToHuff (board, move) {
   return []
 }
 
-export function performMove (board, move) {
+export function performMove (board, moveObj) {
+  console.log(moveObj)
+  const move = Move.fromJSObj(moveObj)
+
   const { pieces, turn } = board
   let { fifteenMoveRule } = board
 

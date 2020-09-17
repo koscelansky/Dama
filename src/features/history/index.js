@@ -5,6 +5,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import styled from 'styled-components/macro'
 
+import { Move } from '../../game_logic/move'
 import { firstPlayer } from '../../selectors'
 
 const MovesTable = styled(Table)`
@@ -57,8 +58,8 @@ const History = () => {
     rows.push(
       <tr key={i}>
         <td>{i + 1}</td>
-        <MoveCell>{moves[i * 2].toString()}</MoveCell>
-        <MoveCell>{(moves[i * 2 + 1] || '').toString()}</MoveCell>
+        <MoveCell>{Move.fromJSObj(moves[i * 2]).toString()}</MoveCell>
+        <MoveCell>{moves[i * 2 + 1] ? Move.fromJSObj(moves[i * 2 + 1]).toString() : ''}</MoveCell>
       </tr>
     )
   }

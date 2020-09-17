@@ -12,7 +12,7 @@ const MoveSelector = () => {
   const dispatch = useDispatch()
 
   const handlePieceMove = (move) => {
-    dispatch(movePiece(move))
+    dispatch(movePiece(move.toJSObj()))
   }
 
   const moves = useSelector(possibleMovesSelector)

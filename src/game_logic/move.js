@@ -12,6 +12,14 @@ export class Move {
     return new Move(data.type, data.squares, data.huff)
   }
 
+  toJSObj () {
+    return { ...this }
+  }
+
+  static fromJSObj (obj) {
+    return new Move(obj.type, obj.squares, obj.huff)
+  }
+
   toString () {
     const huffStr = this.huff != null ? '-' + (this.huff + 1) + '; ' : ''
 

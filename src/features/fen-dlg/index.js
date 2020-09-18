@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 
-import { toFenSelector } from '../selectors'
+import { toFenSelector } from '../../selectors'
 
 const FenDlg = () => {
   const [show, setShow] = useState(false)

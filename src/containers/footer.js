@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import styled from 'styled-components/macro'
 
-import FenDlg from './fen-dlg'
+import FenDlg from '../features/fen-dlg'
 
 import {
   gameResultSelector,

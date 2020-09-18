@@ -1,15 +1,7 @@
 import _ from 'lodash'
 
-import { Move } from './move.js'
-
-const Direction = Object.freeze({
-  NE: 'NE', // up right
-  SE: 'SE', // down right
-  SW: 'SW', // down left
-  NW: 'NW' // up left
-})
-
-const SQUARE_COUNT = 32
+import { Move } from './move'
+import { Direction, SQUARE_COUNT } from './const'
 
 function getOppositeDirection (direction) {
   switch (direction) {

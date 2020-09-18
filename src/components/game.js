@@ -9,9 +9,10 @@ import Footer from '../containers/footer'
 import Player from '../containers/player'
 import WelcomeDlg from '../containers/welcome-dlg'
 import History from '../features/history'
+import { GlobalState } from '../reducers/consts'
 
 const Game = () => {
-  const showWelcome = useSelector(state => state.state === 'new')
+  const showWelcome = useSelector(state => state.globalState === GlobalState.New)
 
   return (
     <>

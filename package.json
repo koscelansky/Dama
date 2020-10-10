@@ -21,7 +21,7 @@
     "reselect": "^4.0.0",
     "styled-components": "^5.2.0",
     "use-immer": "^0.4.1",
-    "worker-loader": "^3.0.2"
+    "worker-loader": "^3.0.4"
   },
   "scripts": {
     "start": "react-scripts start",

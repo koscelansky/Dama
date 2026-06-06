@@ -29,7 +29,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "standard && stylelint ./src/**/**.js",
-    "lint-fix": "standard --fix"
+    "lint-fix": "standard --fix",
+    "preinstall": "npx only-allow pnpm"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { useDragLayer } from 'react-dnd'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 import Piece from './piece'
 

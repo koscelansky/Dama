@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 import DragLayer from './drag-layer'
 import DragPiece from './drag-piece'

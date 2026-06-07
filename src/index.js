@@ -2,12 +2,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import { logger } from 'redux-logger'
 import { Provider } from 'react-redux'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { DndProvider } from 'react-dnd'
-import styled, { createGlobalStyle } from 'styled-components/macro'
+import styled, { createGlobalStyle } from 'styled-components'
 
 import Game from './components/game'
 import reducer from './reducers'
@@ -30,10 +30,12 @@ const App = () => {
   )
 }
 
-const middleware = [...getDefaultMiddleware()]
-
-if (process.env.NODE_ENV === 'development') {
-  middleware.push(logger)
+const middleware = (getDefaultMiddleware) => {
+  const mw = getDefaultMiddleware()
+  if (process.env.NODE_ENV === 'development') {
+    mw.push(logger)
+  }
+  return mw
 }
 
 export const appState = configureStore({

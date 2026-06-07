@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import Table from 'react-bootstrap/Table'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 import { Move } from '../../game_logic/move'
 import { firstPlayer } from '../../selectors'

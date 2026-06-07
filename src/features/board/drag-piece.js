@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useDrag } from 'react-dnd'
-import styled from 'styled-components/macro'
+import styled from 'styled-components'
 
 import Piece from './piece.js'
 import CaptureMark from '../../svg/capture-mark.js'

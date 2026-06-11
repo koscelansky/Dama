@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { configureStore } from '@reduxjs/toolkit'
 import { logger } from 'redux-logger'
 import { Provider } from 'react-redux'
@@ -62,12 +62,14 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-ReactDOM.render(
+const container = document.getElementById('root')
+const root = createRoot(container)
+
+root.render(
   <React.StrictMode>
     <Provider store={appState}>
       <App />
     </Provider>
     <GlobalStyle />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 )

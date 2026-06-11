@@ -5,11 +5,11 @@ import { newGame, movePiece } from './actions'
 const moveHistory = createSlice({
   name: 'moveHistory',
   initialState: [],
-  extraReducers: {
-    [newGame]: () => [],
-    [movePiece]: (state, action) => {
+  extraReducers: (builder) => {
+    builder.addCase(newGame, () => [])
+    builder.addCase(movePiece, (state, action) => {
       state.push(action.payload)
-    }
+    })
   }
 })
 

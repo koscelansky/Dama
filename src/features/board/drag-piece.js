@@ -33,8 +33,9 @@ const MarkWrapper = styled.div`
 `
 
 const DragPiece = ({ moveable, onPieceClick, onPieceDrop, square, mark, type }) => {
-  const [{ isDragging }, drag] = useDrag({
-    item: { square, piece: type, type: 'PIECE' },
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: 'PIECE',
+    item: { square, piece: type },
     end: (_, monitor) => {
       // handling of drop is here because of drop outside of drop targets,
       // then drop is not called and we need to handle it here, so to make
@@ -49,7 +50,7 @@ const DragPiece = ({ moveable, onPieceClick, onPieceDrop, square, mark, type }) 
     collect: (monitor) => ({
       isDragging: monitor.isDragging()
     })
-  })
+  }), [square, type, moveable, onPieceDrop])
 
   const handleClick = (e) => {
     e.preventDefault()

@@ -10,10 +10,10 @@ export const GlobalState = Object.freeze({
 const globalState = createSlice({
   name: 'globalState',
   initialState: GlobalState.New,
-  extraReducers: {
-    [newGame]: () => {
+  extraReducers: (builder) => {
+    builder.addCase(newGame, () => {
       return GlobalState.InProgress
-    }
+    })
   }
 })
 

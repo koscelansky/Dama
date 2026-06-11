@@ -29,10 +29,10 @@ const board = createSlice({
       return performMove(state, action.payload)
     }
   },
-  extraReducers: {
-    [newGame]: (_, action) => {
+  extraReducers: (builder) => {
+    builder.addCase(newGame, (_, action) => {
       return fromFen(action.payload.fen) || initialState
-    }
+    })
   }
 })
 

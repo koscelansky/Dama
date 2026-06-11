@@ -3,14 +3,15 @@ import PropTypes from 'prop-types'
 
 import Svg from './svg'
 
-import BlackQueenData from './data/pieces/Chess_qdt45.svg'
-import WhiteQueenData from './data/pieces/Chess_qlt45.svg'
+// Use public URLs to avoid SVGR parsing of complex SVGs
+const BlackQueenData = '/svg/Chess_qdt45.svg'
+const WhiteQueenData = '/svg/Chess_qlt45.svg'
 
 const Queen = ({ black }) => {
   const pic = (black ? BlackQueenData : WhiteQueenData)
 
   return (
-    <Svg data={pic} />
+    <Svg src={pic} />
   )
 }
 

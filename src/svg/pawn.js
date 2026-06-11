@@ -3,14 +3,13 @@ import PropTypes from 'prop-types'
 
 import Svg from './svg'
 
-import BlackPawnData from './data/pawn-black.svg'
-import WhitePawnData from './data/pawn-white.svg'
+// Use public URLs to avoid SVGR parsing of namespaced SVG files
 
 const Pawn = ({ black }) => {
-  const pic = (black ? BlackPawnData : WhitePawnData)
+  const pic = (black ? '/svg/pawn-black.svg' : '/svg/pawn-white.svg')
 
   return (
-    <Svg data={pic} />
+    <Svg src={pic} />
   )
 }
 

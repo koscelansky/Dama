@@ -47,6 +47,9 @@ importers:
       react-dom:
         specifier: ^19.2.7
         version: 19.2.7(react@19.2.7)
+      react-inlinesvg:
+        specifier: ^4.4.1
+        version: 4.4.1(react@19.2.7)
       react-redux:
         specifier: ^9.3.0
         version: 9.3.0(@types/react@19.2.17)(react@19.2.7)(redux@5.0.1)
@@ -4925,6 +4928,16 @@ packages:
 
   react-error-overlay@6.1.0:
     resolution: {integrity: sha512-SN/U6Ytxf1QGkw/9ve5Y+NxBbZM6Ht95tuXNMKs8EJyFa/Vy/+Co3stop3KBHARfn/giv+Lj1uUnTfOJ3moFEQ==}
+
+  react-from-dom@0.7.5:
+    resolution: {integrity: sha512-CO92PmMKo/23uYPm6OFvh5CtZbMgHs/Xn+o095Lz/TZj9t8DSDhGdSOMLxBxwWI4sr0MF17KUn9yJWc5Q00R/w==}
+    peerDependencies:
+      react: 16.8 - 19
+
+  react-inlinesvg@4.4.1:
+    resolution: {integrity: sha512-3acGn5o0xyWYpJrBm8qES/lBErVpqH3vhNywpw0frztdOmiAUdDMjvcsx9hrZ5wBaL7bRdsgexQ907urbvsARg==}
+    peerDependencies:
+      react: 16.8 - 19
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -11911,6 +11924,15 @@ snapshots:
       scheduler: 0.27.0
 
   react-error-overlay@6.1.0: {}
+
+  react-from-dom@0.7.5(react@19.2.7):
+    dependencies:
+      react: 19.2.7
+
+  react-inlinesvg@4.4.1(react@19.2.7):
+    dependencies:
+      react: 19.2.7
+      react-from-dom: 0.7.5(react@19.2.7)
 
   react-is@16.13.1: {}
 

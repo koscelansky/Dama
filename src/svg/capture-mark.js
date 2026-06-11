@@ -1,11 +1,12 @@
 import React from 'react'
 import Svg from './svg'
 
-import CaptureMarkData from './data/capture-mark.svg'
+// Use public URL to avoid SVGR parsing of namespaced SVG
+const CaptureMarkData = '/svg/capture-mark.svg'
 
 const CaptureMark = (props) => {
   return (
-    <Svg data={CaptureMarkData} />
+    <Svg src={CaptureMarkData} />
   )
 }
 

@@ -1,11 +1,12 @@
 import React from 'react'
 import Svg from './svg'
 
-import HuffMarkData from './data/huff-mark.svg'
+// Use public URL to avoid SVGR parsing of namespaced SVG
+const HuffMarkData = '/svg/huff-mark.svg'
 
 const HuffMark = () => {
   return (
-    <Svg data={HuffMarkData} />
+    <Svg src={HuffMarkData} />
   )
 }
 

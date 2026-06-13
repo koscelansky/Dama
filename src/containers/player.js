@@ -9,11 +9,11 @@ import { gameResultSelector } from '../selectors'
 import { GameResult } from '../game_logic/const'
 
 const Wrapper = styled.div`
-  ${({ active }) => active && 'filter: drop-shadow(0 0 2px orange);'}
+  ${({ $active }) => $active && 'filter: drop-shadow(0 0 2px orange);'}
   margin-left: 0.1em;
   display: flex;
   justify-content: space-between;
-  flex-direction: ${props => (props.right ? 'row-reverse' : 'row')};
+  flex-direction: ${props => (props.$right ? 'row-reverse' : 'row')};
   align-items: center;
 `
 
@@ -35,7 +35,7 @@ class Player extends Component {
     }
 
     return (
-      <Wrapper active={turn} right={right}>
+      <Wrapper $active={turn} $right={right}>
         <PlayerLabelWrapper>
           <PlayerLabel color={color} right={right}>{name}</PlayerLabel>
         </PlayerLabelWrapper>

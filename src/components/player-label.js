@@ -6,9 +6,9 @@ import Pawn from '../svg/pawn'
 
 const PlayerFlexBox = styled.div`
   display: flex;
-  flex-direction: ${props => (props.right ? 'row-reverse' : 'row')};
+  flex-direction: ${props => (props.$right ? 'row-reverse' : 'row')};
   align-items: center;
-  text-align: ${props => (props.right ? 'right' : 'left')};
+  text-align: ${props => (props.$right ? 'right' : 'left')};
 `
 
 const PlayerName = styled.div`
@@ -21,11 +21,11 @@ const PlayerIcon = styled.div`
 
 const PlayerLabel = ({ color, right, children }) => {
   return (
-    <PlayerFlexBox right={right}>
+    <PlayerFlexBox $right={right}>
       <PlayerIcon>
         <Pawn black={color === 'black'} />
       </PlayerIcon>
-      <PlayerName right={right}>
+      <PlayerName>
         {children}
       </PlayerName>
     </PlayerFlexBox>

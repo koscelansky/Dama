@@ -15,11 +15,11 @@ const TypeSelect = ({ value, onChange }) => {
     <Form.Group as={Row} controlId='type-select'>
       <Form.Label column sm='2'>Type</Form.Label>
       <Col sm='10'>
-        <Form.Control as='select' custom value={value} onChange={onChange}>
+        <Form.Select value={value} onChange={onChange}>
           <option value='human'>Human</option>
           <option value='ai-random'>Random</option>
           <option value='ai-minmax'>MinMax</option>
-        </Form.Control>
+        </Form.Select>
       </Col>
     </Form.Group>
   )

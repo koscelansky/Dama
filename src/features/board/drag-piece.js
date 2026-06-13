@@ -11,13 +11,13 @@ const PieceWrapper = styled.div`
   position: absolute;
   width: 100%;
   z-index: 1;
-  ${({ moveable }) => moveable && 'filter: drop-shadow(0 0 2px orange);'}
+  ${({ $moveable }) => $moveable && 'filter: drop-shadow(0 0 2px orange);'}
 
-  opacity: ${({ isDragging }) => (isDragging ? 0.3 : 1)};
-  cursor: ${({ moveable }) => (moveable ? 'move' : 'default')};
+  opacity: ${({ $isDragging }) => ($isDragging ? 0.3 : 1)};
+  cursor: ${({ $moveable }) => ($moveable ? 'move' : 'default')};
 
   &:hover {
-    ${({ moveable }) => moveable && 'filter: drop-shadow(0 0 5px blue);'}
+    ${({ $moveable }) => $moveable && 'filter: drop-shadow(0 0 5px blue);'}
   }
 `
 
@@ -69,7 +69,7 @@ const DragPiece = ({ moveable, onPieceClick, onPieceDrop, square, mark, type }) 
 
   return (
     <>
-      <PieceWrapper ref={drag} moveable={moveable} isDragging={isDragging}>
+      <PieceWrapper ref={drag} $moveable={moveable} $isDragging={isDragging}>
         <Piece type={type} />
       </PieceWrapper>
       <MarkWrapper onClick={handleClick}>

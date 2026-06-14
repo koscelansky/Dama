@@ -12,7 +12,6 @@ const PieceWrapper = styled.div`
   width: 100%;
   z-index: 1;
   ${({ $moveable }) => $moveable && 'filter: drop-shadow(0 0 2px orange);'}
-
   opacity: ${({ $isDragging }) => ($isDragging ? 0.3 : 1)};
   cursor: ${({ $moveable }) => ($moveable ? 'move' : 'default')};
 

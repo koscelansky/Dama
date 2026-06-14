@@ -9,7 +9,7 @@ import { Move } from '../game_logic/move'
 class Ai extends Component {
   componentDidMount() {
     this.worker = new Worker(new URL('../ai.worker.js', import.meta.url), { type: 'module' })
-    this.worker.onmessage = e => {
+    this.worker.onmessage = (e) => {
       const data = JSON.parse(e.data)
 
       if (data.done) {
@@ -49,7 +49,7 @@ class Ai extends Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
     board: state.board,
   }
@@ -57,7 +57,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onMoveCommited: move => {
+    onMoveCommited: (move) => {
       return dispatch(movePiece(move))
     },
   }

@@ -29,4 +29,5 @@ Circle.propTypes = {
   color: PropTypes.string,
   blur: PropTypes.string,
   shadow: PropTypes.string,
+  children: PropTypes.node,
 }

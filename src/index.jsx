@@ -54,7 +54,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: cornsilk;
     min-width: 420px;
     padding: 1%;
-    margin: 0px;
+    margin: 0;
   }
 
   .welcome-dlg {

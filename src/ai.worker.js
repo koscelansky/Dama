@@ -1,5 +1,3 @@
-/* global self */
-
 import randomPlayer from './ai_player/random-player'
 import alphaBetaPlayer from './ai_player/alphabeta-player'
 
@@ -27,7 +25,7 @@ function* GetBestMove(data) {
 
 // somehow this will fail in production, so this will work around it
 
-self.onmessage = e => {
+self.onmessage = (e) => {
   for (const i of GetBestMove(e.data)) {
     self.postMessage(i)
   }

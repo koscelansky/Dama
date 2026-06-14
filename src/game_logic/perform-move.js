@@ -59,7 +59,7 @@ function getPiecesToHuff(board, move) {
 }
 
 export function performMove(board, moveObj) {
-  console.log(moveObj)
+  console.warn(moveObj)
   const move = Move.fromJSObj(moveObj)
 
   const { pieces, turn } = board

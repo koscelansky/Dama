@@ -80,6 +80,7 @@ const DropSquare = ({
 }
 
 DropSquare.propTypes = {
+  children: PropTypes.node,
   // number of square, if white, then null
   number: PropTypes.number,
 

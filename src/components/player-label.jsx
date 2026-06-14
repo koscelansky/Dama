@@ -35,4 +35,5 @@ export default PlayerLabel
 PlayerLabel.propTypes = {
   color: PropTypes.oneOf(['white', 'black']),
   right: PropTypes.bool, // true if color square should be on right
+  children: PropTypes.node,
 }

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import Table from 'react-bootstrap/Table'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { Move } from '../../game_logic/move'
@@ -10,10 +11,12 @@ import { firstPlayer } from '../../selectors'
 
 const MovesTable = styled(Table)`
   table-layout: fixed;
+
   td,
   th {
     padding: 0.15rem;
   }
+
   th {
     text-align: center;
   }
@@ -46,6 +49,10 @@ const MoveCell = ({ children }) => {
       </td>
     </OverlayTrigger>
   )
+}
+
+MoveCell.propTypes = {
+  children: PropTypes.node.isRequired,
 }
 
 const History = () => {

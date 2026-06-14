@@ -32,7 +32,7 @@ class Footer extends Component {
 }
 
 function getPlayerStatusString(player) {
-  const { type, name, ...options } = player
+  const { type, name: _, ...options } = player
 
   const result = (() => {
     if (type === 'human') {
@@ -47,7 +47,7 @@ function getPlayerStatusString(player) {
   return result.replace(/-/g, String.fromCharCode(8209))
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
     result: gameResultSelector(state),
     moves: possibleMovesSelector(state),

@@ -40,4 +40,5 @@ export default Square
 Square.propTypes = {
   fill: PropTypes.string.isRequired,
   label: PropTypes.number,
+  children: PropTypes.node,
 }

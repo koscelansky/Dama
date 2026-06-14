@@ -84,6 +84,7 @@ Player.propTypes = {
   type: PropTypes.oneOf(['human', 'ai-random', 'ai-minmax']),
   name: PropTypes.string, // name of the player
   right: PropTypes.bool, // true if label should be on the right side
+  turn: PropTypes.bool, // true if it is this player's turn
   options: PropTypes.any, // options passed to ai player
 }
 

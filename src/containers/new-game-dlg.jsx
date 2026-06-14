@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
+import PropTypes from 'prop-types'
 
 import { toFenSelector } from '../selectors.js'
 import { isValidFen } from '../fen.js'
@@ -27,6 +28,11 @@ const TypeSelect = ({ value, onChange }) => {
   )
 }
 
+TypeSelect.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+}
+
 const NameSelect = ({ value, onChange }) => {
   return (
     <Form.Group as={Row}>
@@ -40,6 +46,11 @@ const NameSelect = ({ value, onChange }) => {
   )
 }
 
+NameSelect.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+}
+
 const TimeSelect = ({ value, onChange }) => {
   return (
     <Form.Group as={Row}>
@@ -51,6 +62,11 @@ const TimeSelect = ({ value, onChange }) => {
       </Col>
     </Form.Group>
   )
+}
+
+TimeSelect.propTypes = {
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 const EvaluateSelect = ({ value, onChange }) => {
@@ -67,6 +83,11 @@ const EvaluateSelect = ({ value, onChange }) => {
       </Col>
     </Form.Group>
   )
+}
+
+EvaluateSelect.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 const NewGameDlg = () => {

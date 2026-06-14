@@ -1,10 +1,31 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Spinner from 'react-bootstrap/Spinner'
+import styled, { keyframes } from 'styled-components'
 
 import { movePiece } from '../reducers/actions'
 import { Move } from '../game_logic/move'
+
+const bounce = keyframes`
+  0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+  40%           { transform: scale(1);   opacity: 1; }
+`
+
+const DotsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`
+
+const Dot = styled.span`
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: currentColor;
+  animation: ${bounce} 1.2s ease-in-out infinite both;
+  animation-delay: ${({ $i }) => $i * 0.2}s;
+`
 
 class Ai extends Component {
   componentDidMount() {
@@ -42,9 +63,11 @@ class Ai extends Component {
 
   render() {
     return (
-      <Spinner animation='border' role='status'>
-        <span className='sr-only'>Thinking...</span>
-      </Spinner>
+      <DotsWrapper aria-label='Thinking' role='status'>
+        <Dot $i={0} />
+        <Dot $i={1} />
+        <Dot $i={2} />
+      </DotsWrapper>
     )
   }
 }

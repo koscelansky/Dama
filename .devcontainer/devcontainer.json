@@ -9,8 +9,17 @@
     }
   },
 
+  "mounts": [
+    "source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
+    "source=${localWorkspaceFolderBasename}-.pnpm-store,target=${containerWorkspaceFolder}/.pnpm-store,type=volume"
+  ],
+
   // Injects the npm blocker into both bash and zsh when the container starts
-  "postCreateCommand": "echo 'alias npm=\"echo \\\"❌ ERROR: Use pnpm instead of npm!\\\" && false\"' >> ~/.bashrc && echo 'alias npm=\"echo \\\"❌ ERROR: Use pnpm instead of npm!\\\" && false\"' >> ~/.zshrc",
+  "postCreateCommand": {
+    "blockNpm": "echo 'alias npm=\"echo \\\"❌ ERROR: Use pnpm instead of npm!\\\" && false\"' >> ~/.bashrc && echo 'alias npm=\"echo \\\"❌ ERROR: Use pnpm instead of npm!\\\" && false\"' >> ~/.zshrc",
+    "chownNodeModules": "sudo chown node node_modules",
+    "chownPnpmStore": "sudo chown node .pnpm-store"
+  },
 
   "customizations": {
     "vscode": {

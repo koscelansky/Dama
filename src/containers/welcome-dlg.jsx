@@ -18,7 +18,7 @@ const WelcomeDlg = ({ show }) => {
 }
 
 WelcomeDlg.propTypes = {
-  show: PropTypes.bool
+  show: PropTypes.bool,
 }
 
 export default WelcomeDlg

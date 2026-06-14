@@ -10,7 +10,8 @@ import { firstPlayer } from '../../selectors'
 
 const MovesTable = styled(Table)`
   table-layout: fixed;
-  td, th {
+  td,
+  th {
     padding: 0.15rem;
   }
   th {
@@ -40,7 +41,9 @@ const MoveCell = ({ children }) => {
 
   return (
     <OverlayTrigger trigger={trigger} overlay={<Tooltip>{children}</Tooltip>}>
-      <td className='text-truncate' ref={ref}>{children}</td>
+      <td className='text-truncate' ref={ref}>
+        {children}
+      </td>
     </OverlayTrigger>
   )
 }
@@ -74,9 +77,7 @@ const History = () => {
             <th style={{ width: '42%' }}>Black</th>
           </tr>
         </thead>
-        <tbody>
-          {rows}
-        </tbody>
+        <tbody>{rows}</tbody>
       </MovesTable>
     </Background>
   )

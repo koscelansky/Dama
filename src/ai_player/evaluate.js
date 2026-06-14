@@ -4,7 +4,7 @@
 
 // just easy material count, no special handling of kings, so the evaluation may
 // be high even if the playing side actually have two pawns against two kings
-export function materialCount (board) {
+export function materialCount(board) {
   // we are still playing
   const { pieces } = board
 
@@ -26,7 +26,7 @@ export function materialCount (board) {
 
 // more advanced material count, the king is actually 5 times more valuable then
 // pawn, so take this into count
-export function weightedMaterialCount (board) {
+export function weightedMaterialCount(board) {
   // we are still playing
   const { pieces } = board
 

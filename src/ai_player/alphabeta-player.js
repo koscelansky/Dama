@@ -5,16 +5,20 @@ import { getPossibleMoves } from '../game_logic/possible-moves'
 import { performMove, getGameResult } from '../game_logic/perform-move'
 import { GameResult } from '../game_logic/const'
 
-function negamax (board, depth, alpha, beta, evalFun) {
+function negamax(board, depth, alpha, beta, evalFun) {
   const gameResult = getGameResult(board)
 
   if (depth === 0 || gameResult !== GameResult.InProgress) {
     const whiteSideEval = (() => {
       switch (gameResult) {
-        case GameResult.WhiteWins: return 100000
-        case GameResult.BlackWins: return -100000
-        case GameResult.Draw: return 0
-        default: return evalFun(board)
+        case GameResult.WhiteWins:
+          return 100000
+        case GameResult.BlackWins:
+          return -100000
+        case GameResult.Draw:
+          return 0
+        default:
+          return evalFun(board)
       }
     })()
 
@@ -36,12 +40,14 @@ function negamax (board, depth, alpha, beta, evalFun) {
   return max
 }
 
-export default function * (board, options) {
+export default function* (board, options) {
   const evalFun = (type => {
     switch (type) {
-      case 'weighted-material-count': return weightedMaterialCount
+      case 'weighted-material-count':
+        return weightedMaterialCount
       case 'material-count':
-      default: return materialCount
+      default:
+        return materialCount
     }
   })(options.evaluate)
 

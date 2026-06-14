@@ -26,7 +26,7 @@ const PlayerLabelWrapper = styled.div`
 `
 
 class Player extends Component {
-  render () {
+  render() {
     const { right, color, name, turn, type, options } = this.props
 
     let ai = null
@@ -37,17 +37,17 @@ class Player extends Component {
     return (
       <Wrapper $active={turn} $right={right}>
         <PlayerLabelWrapper>
-          <PlayerLabel color={color} right={right}>{name}</PlayerLabel>
+          <PlayerLabel color={color} right={right}>
+            {name}
+          </PlayerLabel>
         </PlayerLabelWrapper>
-        <AiWrapper>
-          {ai}
-        </AiWrapper>
+        <AiWrapper>{ai}</AiWrapper>
       </Wrapper>
     )
   }
 }
 
-function mapStateToProps (state, ownProps) {
+function mapStateToProps(state, ownProps) {
   const colorAbbreviation = ownProps.color === 'white' ? 'W' : 'B'
   const result = gameResultSelector(state)
 
@@ -75,7 +75,7 @@ function mapStateToProps (state, ownProps) {
     type,
     name,
     turn: state.board.turn === colorAbbreviation && result === GameResult.InProgress,
-    options
+    options,
   }
 }
 
@@ -84,7 +84,7 @@ Player.propTypes = {
   type: PropTypes.oneOf(['human', 'ai-random', 'ai-minmax']),
   name: PropTypes.string, // name of the player
   right: PropTypes.bool, // true if label should be on the right side
-  options: PropTypes.any // options passed to ai player
+  options: PropTypes.any, // options passed to ai player
 }
 
 export default connect(mapStateToProps)(Player)

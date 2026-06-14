@@ -7,18 +7,42 @@ import { newGame } from './actions'
 
 const initialState = {
   pieces: [
-    'WM', 'WM', 'WM', 'WM',
-    'WM', 'WM', 'WM', 'WM',
-    null, null, null, null,
-    null, null, null, null,
-    null, null, null, null,
-    null, null, null, null,
-    'BM', 'BM', 'BM', 'BM',
-    'BM', 'BM', 'BM', 'BM'
+    'WM',
+    'WM',
+    'WM',
+    'WM',
+    'WM',
+    'WM',
+    'WM',
+    'WM',
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    'BM',
+    'BM',
+    'BM',
+    'BM',
+    'BM',
+    'BM',
+    'BM',
+    'BM',
   ],
   turn: Color.White,
   piecesToHuff: [], // pieces that can be huffed by next player
-  fifteenMoveRule: 0 // how many moves after last capture, man move
+  fifteenMoveRule: 0, // how many moves after last capture, man move
 }
 
 const board = createSlice({
@@ -27,13 +51,13 @@ const board = createSlice({
   reducers: {
     movePiece: (state, action) => {
       return performMove(state, action.payload)
-    }
+    },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder.addCase(newGame, (_, action) => {
       return fromFen(action.payload.fen) || initialState
     })
-  }
+  },
 })
 
 export const { movePiece } = board.actions

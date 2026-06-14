@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { Move } from './move'
 import { Direction, SQUARE_COUNT } from './const'
 
-function getOppositeDirection (direction) {
+function getOppositeDirection(direction) {
   switch (direction) {
     case Direction.NE:
       return Direction.SW
@@ -18,7 +18,7 @@ function getOppositeDirection (direction) {
   }
 }
 
-function getNextSquare (square, direction) {
+function getNextSquare(square, direction) {
   if (square < 0 || square >= SQUARE_COUNT) {
     throw new Error('Square not in range.')
   }
@@ -28,50 +28,146 @@ function getNextSquare (square, direction) {
   switch (direction) {
     case Direction.NE:
       return [
-        X, X, X, X,
-        0, 1, 2, 3,
-        5, 6, 7, X,
-        8, 9, 10, 11,
-        13, 14, 15, X,
-        16, 17, 18, 19,
-        21, 22, 23, X,
-        24, 25, 26, 27
+        X,
+        X,
+        X,
+        X,
+        0,
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        X,
+        8,
+        9,
+        10,
+        11,
+        13,
+        14,
+        15,
+        X,
+        16,
+        17,
+        18,
+        19,
+        21,
+        22,
+        23,
+        X,
+        24,
+        25,
+        26,
+        27,
       ][square]
 
     case Direction.SE:
       return [
-        5, 6, 7, X,
-        8, 9, 10, 11,
-        13, 14, 15, X,
-        16, 17, 18, 19,
-        21, 22, 23, X,
-        24, 25, 26, 27,
-        29, 30, 31, X,
-        X, X, X, X
+        5,
+        6,
+        7,
+        X,
+        8,
+        9,
+        10,
+        11,
+        13,
+        14,
+        15,
+        X,
+        16,
+        17,
+        18,
+        19,
+        21,
+        22,
+        23,
+        X,
+        24,
+        25,
+        26,
+        27,
+        29,
+        30,
+        31,
+        X,
+        X,
+        X,
+        X,
+        X,
       ][square]
 
     case Direction.SW:
       return [
-        4, 5, 6, 7,
-        X, 8, 9, 10,
-        12, 13, 14, 15,
-        X, 16, 17, 18,
-        20, 21, 22, 23,
-        X, 24, 25, 26,
-        28, 29, 30, 31,
-        X, X, X, X
+        4,
+        5,
+        6,
+        7,
+        X,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14,
+        15,
+        X,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        X,
+        24,
+        25,
+        26,
+        28,
+        29,
+        30,
+        31,
+        X,
+        X,
+        X,
+        X,
       ][square]
 
     case Direction.NW:
       return [
-        X, X, X, X,
-        X, 0, 1, 2,
-        4, 5, 6, 7,
-        X, 8, 9, 10,
-        12, 13, 14, 15,
-        X, 16, 17, 18,
-        20, 21, 22, 23,
-        X, 24, 25, 26
+        X,
+        X,
+        X,
+        X,
+        X,
+        0,
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        X,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14,
+        15,
+        X,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        X,
+        24,
+        25,
+        26,
       ][square]
 
     default:
@@ -79,7 +175,7 @@ function getNextSquare (square, direction) {
   }
 }
 
-function getDirectionForPiece (piece) {
+function getDirectionForPiece(piece) {
   if (piece[1] === 'K') {
     return [Direction.NE, Direction.NW, Direction.SE, Direction.SW]
   } else if (piece[0] === 'B') {
@@ -89,7 +185,7 @@ function getDirectionForPiece (piece) {
   }
 }
 
-function getSimpleMoves (board) {
+function getSimpleMoves(board) {
   const result = []
 
   const { turn, pieces } = board
@@ -112,7 +208,7 @@ function getSimpleMoves (board) {
   return result
 }
 
-function getFirstEnemyInDirection (pieces, position, piece, direction) {
+function getFirstEnemyInDirection(pieces, position, piece, direction) {
   while (true) {
     position = getNextSquare(position, direction)
     if (position == null) return null
@@ -130,7 +226,7 @@ function getFirstEnemyInDirection (pieces, position, piece, direction) {
   }
 }
 
-function getCapturesInternal (pieces, position, piece, lastDirection) {
+function getCapturesInternal(pieces, position, piece, lastDirection) {
   const result = []
 
   for (const dir of getDirectionForPiece(piece)) {
@@ -173,7 +269,7 @@ function getCapturesInternal (pieces, position, piece, lastDirection) {
   return result
 }
 
-function getCaptures (board) {
+function getCaptures(board) {
   const captures = []
 
   const { turn, pieces } = board
@@ -196,7 +292,7 @@ function getCaptures (board) {
   return result
 }
 
-export function getPossibleMoves (board) {
+export function getPossibleMoves(board) {
   board = _.clone(board)
 
   let result = [...getSimpleMoves(board), ...getCaptures(board)]
@@ -206,14 +302,14 @@ export function getPossibleMoves (board) {
 
     const moves = [...getSimpleMoves(board), ...getCaptures(board)]
 
-    result = result.concat(moves.map(
-      x => Object.assign(Object.create(Object.getPrototypeOf(x)), x, { huff: i })
-    ))
+    result = result.concat(
+      moves.map(x => Object.assign(Object.create(Object.getPrototypeOf(x)), x, { huff: i }))
+    )
   }
   return result
 }
 
-export function getSquaresBetween (from, to) {
+export function getSquaresBetween(from, to) {
   for (const dir of [Direction.NE, Direction.NW, Direction.SE, Direction.SW]) {
     let square = from
     const result = []

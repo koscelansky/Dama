@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
@@ -49,8 +48,7 @@ const selectMoves = (from, to, moves, hinted, huffed) => {
       return simple.move
     }
 
-    const shortest = _
-      .takeWhile(rankedMoves, x => x.rank === rankedMoves[0].rank)
+    const shortest = _.takeWhile(rankedMoves, x => x.rank === rankedMoves[0].rank)
       .map(x => x.move)
       .sort((a, b) => a.squares.length - b.squares.length)
 
@@ -62,7 +60,7 @@ const selectMoves = (from, to, moves, hinted, huffed) => {
   return null // still ambiguous
 }
 
-const getPiecesToHuff = (moves) => {
+const getPiecesToHuff = moves => {
   return [...new Set(moves.filter(x => x.huff != null).map(x => x.huff))]
 }
 
@@ -112,13 +110,14 @@ const Board = ({ active, pieces, moves, onPieceMove }) => {
     if (active) {
       if (allowedHuff.includes(square)) {
         setHuffed(square)
-      } else if (event.button === 2) { // RMB
+      } else if (event.button === 2) {
+        // RMB
         setHuffed(null)
       }
     }
   }
 
-  const handleContextMenu = (e) => {
+  const handleContextMenu = e => {
     e.preventDefault()
     e.stopPropagation()
 
@@ -149,8 +148,7 @@ const Board = ({ active, pieces, moves, onPieceMove }) => {
     const hint = move.end()
     const hintSquares = [...hinted]
 
-    while (hintSquares.length > 0 &&
-      !move.squares.includes(_.last(hintSquares))) {
+    while (hintSquares.length > 0 && !move.squares.includes(_.last(hintSquares))) {
       hintSquares.pop()
     }
 
@@ -168,14 +166,14 @@ const Board = ({ active, pieces, moves, onPieceMove }) => {
   }
 
   const isMovePossible = (from, to) => {
-    return active && !!moves.find(x => (x.begin() === from && x.end() === to))
+    return active && !!moves.find(x => x.begin() === from && x.end() === to)
   }
 
-  const renderSquare = (n) => {
+  const renderSquare = n => {
     const row = Math.floor(n / 8)
     const column = n % 8
 
-    const black = ((row + column) % 2 === 1)
+    const black = (row + column) % 2 === 1
 
     let num = null
     let piece = null
@@ -231,9 +229,7 @@ const Board = ({ active, pieces, moves, onPieceMove }) => {
   return (
     <>
       <DragLayer />
-      <GridWrapper onContextMenu={handleContextMenu}>
-        {squares}
-      </GridWrapper>
+      <GridWrapper onContextMenu={handleContextMenu}>{squares}</GridWrapper>
     </>
   )
 }
@@ -244,7 +240,7 @@ Board.propTypes = {
   pieces: PropTypes.arrayOf(PropTypes.string).isRequired,
 
   // moves or huff is filled, in case of show board is just readonly
-  active: PropTypes.bool.isRequired
+  active: PropTypes.bool.isRequired,
 }
 
 export default Board

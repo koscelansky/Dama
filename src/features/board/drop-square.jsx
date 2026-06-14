@@ -4,11 +4,18 @@ import { useDrop } from 'react-dnd'
 import Square from './square'
 import DragMarker from './drag-marker'
 
-const DropSquare = ({ children, number, isHinted, onHoverDropSquare, isMovePossible, isDropPossible }) => {
+const DropSquare = ({
+  children,
+  number,
+  isHinted,
+  onHoverDropSquare,
+  isMovePossible,
+  isDropPossible,
+}) => {
   const [{ isOver, canDrop, origin }, drop] = useDrop({
     accept: 'PIECE',
     drop: () => ({ number }),
-    canDrop (item) {
+    canDrop(item) {
       if (number == null) return false // white squares are no interesting
 
       const from = item.square
@@ -32,11 +39,11 @@ const DropSquare = ({ children, number, isHinted, onHoverDropSquare, isMovePossi
         onHoverDropSquare(from, to)
       }
     },
-    collect: (monitor) => ({
+    collect: monitor => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
-      origin: monitor.getItem() ? monitor.getItem().square : null
-    })
+      origin: monitor.getItem() ? monitor.getItem().square : null,
+    }),
   })
 
   const dragMarkerStyle = (() => {
@@ -87,7 +94,7 @@ DropSquare.propTypes = {
   onHoverDropSquare: PropTypes.func.isRequired,
 
   // function to determine if the square can be dropped to
-  isDropPossible: PropTypes.func.isRequired
+  isDropPossible: PropTypes.func.isRequired,
 }
 
 export default DropSquare

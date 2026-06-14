@@ -33,26 +33,29 @@ const MarkWrapper = styled.div`
 `
 
 const DragPiece = ({ moveable, onPieceClick, onPieceDrop, square, mark, type }) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: 'PIECE',
-    item: { square, piece: type },
-    end: (_, monitor) => {
-      // handling of drop is here because of drop outside of drop targets,
-      // then drop is not called and we need to handle it here, so to make
-      // ot consistent all drops are handled here
-      if (!monitor.didDrop()) {
-        onPieceDrop()
-      } else {
-        onPieceDrop(square, monitor.getDropResult().number)
-      }
-    },
-    canDrag: () => moveable,
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging()
-    })
-  }), [square, type, moveable, onPieceDrop])
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: 'PIECE',
+      item: { square, piece: type },
+      end: (_, monitor) => {
+        // handling of drop is here because of drop outside of drop targets,
+        // then drop is not called and we need to handle it here, so to make
+        // ot consistent all drops are handled here
+        if (!monitor.didDrop()) {
+          onPieceDrop()
+        } else {
+          onPieceDrop(square, monitor.getDropResult().number)
+        }
+      },
+      canDrag: () => moveable,
+      collect: monitor => ({
+        isDragging: monitor.isDragging(),
+      }),
+    }),
+    [square, type, moveable, onPieceDrop]
+  )
 
-  const handleClick = (e) => {
+  const handleClick = e => {
     e.preventDefault()
     e.stopPropagation()
 
@@ -61,9 +64,12 @@ const DragPiece = ({ moveable, onPieceClick, onPieceDrop, square, mark, type }) 
 
   const overlay = (() => {
     switch (mark) {
-      case 'capture': return <CaptureMark />
-      case 'huff': return <HuffMark />
-      default: return null
+      case 'capture':
+        return <CaptureMark />
+      case 'huff':
+        return <HuffMark />
+      default:
+        return null
     }
   })()
 
@@ -72,9 +78,7 @@ const DragPiece = ({ moveable, onPieceClick, onPieceDrop, square, mark, type }) 
       <PieceWrapper ref={drag} $moveable={moveable} $isDragging={isDragging}>
         <Piece type={type} />
       </PieceWrapper>
-      <MarkWrapper onClick={handleClick}>
-        {overlay}
-      </MarkWrapper>
+      <MarkWrapper onClick={handleClick}>{overlay}</MarkWrapper>
     </>
   )
 }
@@ -95,7 +99,7 @@ DragPiece.propTypes = {
   onPieceDrop: PropTypes.func.isRequired,
 
   // will be called upon piece click
-  onPieceClick: PropTypes.func.isRequired
+  onPieceClick: PropTypes.func.isRequired,
 }
 
 export default DragPiece

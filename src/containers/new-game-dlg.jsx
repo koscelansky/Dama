@@ -13,7 +13,9 @@ import { newGame } from '../reducers/actions'
 const TypeSelect = ({ value, onChange }) => {
   return (
     <Form.Group as={Row} controlId='type-select'>
-      <Form.Label column sm='2'>Type</Form.Label>
+      <Form.Label column sm='2'>
+        Type
+      </Form.Label>
       <Col sm='10'>
         <Form.Select value={value} onChange={onChange}>
           <option value='human'>Human</option>
@@ -28,7 +30,9 @@ const TypeSelect = ({ value, onChange }) => {
 const NameSelect = ({ value, onChange }) => {
   return (
     <Form.Group as={Row}>
-      <Form.Label column sm='2'>Name</Form.Label>
+      <Form.Label column sm='2'>
+        Name
+      </Form.Label>
       <Col sm='10'>
         <Form.Control type='text' value={value} onChange={onChange} />
       </Col>
@@ -39,7 +43,9 @@ const NameSelect = ({ value, onChange }) => {
 const TimeSelect = ({ value, onChange }) => {
   return (
     <Form.Group as={Row}>
-      <Form.Label column sm='2'>Time</Form.Label>
+      <Form.Label column sm='2'>
+        Time
+      </Form.Label>
       <Col sm='10'>
         <Form.Control type='number' min='1' max='300' value={value} onChange={onChange} />
       </Col>
@@ -50,7 +56,9 @@ const TimeSelect = ({ value, onChange }) => {
 const EvaluateSelect = ({ value, onChange }) => {
   return (
     <Form.Group as={Row}>
-      <Form.Label column sm='2'>Type</Form.Label>
+      <Form.Label column sm='2'>
+        Type
+      </Form.Label>
       <Col sm='10'>
         <Form.Control as='select' value={value} onChange={onChange}>
           <option value='material-count'>Material Count</option>
@@ -73,7 +81,7 @@ const NewGameDlg = () => {
 
   const dispatch = useDispatch()
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault()
     dispatch(newGame(white, black, fen))
   }
@@ -84,7 +92,7 @@ const NewGameDlg = () => {
   // using e.target.value in callbacks is dangerous, because e is a synthetic
   // event, and those are reused for perf reasons, so it will be nullify
   // before the function has a chance to run
-  const eventValue = (func) => {
+  const eventValue = func => {
     return e => {
       const value = e.target.value
       func(value)
@@ -97,7 +105,11 @@ const NewGameDlg = () => {
         return (
           <NameSelect
             value={data.name}
-            onChange={eventValue(val => { update(draft => { draft.name = val }) })}
+            onChange={eventValue(val => {
+              update(draft => {
+                draft.name = val
+              })
+            })}
           />
         )
       }
@@ -118,7 +130,11 @@ const NewGameDlg = () => {
             />
             <EvaluateSelect
               value={data.evaluate}
-              onChange={eventValue(val => { update(draft => { draft.evaluate = val }) })}
+              onChange={eventValue(val => {
+                update(draft => {
+                  draft.evaluate = val
+                })
+              })}
             />
           </>
         )
@@ -140,7 +156,11 @@ const NewGameDlg = () => {
             <legend>White</legend>
             <TypeSelect
               value={white.type}
-              onChange={eventValue(val => { updateWhite(draft => { draft.type = val }) })}
+              onChange={eventValue(val => {
+                updateWhite(draft => {
+                  draft.type = val
+                })
+              })}
             />
             {whiteParams}
           </Form.Group>
@@ -150,7 +170,11 @@ const NewGameDlg = () => {
             <legend>Black</legend>
             <TypeSelect
               value={black.type}
-              onChange={eventValue(val => { updateBlack(draft => { draft.type = val }) })}
+              onChange={eventValue(val => {
+                updateBlack(draft => {
+                  draft.type = val
+                })
+              })}
             />
             {blackParams}
           </Form.Group>
@@ -158,12 +182,16 @@ const NewGameDlg = () => {
       </Row>
       <hr />
       <Form.Group as={Row}>
-        <Form.Label column sm='1'>FEN</Form.Label>
+        <Form.Label column sm='1'>
+          FEN
+        </Form.Label>
         <Col sm='11'>
           <Form.Control
             type='text'
             value={fen}
-            onChange={eventValue(val => { setFen(val || fenDef) })}
+            onChange={eventValue(val => {
+              setFen(val || fenDef)
+            })}
             isInvalid={!isFenValid}
             isValid={isFenValid}
           />

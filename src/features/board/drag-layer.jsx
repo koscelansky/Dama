@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { useDragLayer } from 'react-dnd'
 import styled from 'styled-components'
@@ -17,22 +16,17 @@ const Wrapper = styled.div`
 `
 
 const DragLayer = () => {
-  const {
-    itemType,
-    isDragging,
-    item,
-    offset
-  } = useDragLayer((monitor) => ({
+  const { itemType, isDragging, item, offset } = useDragLayer(monitor => ({
     item: monitor.getItem(),
     itemType: monitor.getItemType(),
     offset: monitor.getSourceClientOffset(),
-    isDragging: monitor.isDragging()
+    isDragging: monitor.isDragging(),
   }))
 
   const renderItem = (type, item) => {
     switch (type) {
       case 'PIECE':
-        return (<Piece type={item.piece} />)
+        return <Piece type={item.piece} />
       default:
         console.error('Unknow drag type!')
     }

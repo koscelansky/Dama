@@ -13,16 +13,20 @@ const FenDlg = () => {
   const fen = useSelector(state => toFenSelector(state))
 
   const copyFen = () => {
-    navigator.clipboard.writeText(fen)
+    navigator.clipboard
+      .writeText(fen)
       .then(() => setStatus('success'))
       .catch(() => setStatus('failure'))
   }
 
   const text = (() => {
     switch (status) {
-      case 'success': return <span className='text-success'>Copied</span>
-      case 'failure': return <span className='text-danger'>Failed</span>
-      default: return null
+      case 'success':
+        return <span className='text-success'>Copied</span>
+      case 'failure':
+        return <span className='text-danger'>Failed</span>
+      default:
+        return null
     }
   })()
 

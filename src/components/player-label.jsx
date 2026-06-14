@@ -25,9 +25,7 @@ const PlayerLabel = ({ color, right, children }) => {
       <PlayerIcon>
         <Pawn black={color === 'black'} />
       </PlayerIcon>
-      <PlayerName>
-        {children}
-      </PlayerName>
+      <PlayerName>{children}</PlayerName>
     </PlayerFlexBox>
   )
 }
@@ -36,5 +34,5 @@ export default PlayerLabel
 
 PlayerLabel.propTypes = {
   color: PropTypes.oneOf(['white', 'black']),
-  right: PropTypes.bool // true if color square should be on right
+  right: PropTypes.bool, // true if color square should be on right
 }

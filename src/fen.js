@@ -3,8 +3,8 @@
 // as in Slovak checkers there is the huffing rule, we need to encode which
 // squares can be huffed, this is done by adding [:X[Square number][,]...]
 
-export function toFen (state) {
-  const getPieces = (color) => {
+export function toFen(state) {
+  const getPieces = color => {
     const result = []
 
     for (const [i, value] of state.pieces.entries()) {
@@ -28,7 +28,7 @@ export function toFen (state) {
   return result
 }
 
-export function fromFen (fen) {
+export function fromFen(fen) {
   const parts = fen.split(':')
 
   if (parts.length !== 3 && parts.length !== 4) return null
@@ -62,7 +62,7 @@ export function fromFen (fen) {
         j = j.substring(1)
       }
 
-      const pos = (+j) - 1
+      const pos = +j - 1
 
       if (isNaN(pos) || pos < 0 || pos >= 32) return null
 
@@ -70,7 +70,7 @@ export function fromFen (fen) {
 
       const forbiddenPosForMen = {
         B: [0, 1, 2, 3],
-        W: [28, 29, 30, 31]
+        W: [28, 29, 30, 31],
       }[lastColor]
 
       if (type === 'M' && forbiddenPosForMen.includes(pos)) return null
@@ -93,7 +93,7 @@ export function fromFen (fen) {
         return null
       }
 
-      const pos = (+j) - 1
+      const pos = +j - 1
       if (isNaN(pos) || pos < 0 || pos >= 32) {
         return null
       }
@@ -111,6 +111,6 @@ export function fromFen (fen) {
   return { turn, pieces, fifteenMoveRule: 0, piecesToHuff }
 }
 
-export function isValidFen (fen) {
+export function isValidFen(fen) {
   return fromFen(fen) != null
 }

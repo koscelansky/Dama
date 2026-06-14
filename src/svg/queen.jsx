@@ -8,15 +8,13 @@ const BlackQueenData = '/svg/Chess_qdt45.svg'
 const WhiteQueenData = '/svg/Chess_qlt45.svg'
 
 const Queen = ({ black }) => {
-  const pic = (black ? BlackQueenData : WhiteQueenData)
+  const pic = black ? BlackQueenData : WhiteQueenData
 
-  return (
-    <Svg src={pic} />
-  )
+  return <Svg src={pic} />
 }
 
 export default Queen
 
 Queen.propTypes = {
-  black: PropTypes.bool
+  black: PropTypes.bool,
 }

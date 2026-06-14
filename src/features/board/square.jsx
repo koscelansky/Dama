@@ -22,16 +22,14 @@ const SquareDiv = styled.div`
   }
 `
 
-const Square = (props) => {
+const Square = props => {
   const { fill, label } = props
 
   return (
     <SquareDiv fill={fill}>
       <SquareLabel>{label}</SquareLabel>
       <div style={{ position: 'absolute', width: '100%' }}>
-        <div style={{ margin: '12%', position: 'relative' }}>
-          {props.children}
-        </div>
+        <div style={{ margin: '12%', position: 'relative' }}>{props.children}</div>
       </div>
     </SquareDiv>
   )
@@ -41,5 +39,5 @@ export default Square
 
 Square.propTypes = {
   fill: PropTypes.string.isRequired,
-  label: PropTypes.number
+  label: PropTypes.number,
 }

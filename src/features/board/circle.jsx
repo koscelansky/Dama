@@ -19,9 +19,7 @@ const CircleWrapper = styled.div`
 
 const Circle = ({ color, blur, shadow, children }) => (
   <CircleWrapper color={color} blur={blur} shadow={shadow}>
-    <div style={{ position: 'absolute', width: '100%' }}>
-      {children}
-    </div>
+    <div style={{ position: 'absolute', width: '100%' }}>{children}</div>
   </CircleWrapper>
 )
 
@@ -30,5 +28,5 @@ export default Circle
 Circle.propTypes = {
   color: PropTypes.string,
   blur: PropTypes.string,
-  shadow: PropTypes.string
+  shadow: PropTypes.string,
 }

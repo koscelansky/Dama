@@ -2,12 +2,13 @@ import { GameResult } from './const'
 import { getPossibleMoves, getSquaresBetween } from './possible-moves'
 import { Move } from './move'
 
-function getPiecesToHuff (board, move) {
+function getPiecesToHuff(board, move) {
   const possibleMoves = getPossibleMoves(board).filter(x => x.huff === move.huff)
   const { pieces, turn } = board
 
   const getPiecesWithCapture = type =>
-    pieces.map((x, i) => [x, i])
+    pieces
+      .map((x, i) => [x, i])
       .filter(x => x[0] != null && x[0][0] === turn && x[0][1] === type)
       .map(x => x[1])
       .filter(x => possibleMoves.find(move => move.begin() === x && move.isCapture()))
@@ -57,7 +58,7 @@ function getPiecesToHuff (board, move) {
   return []
 }
 
-export function performMove (board, moveObj) {
+export function performMove(board, moveObj) {
   console.log(moveObj)
   const move = Move.fromJSObj(moveObj)
 
@@ -103,11 +104,11 @@ export function performMove (board, moveObj) {
     pieces: newPieces,
     turn: board.turn === 'W' ? 'B' : 'W',
     fifteenMoveRule: fifteenMoveRule + 1,
-    piecesToHuff: getPiecesToHuff(board, move)
+    piecesToHuff: getPiecesToHuff(board, move),
   }
 }
 
-export function getGameResult (board) {
+export function getGameResult(board) {
   const { pieces, turn, fifteenMoveRule } = board
 
   if (pieces.find(x => x != null && x[0] === turn) == null) {

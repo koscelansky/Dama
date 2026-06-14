@@ -5,9 +5,7 @@ import Svg from './svg'
 const HuffMarkData = '/svg/huff-mark.svg'
 
 const HuffMark = () => {
-  return (
-    <Svg src={HuffMarkData} />
-  )
+  return <Svg src={HuffMarkData} />
 }
 
 export default HuffMark

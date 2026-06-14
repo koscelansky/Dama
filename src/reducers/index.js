@@ -9,7 +9,7 @@ const mainReducer = combineReducers({
   globalState,
   board,
   gameSettings,
-  moveHistory
+  moveHistory,
 })
 
 export default mainReducer

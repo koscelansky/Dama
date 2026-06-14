@@ -5,10 +5,7 @@ import styled from 'styled-components'
 
 import FenDlg from '../features/fen-dlg'
 
-import {
-  gameResultSelector,
-  possibleMovesSelector
-} from '../selectors'
+import { gameResultSelector, possibleMovesSelector } from '../selectors'
 
 const DivWrapper = styled.div`
   padding-left: 1em;
@@ -16,7 +13,7 @@ const DivWrapper = styled.div`
 `
 
 class Footer extends Component {
-  render () {
+  render() {
     const { moves, result, white, black } = this.props
     const str = moves.join(' ')
 
@@ -34,7 +31,7 @@ class Footer extends Component {
   }
 }
 
-function getPlayerStatusString (player) {
+function getPlayerStatusString(player) {
   const { type, name, ...options } = player
 
   const result = (() => {
@@ -50,12 +47,12 @@ function getPlayerStatusString (player) {
   return result.replace(/-/g, String.fromCharCode(8209))
 }
 
-function mapStateToProps (state, ownProps) {
+function mapStateToProps(state, ownProps) {
   return {
     result: gameResultSelector(state),
     moves: possibleMovesSelector(state),
     white: getPlayerStatusString(state.gameSettings.white),
-    black: getPlayerStatusString(state.gameSettings.black)
+    black: getPlayerStatusString(state.gameSettings.black),
   }
 }
 
@@ -63,7 +60,7 @@ Footer.propTypes = {
   result: PropTypes.string.isRequired,
   moves: PropTypes.arrayOf(PropTypes.object).isRequired,
   black: PropTypes.string,
-  white: PropTypes.string
+  white: PropTypes.string,
 }
 
 export default connect(mapStateToProps)(Footer)

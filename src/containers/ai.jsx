@@ -8,12 +8,9 @@ import Spinner from 'react-bootstrap/Spinner'
 import { movePiece } from '../reducers/actions'
 import { Move } from '../game_logic/move'
 
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import AiWorker from 'worker-loader!../ai.worker.js'
-
 class Ai extends Component {
   componentDidMount () {
-    this.worker = new AiWorker()
+    this.worker = new Worker(new URL('../ai.worker.js', import.meta.url), { type: 'module' })
     this.worker.onmessage = (e) => {
       const data = JSON.parse(e.data)
 

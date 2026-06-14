@@ -32,7 +32,7 @@ const App = () => {
 
 const middleware = (getDefaultMiddleware) => {
   const mw = getDefaultMiddleware()
-  if (process.env.NODE_ENV === 'development') {
+  if (import.meta.env.DEV) {
     mw.push(logger)
   }
   return mw
@@ -41,7 +41,7 @@ const middleware = (getDefaultMiddleware) => {
 export const appState = configureStore({
   reducer,
   middleware,
-  devTools: process.env.NODE_ENV !== 'production'
+  devTools: import.meta.env.DEV
 })
 
 const GlobalStyle = createGlobalStyle`

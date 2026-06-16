@@ -15,8 +15,6 @@
     "react-dnd-touch-backend": "^16.0.1",
     "react-dom": "^19.2.7",
     "react-redux": "^9.3.0",
-    "redux": "^5.0.1",
-    "redux-logger": "^3.0.6",
     "styled-components": "^6.4.2"
   },
   "scripts": {

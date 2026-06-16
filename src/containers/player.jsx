@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import PlayerLabel from '../components/player-label'
@@ -25,67 +24,45 @@ const PlayerLabelWrapper = styled.div`
   flex-basis: 80%;
 `
 
-class Player extends Component {
-  render() {
-    const { right, color, name, turn, type, options } = this.props
-
-    let ai = null
-    if (turn && type.startsWith('ai-')) {
-      ai = <Ai type={type} options={options} />
-    }
-
-    return (
-      <Wrapper $active={turn} $right={right}>
-        <PlayerLabelWrapper>
-          <PlayerLabel color={color} right={right}>
-            {name}
-          </PlayerLabel>
-        </PlayerLabelWrapper>
-        <AiWrapper>{ai}</AiWrapper>
-      </Wrapper>
-    )
-  }
-}
-
-function mapStateToProps(state, ownProps) {
-  const colorAbbreviation = ownProps.color === 'white' ? 'W' : 'B'
-  const result = gameResultSelector(state)
-
-  const settings = state.gameSettings
-
-  const type = settings[ownProps.color].type
+const Player = ({ color, right }) => {
+  const colorAbbreviation = color === 'white' ? 'W' : 'B'
+  const result = useSelector(gameResultSelector)
+  const boardTurn = useSelector(state => state.board.turn)
+  const settings = useSelector(state => state.gameSettings[color])
+  const turn = boardTurn === colorAbbreviation && result === GameResult.InProgress
+  const { type } = settings
 
   const [name, options] = (() => {
     switch (type) {
-      case 'ai-random': {
+      case 'ai-random':
         return ['Random', { time: null }]
-      }
       case 'ai-minmax': {
-        const { time, evaluate, alphaBeta } = settings[ownProps.color]
+        const { time, evaluate, alphaBeta } = settings
         return ['MinMax', { time, evaluate, alphaBeta }]
       }
       case 'human':
-      default: {
-        return [settings[ownProps.color].name, {}]
-      }
+      default:
+        return [settings.name, {}]
     }
   })()
 
-  return {
-    type,
-    name,
-    turn: state.board.turn === colorAbbreviation && result === GameResult.InProgress,
-    options,
-  }
+  const ai = turn && type.startsWith('ai-') ? <Ai type={type} options={options} /> : null
+
+  return (
+    <Wrapper $active={turn} $right={right}>
+      <PlayerLabelWrapper>
+        <PlayerLabel color={color} right={right}>
+          {name}
+        </PlayerLabel>
+      </PlayerLabelWrapper>
+      <AiWrapper>{ai}</AiWrapper>
+    </Wrapper>
+  )
 }
 
 Player.propTypes = {
   color: PropTypes.oneOf(['black', 'white']),
-  type: PropTypes.oneOf(['human', 'ai-random', 'ai-minmax']),
-  name: PropTypes.string, // name of the player
-  right: PropTypes.bool, // true if label should be on the right side
-  turn: PropTypes.bool, // true if it is this player's turn
-  options: PropTypes.any, // options passed to ai player
+  right: PropTypes.bool,
 }
 
-export default connect(mapStateToProps)(Player)
+export default Player

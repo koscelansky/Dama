@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { useDrop } from 'react-dnd'
 import Square from './square'

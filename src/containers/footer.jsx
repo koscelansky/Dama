@@ -1,6 +1,4 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 import FenDlg from '../features/fen-dlg'
@@ -11,25 +9,6 @@ const DivWrapper = styled.div`
   padding-left: 1em;
   text-indent: -1em;
 `
-
-class Footer extends Component {
-  render() {
-    const { moves, result, white, black } = this.props
-    const str = moves.join(' ')
-
-    return (
-      <div>
-        <DivWrapper>Result: {result}</DivWrapper>
-        <DivWrapper>
-          <FenDlg />
-        </DivWrapper>
-        <DivWrapper>Possible moves: {str}</DivWrapper>
-        <DivWrapper>White: {white}</DivWrapper>
-        <DivWrapper>Black: {black}</DivWrapper>
-      </div>
-    )
-  }
-}
 
 function getPlayerStatusString(player) {
   const { type, name: _, ...options } = player
@@ -47,20 +26,24 @@ function getPlayerStatusString(player) {
   return result.replace(/-/g, String.fromCharCode(8209))
 }
 
-function mapStateToProps(state) {
-  return {
-    result: gameResultSelector(state),
-    moves: possibleMovesSelector(state),
-    white: getPlayerStatusString(state.gameSettings.white),
-    black: getPlayerStatusString(state.gameSettings.black),
-  }
+const Footer = () => {
+  const result = useSelector(gameResultSelector)
+  const moves = useSelector(possibleMovesSelector)
+  const white = useSelector(state => getPlayerStatusString(state.gameSettings.white))
+  const black = useSelector(state => getPlayerStatusString(state.gameSettings.black))
+  const str = moves.join(' ')
+
+  return (
+    <div>
+      <DivWrapper>Result: {result}</DivWrapper>
+      <DivWrapper>
+        <FenDlg />
+      </DivWrapper>
+      <DivWrapper>Possible moves: {str}</DivWrapper>
+      <DivWrapper>White: {white}</DivWrapper>
+      <DivWrapper>Black: {black}</DivWrapper>
+    </div>
+  )
 }
 
-Footer.propTypes = {
-  result: PropTypes.string.isRequired,
-  moves: PropTypes.arrayOf(PropTypes.object).isRequired,
-  black: PropTypes.string,
-  white: PropTypes.string,
-}
-
-export default connect(mapStateToProps)(Footer)
+export default Footer

@@ -1,9 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import React from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { configureStore } from '@reduxjs/toolkit'
-import { logger } from 'redux-logger'
 import { Provider } from 'react-redux'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { DndProvider } from 'react-dnd'
@@ -30,19 +29,7 @@ const App = () => {
   )
 }
 
-const middleware = getDefaultMiddleware => {
-  const mw = getDefaultMiddleware()
-  if (import.meta.env.DEV) {
-    mw.push(logger)
-  }
-  return mw
-}
-
-export const appState = configureStore({
-  reducer,
-  middleware,
-  devTools: import.meta.env.DEV,
-})
+export const appState = configureStore({ reducer })
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -66,10 +53,10 @@ const container = document.getElementById('root')
 const root = createRoot(container)
 
 root.render(
-  <React.StrictMode>
+  <StrictMode>
     <Provider store={appState}>
       <App />
     </Provider>
     <GlobalStyle />
-  </React.StrictMode>
+  </StrictMode>
 )

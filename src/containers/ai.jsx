@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import { useEffect, useRef } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled, { keyframes } from 'styled-components'
 
@@ -27,75 +27,50 @@ const Dot = styled.span`
   animation-delay: ${({ $i }) => $i * 0.2}s;
 `
 
-class Ai extends Component {
-  componentDidMount() {
-    this.worker = new Worker(new URL('../ai.worker.js', import.meta.url), { type: 'module' })
-    this.worker.onmessage = (e) => {
+const Ai = ({ type, options }) => {
+  const board = useSelector(state => state.board)
+  const dispatch = useDispatch()
+  const bestMoveRef = useRef(null)
+
+  useEffect(() => {
+    const worker = new Worker(new URL('../ai.worker.js', import.meta.url), { type: 'module' })
+
+    worker.onmessage = e => {
       const data = JSON.parse(e.data)
-
       if (data.done) {
-        this.props.onMoveCommited(Move.fromJSON(data.value))
+        dispatch(movePiece(Move.fromJSON(data.value)))
       }
-
-      this.bestMove = data.value
+      bestMoveRef.current = data.value
     }
 
-    const { time } = this.props.options
-
-    this.timer =
+    const { time } = options
+    const timer =
       time != null
         ? setTimeout(() => {
-            this.props.onMoveCommited(Move.fromJSON(this.bestMove))
+            dispatch(movePiece(Move.fromJSON(bestMoveRef.current)))
           }, time * 1000)
         : null
 
-    this.worker.postMessage({
-      board: this.props.board,
-      options: this.props.options,
-      player: this.props.type,
-    })
-  }
+    worker.postMessage({ board, options, player: type })
 
-  componentWillUnmount() {
-    this.worker.terminate()
-    this.timer != null && clearTimeout(this.timer)
-  }
+    return () => {
+      worker.terminate()
+      if (timer != null) clearTimeout(timer)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps -- intentionally run once on mount
 
-  render() {
-    return (
-      <DotsWrapper aria-label='Thinking' role='status'>
-        <Dot $i={0} />
-        <Dot $i={1} />
-        <Dot $i={2} />
-      </DotsWrapper>
-    )
-  }
-}
-
-function mapStateToProps(state) {
-  return {
-    board: state.board,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    onMoveCommited: (move) => {
-      return dispatch(movePiece(move))
-    },
-  }
+  return (
+    <DotsWrapper aria-label='Thinking' role='status'>
+      <Dot $i={0} />
+      <Dot $i={1} />
+      <Dot $i={2} />
+    </DotsWrapper>
+  )
 }
 
 Ai.propTypes = {
   type: PropTypes.oneOf(['ai-random', 'ai-minmax']),
   options: PropTypes.any,
-  board: PropTypes.shape({
-    pieces: PropTypes.arrayOf(PropTypes.oneOf(['WM', 'WK', 'BM', 'BK', null])),
-    turn: PropTypes.oneOf(['W', 'B']),
-    piecesToHuff: PropTypes.arrayOf(PropTypes.number),
-    fifteenMoveRule: PropTypes.number,
-  }),
-  onMoveCommited: PropTypes.func.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Ai)
+export default Ai

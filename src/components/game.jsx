@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import styled from 'styled-components'
 
 import MoveSelector from '../containers/move-selector'
 import Footer from '../containers/footer'
@@ -10,13 +11,34 @@ import WelcomeDlg from '../containers/welcome-dlg'
 import History from '../features/history'
 import { GlobalState } from '../reducers/consts'
 
+const FooterWrapper = styled.footer`
+  margin-top: auto;
+  padding-top: 0.5rem;
+`
+
+const BoardArea = styled.div`
+  position: relative;
+`
+
+const HistoryPanel = styled.div`
+  margin-top: 0.5rem;
+
+  @media (min-width: 768px) {
+    position: absolute;
+    left: calc(100% + 0.75rem);
+    top: 0;
+    width: 180px;
+    margin-top: 0;
+  }
+`
+
 const Game = () => {
   const showWelcome = useSelector(state => state.globalState === GlobalState.New)
 
   return (
     <>
       <WelcomeDlg show={showWelcome} />
-      <Container>
+      <Container className='d-flex flex-column flex-grow-1 px-0'>
         <Row>
           <Col>
             <Player color='white' />
@@ -27,17 +49,18 @@ const Game = () => {
         </Row>
         <Row>
           <Col className='px-0'>
-            <MoveSelector />
-          </Col>
-          <Col sm='3' className='pr-0 pl-1'>
-            <History />
-          </Col>
-        </Row>
-        <Row>
-          <Col className='px-0'>
-            <Footer />
+            <BoardArea>
+              <MoveSelector />
+              <HistoryPanel>
+                <History />
+              </HistoryPanel>
+            </BoardArea>
           </Col>
         </Row>
+        <FooterWrapper>
+          <hr className='mt-0' />
+          <Footer />
+        </FooterWrapper>
       </Container>
     </>
   )

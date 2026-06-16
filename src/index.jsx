@@ -14,10 +14,10 @@ import Game from './components/game'
 import reducer from './reducers'
 
 const ScaledContent = styled.div`
-  position: relative;
-  width: calc(80vh - 80px);
-  min-width: 460px;
-  max-width: 95vw;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: min(calc(90vh - 80px), calc(95vw - 2rem));
   margin: 0 auto;
 `
 
@@ -51,20 +51,23 @@ const App = () => {
 export const appState = configureStore({ reducer })
 
 const GlobalStyle = createGlobalStyle`
-  html {
-    position: relative;
-    min-height: 100%;
+  html,
+  body,
+  #root {
+    height: 100%;
   }
 
   body {
     background-color: cornsilk;
-    min-width: 420px;
+    min-width: 0;
     padding: 1%;
     margin: 0;
   }
 
   .welcome-dlg {
-    max-width: 50% !important;
+    width: min(560px, 95vw);
+    max-width: none;
+    margin: auto;
   }
 `
 

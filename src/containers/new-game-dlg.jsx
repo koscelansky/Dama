@@ -218,15 +218,10 @@ const NewGameDlg = () => {
           />
         </Col>
       </Form.Group>
-      <Row>
-        <Col>
-          <Form.Group>
-            <Button variant='primary' type='submit' size='lg' className='float-right'>
-              Start
-            </Button>
-          </Form.Group>
-        </Col>
-      </Row>
+      <hr />
+      <Button variant='primary' type='submit' size='lg' className='w-100'>
+        Start
+      </Button>
     </Form>
   )
 }

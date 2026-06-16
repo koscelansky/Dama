@@ -14,9 +14,6 @@ importers:
       bootstrap:
         specifier: ^5.3.8
         version: 5.3.8(@popperjs/core@2.11.8)
-      immer:
-        specifier: ^11.1.8
-        version: 11.1.8
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -47,15 +44,9 @@ importers:
       redux-logger:
         specifier: ^3.0.6
         version: 3.0.6
-      reselect:
-        specifier: ^5.2.0
-        version: 5.2.0
       styled-components:
         specifier: ^6.4.2
         version: 6.4.2(css-to-react-native@3.2.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      use-immer:
-        specifier: ^0.11.0
-        version: 0.11.0(immer@11.1.8)(react@19.2.7)
     devDependencies:
       '@eslint/js':
         specifier: ^9.0.0
@@ -2088,12 +2079,6 @@ packages:
 
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
-
-  use-immer@0.11.0:
-    resolution: {integrity: sha512-RNAqi3GqsWJ4bcCd4LMBgdzvPmTABam24DUaFiKfX9s3MSorNRz9RDZYJkllJoMHUxVLMDetwAuCDeyWNrp1yA==}
-    peerDependencies:
-      immer: '>=8.0.0'
-      react: ^16.8.0 || ^17.0.1 || ^18.0.0 || ^19.0.0
 
   use-sync-external-store@1.6.0:
     resolution: {integrity: sha512-Pp6GSwGP/NrPIrxVFAIkOQeyw8lFenOHijQWkUTrDvrF4ALqylP2C/KCkeS9dpUM3KvYRQhna5vt7IL95+ZQ9w==}
@@ -4361,11 +4346,6 @@ snapshots:
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
-
-  use-immer@0.11.0(immer@11.1.8)(react@19.2.7):
-    dependencies:
-      immer: 11.1.8
-      react: 19.2.7
 
   use-sync-external-store@1.6.0(react@19.2.7):
     dependencies:

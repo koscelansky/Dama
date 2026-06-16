@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect'
+import { createSelector } from '@reduxjs/toolkit'
 import { getPossibleMoves } from './game_logic/possible-moves.js'
 import { getGameResult } from './game_logic/perform-move.js'
 import { toFen } from './fen.js'

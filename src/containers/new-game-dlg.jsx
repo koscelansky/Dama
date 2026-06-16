@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useImmer } from 'use-immer'
+import { createNextState } from '@reduxjs/toolkit'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -92,10 +92,10 @@ EvaluateSelect.propTypes = {
 
 const NewGameDlg = () => {
   const whiteDef = useSelector(state => state.gameSettings.white)
-  const [white, updateWhite] = useImmer(whiteDef)
+  const [white, updateWhite] = useReducer(createNextState, whiteDef)
 
   const blackDef = useSelector(state => state.gameSettings.black)
-  const [black, updateBlack] = useImmer(blackDef)
+  const [black, updateBlack] = useReducer(createNextState, blackDef)
 
   const fenDef = useSelector(state => toFenSelector(state))
   const [fen, setFen] = useState(fenDef)

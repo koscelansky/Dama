@@ -1,5 +1,7 @@
+import { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useDrag } from 'react-dnd'
+import { getEmptyImage } from 'react-dnd-html5-backend'
 import styled from 'styled-components'
 
 import Piece from './piece.jsx'
@@ -31,7 +33,7 @@ const MarkWrapper = styled.div`
 `
 
 const DragPiece = ({ moveable, onPieceClick, onPieceDrop, square, mark, type }) => {
-  const [{ isDragging }, drag] = useDrag(
+  const [{ isDragging }, drag, preview] = useDrag(
     () => ({
       type: 'PIECE',
       item: { square, piece: type },
@@ -52,6 +54,11 @@ const DragPiece = ({ moveable, onPieceClick, onPieceDrop, square, mark, type }) 
     }),
     [square, type, moveable, onPieceDrop]
   )
+
+  // Suppress the HTML5 native ghost image so our custom DragLayer renders instead
+  useEffect(() => {
+    preview(getEmptyImage(), { captureDraggingState: true })
+  }, [preview])
 
   const handleClick = e => {
     e.preventDefault()

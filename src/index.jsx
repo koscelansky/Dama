@@ -4,8 +4,10 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
-import { TouchBackend } from 'react-dnd-touch-backend'
 import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { TouchBackend } from 'react-dnd-touch-backend'
+import { MultiBackend, MouseTransition, TouchTransition } from 'react-dnd-multi-backend'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import Game from './components/game'
@@ -19,9 +21,26 @@ const ScaledContent = styled.div`
   margin: 0 auto;
 `
 
+const dndPipeline = {
+  backends: [
+    {
+      id: 'html5',
+      backend: HTML5Backend,
+      transition: MouseTransition,
+    },
+    {
+      id: 'touch',
+      backend: TouchBackend,
+      options: { enableMouseEvents: false },
+      preview: true,
+      transition: TouchTransition,
+    },
+  ],
+}
+
 const App = () => {
   return (
-    <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
+    <DndProvider backend={MultiBackend} options={dndPipeline}>
       <ScaledContent>
         <Game />
       </ScaledContent>

@@ -1,8 +1,6 @@
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
-import FenDlg from '../features/fen-dlg'
-
 import { gameResultSelector, possibleMovesSelector } from '../selectors'
 
 const DivWrapper = styled.div`
@@ -36,9 +34,6 @@ const Footer = () => {
   return (
     <div>
       <DivWrapper>Result: {result}</DivWrapper>
-      <DivWrapper>
-        <FenDlg />
-      </DivWrapper>
       <DivWrapper>Possible moves: {str}</DivWrapper>
       <DivWrapper>White: {white}</DivWrapper>
       <DivWrapper>Black: {black}</DivWrapper>

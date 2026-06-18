@@ -9,6 +9,7 @@ import Footer from '../containers/footer'
 import Player from '../containers/player'
 import WelcomeDlg from '../containers/welcome-dlg'
 import History from '../features/history'
+import LeftPanel from '../features/left-panel'
 import { GlobalState } from '../reducers/consts'
 
 const FooterWrapper = styled.footer`
@@ -18,6 +19,18 @@ const FooterWrapper = styled.footer`
 
 const BoardArea = styled.div`
   position: relative;
+`
+
+const LeftPanelWrapper = styled.div`
+  margin-top: 0.5rem;
+
+  @media (min-width: 768px) {
+    position: absolute;
+    right: calc(100% + 0.75rem);
+    top: 0;
+    width: 120px;
+    margin-top: 0;
+  }
 `
 
 const HistoryPanel = styled.div`
@@ -50,6 +63,9 @@ const Game = () => {
         <Row>
           <Col className='px-0'>
             <BoardArea>
+              <LeftPanelWrapper>
+                <LeftPanel />
+              </LeftPanelWrapper>
               <MoveSelector />
               <HistoryPanel>
                 <History />

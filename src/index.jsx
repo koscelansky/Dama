@@ -64,7 +64,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
   }
 
-  .welcome-dlg {
+  .new-game-dialog {
     width: min(560px, 95vw);
     max-width: none;
     margin: auto;

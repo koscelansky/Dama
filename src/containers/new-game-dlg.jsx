@@ -90,7 +90,7 @@ EvaluateSelect.propTypes = {
   onChange: PropTypes.func.isRequired,
 }
 
-const NewGameDlg = () => {
+const NewGameDlg = ({ onSubmit }) => {
   const whiteDef = useSelector(state => state.gameSettings.white)
   const [white, updateWhite] = useReducer(createNextState, whiteDef)
 
@@ -104,7 +104,11 @@ const NewGameDlg = () => {
 
   const handleSubmit = event => {
     event.preventDefault()
-    dispatch(newGame(white, black, fen))
+    if (onSubmit) {
+      onSubmit(white, black, fen)
+    } else {
+      dispatch(newGame(white, black, fen))
+    }
   }
 
   const isFenValid = isValidFen(fen)
@@ -224,6 +228,10 @@ const NewGameDlg = () => {
       </Button>
     </Form>
   )
+}
+
+NewGameDlg.propTypes = {
+  onSubmit: PropTypes.func,
 }
 
 export default NewGameDlg

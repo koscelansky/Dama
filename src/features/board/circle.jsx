@@ -5,8 +5,8 @@ const CircleWrapper = styled.div`
   position: relative;
   border-radius: 50%;
   background: ${props => props.color};
-  filter: blur(${props => props.blur});
-  box-shadow: ${props => props.shadow};
+  filter: blur(${props => props.$blur});
+  box-shadow: ${props => props.$shadow};
   width: 100%;
 
   &::after {
@@ -17,7 +17,7 @@ const CircleWrapper = styled.div`
 `
 
 const Circle = ({ color, blur, shadow, children }) => (
-  <CircleWrapper color={color} blur={blur} shadow={shadow}>
+  <CircleWrapper color={color} $blur={blur} $shadow={shadow}>
     <div style={{ position: 'absolute', width: '100%' }}>{children}</div>
   </CircleWrapper>
 )

@@ -38,7 +38,7 @@ const Ai = ({ type, options }) => {
     worker.onmessage = e => {
       const data = JSON.parse(e.data)
       if (data.done) {
-        dispatch(movePiece(Move.fromJSON(data.value)))
+        dispatch(movePiece(Move.fromJSON(data.value).toJSObj()))
       }
       bestMoveRef.current = data.value
     }
@@ -47,7 +47,7 @@ const Ai = ({ type, options }) => {
     const timer =
       time != null
         ? setTimeout(() => {
-            dispatch(movePiece(Move.fromJSON(bestMoveRef.current)))
+            dispatch(movePiece(Move.fromJSON(bestMoveRef.current).toJSObj()))
           }, time * 1000)
         : null
 

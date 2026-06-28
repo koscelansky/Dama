@@ -56,22 +56,37 @@ MoveCell.propTypes = {
 }
 
 const History = () => {
-  const moves = [...useSelector(state => state.moveHistory)]
-
-  if (useSelector(firstPlayer) === 'B') {
-    moves.unshift('...') // placeholder for white, if first is black
-  }
+  const moves = useSelector(state => state.moveHistory)
+  const first = useSelector(firstPlayer)
 
   const rows = []
+  let rowNumber = 1
 
-  for (let i = 0; i < moves.length / 2; i += 1) {
+  const addRow = (whiteMove, blackMove) => {
     rows.push(
-      <tr key={i}>
-        <td>{i + 1}</td>
-        <MoveCell>{Move.fromJSObj(moves[i * 2]).toString()}</MoveCell>
-        <MoveCell>{moves[i * 2 + 1] ? Move.fromJSObj(moves[i * 2 + 1]).toString() : ''}</MoveCell>
+      <tr key={rowNumber}>
+        <td>{rowNumber}</td>
+        <MoveCell>{whiteMove}</MoveCell>
+        <MoveCell>{blackMove}</MoveCell>
       </tr>
     )
+    rowNumber += 1
+  }
+
+  const formatMove = move => (move ? Move.fromJSObj(move).toString() : '')
+
+  if (first === 'B') {
+    if (moves.length > 0) {
+      addRow('...', formatMove(moves[0]))
+    }
+
+    for (let i = 1; i < moves.length; i += 2) {
+      addRow(formatMove(moves[i]), formatMove(moves[i + 1]))
+    }
+  } else {
+    for (let i = 0; i < moves.length; i += 2) {
+      addRow(formatMove(moves[i]), formatMove(moves[i + 1]))
+    }
   }
 
   return (

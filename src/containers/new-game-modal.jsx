@@ -10,7 +10,7 @@ const NewGameModal = ({ show, onHide = () => {}, onSubmit, showCloseButton = tru
         <Modal.Title>Start new game</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <NewGameDlg onSubmit={onSubmit} />
+        <NewGameDlg key={show ? 'new-game-open' : 'new-game-closed'} onSubmit={onSubmit} />
       </Modal.Body>
     </Modal>
   )

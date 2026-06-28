@@ -22,6 +22,7 @@ const LeftPanel = () => {
   }
 
   const handleStartNewGame = (white, black, fen) => {
+    console.log('Starting new game with', white, black, fen)
     dispatch(newGame(white, black, fen))
     setShowNewGameModal(false)
   }

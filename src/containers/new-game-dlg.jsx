@@ -97,7 +97,7 @@ const NewGameDlg = ({ onSubmit }) => {
   const blackDef = useSelector(state => state.gameSettings.black)
   const [black, updateBlack] = useReducer(createNextState, blackDef)
 
-  const fenDef = useSelector(state => toFenSelector(state))
+  const fenDef = useSelector(state => state.gameSettings.fen || toFenSelector(state))
   const [fen, setFen] = useState(fenDef)
 
   const dispatch = useDispatch()

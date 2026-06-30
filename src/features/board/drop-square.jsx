@@ -66,11 +66,10 @@ const DropSquare = ({
   ) : null
 
   const fill = number != null ? 'sienna' : 'blanchedalmond'
-  const label = number != null ? number + 1 : null
 
   return (
     <div ref={drop}>
-      <Square label={label} fill={fill}>
+      <Square fill={fill}>
         {children}
         {canDropMarker}
       </Square>

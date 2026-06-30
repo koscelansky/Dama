@@ -7,10 +7,28 @@ import DragLayer from './drag-layer'
 import DragPiece from './drag-piece'
 import DropSquare from './drop-square'
 
-const GridWrapper = styled.div`
+const BoardWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: 1.5rem repeat(8, minmax(0, 1fr)) 1.5rem;
+  grid-template-rows: 1.5rem repeat(8, minmax(0, 1fr)) 1.5rem;
+  width: min(100%, 34rem);
+  margin: 0 auto;
 `
+
+const BoardLabel = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  font-size: 0.85rem;
+  user-select: none;
+  cursor: default;
+  background-color: #f3f3f3;
+`
+
+const FILES = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+const RANKS = [8, 7, 6, 5, 4, 3, 2, 1]
+
 const selectMoves = (from, to, moves, hinted, huffed) => {
   const possibleMoves = moves
     .filter(x => x.begin() === from && x.end() === to)
@@ -226,10 +244,32 @@ const Board = ({ active, pieces, moves, onPieceMove }) => {
     squares.push(renderSquare(i))
   }
 
+  const boardCells = []
+
+  boardCells.push(<BoardLabel key='corner-top-left' />)
+  FILES.forEach(file => boardCells.push(<BoardLabel key={`file-top-${file}`}>{file}</BoardLabel>))
+  boardCells.push(<BoardLabel key='corner-top-right' />)
+
+  RANKS.forEach(rank => {
+    boardCells.push(<BoardLabel key={`rank-left-${rank}`}>{rank}</BoardLabel>)
+
+    const row = 8 - rank
+    for (let col = 0; col < 8; ++col) {
+      const index = row * 8 + col
+      boardCells.push(squares[index])
+    }
+
+    boardCells.push(<BoardLabel key={`rank-right-${rank}`}>{rank}</BoardLabel>)
+  })
+
+  boardCells.push(<BoardLabel key='corner-bottom-left' />)
+  FILES.forEach(file => boardCells.push(<BoardLabel key={`file-bottom-${file}`}>{file}</BoardLabel>))
+  boardCells.push(<BoardLabel key='corner-bottom-right' />)
+
   return (
     <>
       <DragLayer />
-      <GridWrapper onContextMenu={handleContextMenu}>{squares}</GridWrapper>
+      <BoardWrapper onContextMenu={handleContextMenu}>{boardCells}</BoardWrapper>
     </>
   )
 }

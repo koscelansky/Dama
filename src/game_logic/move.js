@@ -1,4 +1,5 @@
 import { getSquaresBetween } from './possible-moves'
+import { squareToAlgebraic } from './const'
 
 export class Move {
   constructor(type, squares, huff) {
@@ -21,9 +22,15 @@ export class Move {
   }
 
   toString() {
-    const huffStr = this.huff != null ? '-' + (this.huff + 1) + '; ' : ''
-
-    return '(' + huffStr + this.squares.map(x => x + 1).join(this.type) + ')'
+    const algebraicSquares = this.squares.map(squareToAlgebraic)
+    const moveStr = algebraicSquares.join(this.type === 'x' ? 'x' : '-')
+    
+    if (this.huff != null) {
+      const huffSquare = squareToAlgebraic(this.huff)
+      return moveStr + '; ' + huffSquare
+    }
+    
+    return moveStr
   }
 
   begin() {

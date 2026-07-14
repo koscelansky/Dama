@@ -22,7 +22,7 @@ const Dot = styled.span`
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: currentColor;
+  background-color: currentcolor;
   animation: ${bounce} 1.2s ease-in-out infinite both;
   animation-delay: ${({ $i }) => $i * 0.2}s;
 `

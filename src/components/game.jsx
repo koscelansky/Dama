@@ -24,7 +24,7 @@ const BoardArea = styled.div`
 const LeftPanelWrapper = styled.div`
   margin-top: 0.5rem;
 
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     position: absolute;
     right: calc(100% + 0.75rem);
     top: 0;
@@ -36,7 +36,7 @@ const LeftPanelWrapper = styled.div`
 const HistoryPanel = styled.div`
   margin-top: 0.5rem;
 
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     position: absolute;
     left: calc(100% + 0.75rem);
     top: 0;

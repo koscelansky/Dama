@@ -29,7 +29,11 @@ const LeftPanel = () => {
 
   return (
     <>
-      <NewGameModal show={showNewGameModal} onHide={() => setShowNewGameModal(false)} onSubmit={handleStartNewGame} />
+      <NewGameModal
+        show={showNewGameModal}
+        onHide={() => setShowNewGameModal(false)}
+        onSubmit={handleStartNewGame}
+      />
       <ButtonGroup>
         <Button type='button' onClick={handleNewGame} variant='primary'>
           New Game

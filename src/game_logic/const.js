@@ -19,7 +19,7 @@ export const Direction = Object.freeze({
 
 export const SQUARE_COUNT = 32
 
-export const squareToAlgebraic = (squareNum) => {
+export const squareToAlgebraic = squareNum => {
   const row = Math.floor(squareNum / 4)
   const colInRow = squareNum % 4
   const column = row % 2 === 0 ? colInRow * 2 + 1 : colInRow * 2

@@ -12,12 +12,7 @@ const WelcomeDlg = ({ show }) => {
   }
 
   return (
-    <NewGameModal
-      show={show}
-      onHide={() => {}}
-      onSubmit={handleSubmit}
-      showCloseButton={false}
-    />
+    <NewGameModal show={show} onHide={() => {}} onSubmit={handleSubmit} showCloseButton={false} />
   )
 }
 

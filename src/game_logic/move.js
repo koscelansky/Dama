@@ -24,12 +24,12 @@ export class Move {
   toString() {
     const algebraicSquares = this.squares.map(squareToAlgebraic)
     const moveStr = algebraicSquares.join(this.type === 'x' ? 'x' : '-')
-    
+
     if (this.huff != null) {
       const huffSquare = squareToAlgebraic(this.huff)
       return moveStr + '; ' + huffSquare
     }
-    
+
     return moveStr
   }
 

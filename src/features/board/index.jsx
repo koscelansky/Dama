@@ -263,7 +263,9 @@ const Board = ({ active, pieces, moves, onPieceMove }) => {
   })
 
   boardCells.push(<BoardLabel key='corner-bottom-left' />)
-  FILES.forEach(file => boardCells.push(<BoardLabel key={`file-bottom-${file}`}>{file}</BoardLabel>))
+  FILES.forEach(file =>
+    boardCells.push(<BoardLabel key={`file-bottom-${file}`}>{file}</BoardLabel>)
+  )
   boardCells.push(<BoardLabel key='corner-bottom-right' />)
 
   return (

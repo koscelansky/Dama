@@ -98,6 +98,10 @@ export function fromFen(fen) {
         return null
       }
 
+      if (piecesToHuff.includes(pos)) {
+        return null
+      }
+
       piecesToHuff.push(pos)
     }
 

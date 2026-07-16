@@ -29,3 +29,17 @@ The most widespread and well-known variant in Slovakia.
    1. The player whose turn it is cannot make any legal move.
    2. Neither player has made a capture in the last fifteen moves (the fifteen-move rule).
    3. Both players agree that neither can force a win.
+
+## FEN Notation
+
+Positions are encoded using the [Portable Draughts Notation](https://en.wikipedia.org/wiki/Portable_Draughts_Notation)
+FEN format: `[Turn]:[Color 1][K][Square number][,]...]:[Color 2][K][Square number][,]...]`.
+
+Since standard PDN has no notion of huffing, this app extends the format with an
+optional fourth, colon-separated section listing the squares of pieces that are
+currently eligible to be huffed: `:X[Square number][,]...]`. This section is
+omitted entirely when no piece can be huffed.
+
+Example: `W:W1,K2:B24,25:X24,25` means white to move, with a white man on
+square 1 and a white king on square 2, black men on squares 24 and 25, both of
+which may be huffed instead of white making a normal move.

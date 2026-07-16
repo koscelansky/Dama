@@ -5,6 +5,7 @@ import Stack from 'react-bootstrap/Stack'
 import styled from 'styled-components'
 
 import FenDlg from '../fen-dlg'
+import GameInfoDlg from './game-info-dlg'
 import NewGameModal from '../../containers/new-game-modal'
 import { newGame } from '../../reducers/actions'
 
@@ -39,6 +40,7 @@ const LeftPanel = () => {
           New Game
         </Button>
         <FenDlg />
+        <GameInfoDlg />
       </ButtonGroup>
     </>
   )

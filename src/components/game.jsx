@@ -5,17 +5,11 @@ import Col from 'react-bootstrap/Col'
 import styled from 'styled-components'
 
 import MoveSelector from '../containers/move-selector'
-import Footer from '../containers/footer'
 import Player from '../containers/player'
 import WelcomeDlg from '../containers/welcome-dlg'
 import History from '../features/history'
 import LeftPanel from '../features/left-panel'
 import { GlobalState } from '../reducers/consts'
-
-const FooterWrapper = styled.footer`
-  margin-top: auto;
-  padding-top: 0.5rem;
-`
 
 const BoardArea = styled.div`
   position: relative;
@@ -73,10 +67,6 @@ const Game = () => {
             </BoardArea>
           </Col>
         </Row>
-        <FooterWrapper>
-          <hr className='mt-0' />
-          <Footer />
-        </FooterWrapper>
       </Container>
     </>
   )

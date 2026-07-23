@@ -4,12 +4,13 @@ import gameSettings from './game-settings'
 import board from './board'
 import moveHistory from './move-history'
 import globalState from './global-state'
+import { withGameRestore } from './restore-game'
 
-const mainReducer = combineReducers({
+const appReducer = combineReducers({
   globalState,
   board,
   gameSettings,
   moveHistory,
 })
 
-export default mainReducer
+export default withGameRestore(appReducer)

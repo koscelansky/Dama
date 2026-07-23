@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Table from 'react-bootstrap/Table'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
@@ -8,6 +8,7 @@ import styled from 'styled-components'
 
 import { Move } from '../../game_logic/move'
 import { firstPlayer } from '../../selectors'
+import { restoreGame } from '../../reducers/actions'
 
 const MovesTable = styled(Table)`
   table-layout: fixed;
@@ -28,7 +29,19 @@ const Background = styled.div`
   width: 100%;
 `
 
-const MoveCell = ({ children }) => {
+const RestoreButton = styled.button`
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  color: inherit;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: none;
+  border: 0;
+`
+
+const MoveCell = ({ children, onRestore }) => {
   const ref = useRef()
   const [show, setShow] = useState(false)
 
@@ -45,7 +58,13 @@ const MoveCell = ({ children }) => {
   return (
     <OverlayTrigger trigger={trigger} overlay={<Tooltip>{children}</Tooltip>}>
       <td className='text-truncate' ref={ref}>
-        {children}
+        {onRestore ? (
+          <RestoreButton type='button' onClick={onRestore}>
+            {children}
+          </RestoreButton>
+        ) : (
+          children
+        )}
       </td>
     </OverlayTrigger>
   )
@@ -53,21 +72,33 @@ const MoveCell = ({ children }) => {
 
 MoveCell.propTypes = {
   children: PropTypes.node.isRequired,
+  onRestore: PropTypes.func,
 }
 
 const History = () => {
   const moves = useSelector(state => state.moveHistory)
   const first = useSelector(firstPlayer)
+  const dispatch = useDispatch()
 
   const rows = []
   let rowNumber = 1
 
-  const addRow = (whiteMove, blackMove) => {
+  const restore = moveCount => {
+    if (window.confirm('Restore the game to this move?')) {
+      dispatch(restoreGame(moveCount))
+    }
+  }
+
+  const addRow = (whiteMove, blackMove, whiteMoveCount, blackMoveCount) => {
     rows.push(
       <tr key={rowNumber}>
         <td>{rowNumber}</td>
-        <MoveCell>{whiteMove}</MoveCell>
-        <MoveCell>{blackMove}</MoveCell>
+        <MoveCell onRestore={whiteMoveCount != null ? () => restore(whiteMoveCount) : undefined}>
+          {whiteMove}
+        </MoveCell>
+        <MoveCell onRestore={blackMoveCount != null ? () => restore(blackMoveCount) : undefined}>
+          {blackMove}
+        </MoveCell>
       </tr>
     )
     rowNumber += 1
@@ -77,15 +108,17 @@ const History = () => {
 
   if (first === 'B') {
     if (moves.length > 0) {
-      addRow('...', formatMove(moves[0]))
+      addRow('...', formatMove(moves[0]), null, 1)
     }
 
     for (let i = 1; i < moves.length; i += 2) {
-      addRow(formatMove(moves[i]), formatMove(moves[i + 1]))
+      const blackMove = moves[i + 1]
+      addRow(formatMove(moves[i]), formatMove(blackMove), i + 1, blackMove ? i + 2 : null)
     }
   } else {
     for (let i = 0; i < moves.length; i += 2) {
-      addRow(formatMove(moves[i]), formatMove(moves[i + 1]))
+      const blackMove = moves[i + 1]
+      addRow(formatMove(moves[i]), formatMove(blackMove), i + 1, blackMove ? i + 2 : null)
     }
   }
 

@@ -104,6 +104,8 @@ const NewGameDlg = ({ onSubmit }) => {
 
   const handleSubmit = event => {
     event.preventDefault()
+    if (!isFenValid) return
+
     if (onSubmit) {
       onSubmit(white, black, fen)
     } else {
@@ -223,7 +225,7 @@ const NewGameDlg = ({ onSubmit }) => {
         </Col>
       </Form.Group>
       <hr />
-      <Button variant='primary' type='submit' size='lg' className='w-100'>
+      <Button variant='primary' type='submit' size='lg' className='w-100' disabled={!isFenValid}>
         Start
       </Button>
     </Form>

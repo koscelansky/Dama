@@ -1,49 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { Color } from '../game_logic/const'
 import { performMove } from '../game_logic/perform-move.js'
 import { fromFen } from '../fen.js'
 import { newGame } from './actions'
+import { defaultGameSettings } from './game-settings'
 
-const initialState = {
-  pieces: [
-    'WM',
-    'WM',
-    'WM',
-    'WM',
-    'WM',
-    'WM',
-    'WM',
-    'WM',
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    'BM',
-    'BM',
-    'BM',
-    'BM',
-    'BM',
-    'BM',
-    'BM',
-    'BM',
-  ],
-  turn: Color.White,
-  piecesToHuff: [], // pieces that can be huffed by next player
-  fifteenMoveRule: 0, // how many moves after last capture, man move
-}
+const initialState = fromFen(defaultGameSettings.fen)
 
 const board = createSlice({
   name: 'board',
@@ -55,7 +17,7 @@ const board = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(newGame, (_, action) => {
-      return fromFen(action.payload.fen) || initialState
+      return fromFen(action.payload.fen)
     })
   },
 })

@@ -51,10 +51,15 @@ export default function* (board, options) {
     }
   })(options.evaluate)
 
+  const possibleMoves = getPossibleMoves(board)
+  if (possibleMoves.length === 0) return
+
+  yield JSON.stringify(possibleMoves[_.random(possibleMoves.length - 1)])
+
   let depth = 1
   while (depth < 100) {
     const rankedMoves = []
-    for (const i of getPossibleMoves(board)) {
+    for (const i of possibleMoves) {
       const nextBoard = performMove(board, i)
 
       const value = -negamax(nextBoard, depth - 1, -Infinity, Infinity, evalFun)

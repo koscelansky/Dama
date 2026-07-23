@@ -35,7 +35,7 @@ const Player = ({ color, right }) => {
   const [name, options] = (() => {
     switch (type) {
       case 'ai-random':
-        return ['Random', { time: null }]
+        return ['Random', {}]
       case 'ai-minmax': {
         const { time, evaluate, alphaBeta } = settings
         return ['MinMax', { time, evaluate, alphaBeta }]

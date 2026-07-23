@@ -32,23 +32,35 @@ const Ai = ({ type, options }) => {
   const dispatch = useDispatch()
   const bestMoveRef = useRef(null)
 
+  if (options.time !== undefined && (!Number.isFinite(options.time) || options.time <= 0)) {
+    throw new Error('AI time must be a positive number when provided.')
+  }
+
   useEffect(() => {
     const worker = new Worker(new URL('../ai.worker.js', import.meta.url), { type: 'module' })
+    let hasMoved = false
+
+    const playBestMove = () => {
+      if (hasMoved || bestMoveRef.current == null) return
+
+      hasMoved = true
+      dispatch(movePiece(Move.fromJSON(bestMoveRef.current).toJSObj()))
+    }
 
     worker.onmessage = e => {
       const data = JSON.parse(e.data)
-      if (data.done) {
-        dispatch(movePiece(Move.fromJSON(data.value).toJSObj()))
+      if (data.value !== null) bestMoveRef.current = data.value
+
+      if (data.play) {
+        playBestMove()
       }
-      bestMoveRef.current = data.value
     }
 
-    const { time } = options
     const timer =
-      time != null
+      options.time !== undefined
         ? setTimeout(() => {
-            dispatch(movePiece(Move.fromJSON(bestMoveRef.current).toJSObj()))
-          }, time * 1000)
+            playBestMove()
+          }, options.time * 1000)
         : null
 
     worker.postMessage({ board, options, player: type })
@@ -70,7 +82,9 @@ const Ai = ({ type, options }) => {
 
 Ai.propTypes = {
   type: PropTypes.oneOf(['ai-random', 'ai-minmax']),
-  options: PropTypes.any,
+  options: PropTypes.shape({
+    time: PropTypes.number,
+  }).isRequired,
 }
 
 export default Ai

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled, { keyframes } from 'styled-components'
@@ -11,9 +11,15 @@ const bounce = keyframes`
   40%           { transform: scale(1);   opacity: 1; }
 `
 
-const DotsWrapper = styled.div`
+const ThinkingWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 2px;
+`
+
+const Dots = styled.div`
+  display: flex;
   gap: 4px;
 `
 
@@ -27,18 +33,32 @@ const Dot = styled.span`
   animation-delay: ${({ $i }) => $i * 0.2}s;
 `
 
+const Countdown = styled.span`
+  min-width: 4ch;
+  font-size: 0.8em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  text-align: center;
+`
+
+const formatTime = seconds => `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`
+
 const Ai = ({ type, options }) => {
   const board = useSelector(state => state.board)
   const dispatch = useDispatch()
   const bestMoveRef = useRef(null)
+  const [remainingTime, setRemainingTime] = useState(options.time ?? null)
 
   if (options.time !== undefined && (!Number.isFinite(options.time) || options.time <= 0)) {
     throw new Error('AI time must be a positive number when provided.')
   }
 
+  const formattedRemainingTime = remainingTime == null ? null : formatTime(remainingTime)
+
   useEffect(() => {
     const worker = new Worker(new URL('../ai.worker.js', import.meta.url), { type: 'module' })
     let hasMoved = false
+    const deadline = options.time !== undefined ? Date.now() + options.time * 1000 : null
 
     const playBestMove = () => {
       if (hasMoved || bestMoveRef.current == null) return
@@ -57,10 +77,17 @@ const Ai = ({ type, options }) => {
     }
 
     const timer =
-      options.time !== undefined
+      deadline !== null
         ? setTimeout(() => {
             playBestMove()
           }, options.time * 1000)
+        : null
+
+    const countdown =
+      deadline !== null
+        ? setInterval(() => {
+            setRemainingTime(Math.max(0, Math.ceil((deadline - Date.now()) / 1000)))
+          }, 250)
         : null
 
     worker.postMessage({ board, options, player: type })
@@ -68,15 +95,28 @@ const Ai = ({ type, options }) => {
     return () => {
       worker.terminate()
       if (timer != null) clearTimeout(timer)
+      if (countdown != null) clearInterval(countdown)
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps -- intentionally run once on mount
 
   return (
-    <DotsWrapper aria-label='Thinking' role='status'>
-      <Dot $i={0} />
-      <Dot $i={1} />
-      <Dot $i={2} />
-    </DotsWrapper>
+    <ThinkingWrapper
+      aria-label={
+        formattedRemainingTime == null
+          ? 'Thinking'
+          : `Thinking, ${formattedRemainingTime} remaining`
+      }
+      role='status'
+    >
+      <Dots aria-hidden='true'>
+        <Dot $i={0} />
+        <Dot $i={1} />
+        <Dot $i={2} />
+      </Dots>
+      {formattedRemainingTime != null && (
+        <Countdown aria-hidden='true'>{formattedRemainingTime}</Countdown>
+      )}
+    </ThinkingWrapper>
   )
 }
 

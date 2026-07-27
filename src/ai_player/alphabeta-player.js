@@ -54,26 +54,37 @@ export default function* (board, options) {
   const possibleMoves = getPossibleMoves(board)
   if (possibleMoves.length === 0) return
 
-  yield possibleMoves[_.random(possibleMoves.length - 1)]
+  let principalMove = possibleMoves[_.random(possibleMoves.length - 1)]
+  yield principalMove
 
   let depth = 1
   while (depth < 100) {
+    // Search the previous iteration's best move first so it establishes a useful root alpha.
+    const orderedMoves = [principalMove, ...possibleMoves.filter(move => move !== principalMove)]
     const rankedMoves = []
-    for (const i of possibleMoves) {
+    let alpha = -Infinity
+    let best = null
+
+    for (const i of orderedMoves) {
       const nextBoard = performMove(board, i)
 
-      const value = -negamax(nextBoard, depth - 1, -Infinity, Infinity, evalFun)
+      // Negamax reverses the root window: beta is -alpha and the child has no lower bound.
+      const value = -negamax(nextBoard, depth - 1, -Infinity, -alpha, evalFun)
       rankedMoves.push({ move: i, rank: value })
+
+      // If the move is better than the best move so far, update the best move and alpha.
+      if (best == null || value > best.rank) {
+        best = rankedMoves[rankedMoves.length - 1]
+        alpha = value
+      }
     }
 
-    const highestRank = _.maxBy(rankedMoves, x => x.rank).rank
-
-    const bestMoves = rankedMoves.filter(x => x.rank === highestRank)
-
-    const best = bestMoves[_.random(bestMoves.length - 1)]
+    // keep the best move for next iteration, so it can 
+    // develop a better alpha bound for the next iteration
+    principalMove = best.move
 
     console.warn('Alpha beta depth ' + depth + ' best move ' + best.move + ' value ' + best.rank)
-    console.warn(bestMoves.map(x => x.move.toString() + '=' + x.rank).join(' '))
+    console.warn(rankedMoves.map(x => x.move.toString() + '=' + x.rank).join(' '))
     console.warn()
 
     yield best.move

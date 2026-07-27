@@ -4,7 +4,7 @@ import Table from 'react-bootstrap/Table'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { Move } from '../../game_logic/move'
 import { firstPlayer } from '../../selectors'
@@ -29,14 +29,23 @@ const Background = styled.div`
   width: 100%;
 `
 
-const RestoreButton = styled.button`
+const truncatedMove = css`
+  display: block;
   width: 100%;
-  padding: 0;
   overflow: hidden;
   color: inherit;
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
+`
+
+const MoveText = styled.span`
+  ${truncatedMove}
+`
+
+const RestoreButton = styled.button`
+  ${truncatedMove}
+  padding: 0;
   background: none;
   border: 0;
 `
@@ -46,24 +55,32 @@ const MoveCell = ({ children, onRestore }) => {
   const [show, setShow] = useState(false)
 
   useLayoutEffect(() => {
-    if (ref.current) {
-      const current = ref.current
+    const current = ref.current
+    if (!current) return
 
+    const updateTooltip = () => {
       setShow(current.offsetWidth < current.scrollWidth)
     }
+
+    updateTooltip()
+
+    const observer = new ResizeObserver(updateTooltip)
+    observer.observe(current)
+
+    return () => observer.disconnect()
   }, [children])
 
   const trigger = show ? ['hover', 'focus'] : []
 
   return (
     <OverlayTrigger trigger={trigger} overlay={<Tooltip>{children}</Tooltip>}>
-      <td className='text-truncate' ref={ref}>
+      <td>
         {onRestore ? (
-          <RestoreButton type='button' onClick={onRestore}>
+          <RestoreButton type='button' onClick={onRestore} ref={ref}>
             {children}
           </RestoreButton>
         ) : (
-          children
+          <MoveText ref={ref}>{children}</MoveText>
         )}
       </td>
     </OverlayTrigger>

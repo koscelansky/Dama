@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import styled, { keyframes } from 'styled-components'
 
 import { movePiece } from '../reducers/actions'
-import { Move } from '../game_logic/move'
 
 const bounce = keyframes`
   0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
@@ -64,11 +63,11 @@ const Ai = ({ type, options }) => {
       if (hasMoved || bestMoveRef.current == null) return
 
       hasMoved = true
-      dispatch(movePiece(Move.fromJSON(bestMoveRef.current).toJSObj()))
+      dispatch(movePiece(bestMoveRef.current))
     }
 
     worker.onmessage = e => {
-      const data = JSON.parse(e.data)
+      const data = e.data
       if (data.value !== null) bestMoveRef.current = data.value
 
       if (data.play) {

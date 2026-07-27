@@ -37,8 +37,8 @@ const Player = ({ color, right }) => {
       case 'ai-random':
         return ['Random', {}]
       case 'ai-minmax': {
-        const { time, evaluate, alphaBeta } = settings
-        return ['MinMax', { time, evaluate, alphaBeta }]
+        const { time, evaluate } = settings
+        return ['MinMax', { time, evaluate }]
       }
       case 'human':
       default:

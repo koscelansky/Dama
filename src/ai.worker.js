@@ -16,11 +16,11 @@ function* GetBestMove(data) {
     const res = ai.next()
 
     if (res.done) {
-      yield JSON.stringify({ value: res.value ?? null, play: true })
+      yield { value: res.value ?? null, play: true }
       return
     }
 
-    yield JSON.stringify({ value: res.value, play: false })
+    yield { value: res.value, play: false }
   }
 }
 

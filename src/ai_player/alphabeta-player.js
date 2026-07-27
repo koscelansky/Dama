@@ -54,7 +54,7 @@ export default function* (board, options) {
   const possibleMoves = getPossibleMoves(board)
   if (possibleMoves.length === 0) return
 
-  yield JSON.stringify(possibleMoves[_.random(possibleMoves.length - 1)])
+  yield possibleMoves[_.random(possibleMoves.length - 1)]
 
   let depth = 1
   while (depth < 100) {
@@ -76,7 +76,7 @@ export default function* (board, options) {
     console.warn(bestMoves.map(x => x.move.toString() + '=' + x.rank).join(' '))
     console.warn()
 
-    yield JSON.stringify(best.move)
+    yield best.move
 
     depth++
   }

@@ -46,19 +46,23 @@ const formatTime = seconds => `${Math.floor(seconds / 60)}:${String(seconds % 60
 const Ai = ({ type, options }) => {
   const board = useSelector(state => state.board)
   const dispatch = useDispatch()
+  const { evaluate, time } = options
   const bestMoveRef = useRef(null)
-  const [remainingTime, setRemainingTime] = useState(options.time ?? null)
+  const [remainingTime, setRemainingTime] = useState(time ?? null)
 
-  if (options.time !== undefined && (!Number.isFinite(options.time) || options.time <= 0)) {
+  if (time !== undefined && (!Number.isFinite(time) || time <= 0)) {
     throw new Error('AI time must be a positive number when provided.')
   }
 
   const formattedRemainingTime = remainingTime == null ? null : formatTime(remainingTime)
 
   useEffect(() => {
+    bestMoveRef.current = null
+    setRemainingTime(time ?? null)
+
     const worker = new Worker(new URL('../ai.worker.js', import.meta.url), { type: 'module' })
     let hasMoved = false
-    const deadline = options.time !== undefined ? Date.now() + options.time * 1000 : null
+    const deadline = time !== undefined ? Date.now() + time * 1000 : null
 
     const playBestMove = () => {
       if (hasMoved) return
@@ -89,7 +93,7 @@ const Ai = ({ type, options }) => {
       deadline !== null
         ? setTimeout(() => {
             playBestMove()
-          }, options.time * 1000)
+          }, time * 1000)
         : null
 
     const countdown =
@@ -99,14 +103,15 @@ const Ai = ({ type, options }) => {
           }, 250)
         : null
 
-    worker.postMessage({ board, options, player: type })
+    worker.postMessage({ board, options: { evaluate, time }, player: type })
 
     return () => {
+      worker.onmessage = null
       worker.terminate()
       if (timer != null) clearTimeout(timer)
       if (countdown != null) clearInterval(countdown)
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps -- intentionally run once on mount
+  }, [board, dispatch, evaluate, time, type])
 
   return (
     <ThinkingWrapper
@@ -132,6 +137,7 @@ const Ai = ({ type, options }) => {
 Ai.propTypes = {
   type: PropTypes.oneOf(['ai-random', 'ai-minmax']),
   options: PropTypes.shape({
+    evaluate: PropTypes.string,
     time: PropTypes.number,
   }).isRequired,
 }

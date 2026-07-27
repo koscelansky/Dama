@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import styled, { keyframes } from 'styled-components'
 
 import { movePiece } from '../reducers/actions'
+import { getPossibleMoves } from '../game_logic/possible-moves'
 
 const bounce = keyframes`
   0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
@@ -60,19 +61,28 @@ const Ai = ({ type, options }) => {
     const deadline = options.time !== undefined ? Date.now() + options.time * 1000 : null
 
     const playBestMove = () => {
-      if (hasMoved || bestMoveRef.current == null) return
+      if (hasMoved) return
+
+      const move = (() => {
+        if (bestMoveRef.current != null) return bestMoveRef.current
+
+        const possibleMoves = getPossibleMoves(board)
+        return possibleMoves[Math.floor(Math.random() * possibleMoves.length)]?.toJSObj()
+      })()
+
+      if (move == null) {
+        throw new Error('Active AI player has no legal move.')
+      }
 
       hasMoved = true
-      dispatch(movePiece(bestMoveRef.current))
+      dispatch(movePiece(move))
     }
 
     worker.onmessage = e => {
       const data = e.data
       if (data.value !== null) bestMoveRef.current = data.value
 
-      if (data.play) {
-        playBestMove()
-      }
+      if (data.play) playBestMove()
     }
 
     const timer =

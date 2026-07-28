@@ -115,28 +115,18 @@ const NewGameDlg = ({ onSubmit }) => {
 
   const isFenValid = isValidFen(fen)
 
-  // https://stackoverflow.com/questions/51256318/issue-of-using-e-target-value-in-react-setstate-function
-  // using e.target.value in callbacks is dangerous, because e is a synthetic
-  // event, and those are reused for perf reasons, so it will be nullify
-  // before the function has a chance to run
-  const eventValue = func => {
-    return e => {
-      const value = e.target.value
-      func(value)
-    }
-  }
-
   const getParams = (data, update) => {
     switch (data.type) {
       case 'human': {
         return (
           <NameSelect
             value={data.name}
-            onChange={eventValue(val => {
+            onChange={event => {
+              const value = event.currentTarget.value
               update(draft => {
-                draft.name = val
+                draft.name = value
               })
-            })}
+            }}
           />
         )
       }
@@ -145,23 +135,25 @@ const NewGameDlg = ({ onSubmit }) => {
           <>
             <TimeSelect
               value={data.time}
-              onChange={eventValue(val => {
+              onChange={event => {
+                const input = event.currentTarget.value
                 update(draft => {
-                  let value = parseInt(val)
+                  let value = parseInt(input)
                   value = isNaN(value) ? 10 : value
                   value = Math.min(300, Math.max(value, 1))
 
                   draft.time = value
                 })
-              })}
+              }}
             />
             <EvaluateSelect
               value={data.evaluate}
-              onChange={eventValue(val => {
+              onChange={event => {
+                const value = event.currentTarget.value
                 update(draft => {
-                  draft.evaluate = val
+                  draft.evaluate = value
                 })
-              })}
+              }}
             />
           </>
         )
@@ -183,11 +175,12 @@ const NewGameDlg = ({ onSubmit }) => {
             <legend>White</legend>
             <TypeSelect
               value={white.type}
-              onChange={eventValue(val => {
+              onChange={event => {
+                const value = event.currentTarget.value
                 updateWhite(draft => {
-                  draft.type = val
+                  draft.type = value
                 })
-              })}
+              }}
             />
             {whiteParams}
           </Form.Group>
@@ -197,11 +190,12 @@ const NewGameDlg = ({ onSubmit }) => {
             <legend>Black</legend>
             <TypeSelect
               value={black.type}
-              onChange={eventValue(val => {
+              onChange={event => {
+                const value = event.currentTarget.value
                 updateBlack(draft => {
-                  draft.type = val
+                  draft.type = value
                 })
-              })}
+              }}
             />
             {blackParams}
           </Form.Group>
@@ -216,9 +210,7 @@ const NewGameDlg = ({ onSubmit }) => {
           <Form.Control
             type='text'
             value={fen}
-            onChange={eventValue(val => {
-              setFen(val || fenDef)
-            })}
+            onChange={event => setFen(event.currentTarget.value || fenDef)}
             isInvalid={!isFenValid}
             isValid={isFenValid}
           />

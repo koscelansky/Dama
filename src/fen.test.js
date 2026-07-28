@@ -41,6 +41,13 @@ describe('fromFen', () => {
     expect(fromFen('W:W0:B24')).toBeNull()
   })
 
+  it('returns null for square tokens that are not plain decimal integers', () => {
+    expect(fromFen('W:W01:B24')).toBeNull()
+    expect(fromFen('W:W1e1:B24')).toBeNull()
+    expect(fromFen('W:W1.5:B24')).toBeNull()
+    expect(fromFen('W:W0x10:B24')).toBeNull()
+  })
+
   it('returns null when a square is occupied twice', () => {
     expect(fromFen('W:W1,K1:B24')).toBeNull()
   })
@@ -57,6 +64,8 @@ describe('fromFen', () => {
   it('returns null for a malformed huff section', () => {
     expect(fromFen('W:W1:B24:X')).toBeNull()
     expect(fromFen('W:W1:B24:X33')).toBeNull()
+    expect(fromFen('W:W1:B24:Z24')).toBeNull()
+    expect(fromFen('W:W1:B24:X024')).toBeNull()
   })
 
   it('returns null for a duplicate huff square', () => {

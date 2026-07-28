@@ -3,6 +3,15 @@
 // as in Slovak checkers there is the huffing rule, we need to encode which
 // squares can be huffed, this is done by adding [:X[Square number][,]...]
 
+function parseSquare(value) {
+  // test if the number is exactly 1-32, no hex numbers
+  // or exponent notation, no leading zeros, no whitespace
+  // just plain numbers
+  if (!/^(?:[1-9]|[12]\d|3[0-2])$/.test(value)) return null
+
+  return Number(value) - 1
+}
+
 export function toFen(state) {
   const getPieces = color => {
     const result = []
@@ -62,9 +71,8 @@ export function fromFen(fen) {
         j = j.substring(1)
       }
 
-      const pos = +j - 1
-
-      if (isNaN(pos) || pos < 0 || pos >= 32) return null
+      const pos = parseSquare(j)
+      if (pos == null) return null
 
       if (pieces[pos] !== null) return null
 
@@ -87,14 +95,18 @@ export function fromFen(fen) {
       return null
     }
 
+    if (p[0] !== 'X') {
+      return null
+    }
+
     const positions = p.substring(1).split(',')
     for (const j of positions) {
       if (j === '') {
         return null
       }
 
-      const pos = +j - 1
-      if (isNaN(pos) || pos < 0 || pos >= 32) {
+      const pos = parseSquare(j)
+      if (pos == null) {
         return null
       }
 

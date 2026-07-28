@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form'
 import { toFenSelector } from '../../selectors'
 
 const FenDlg = () => {
+  const fenControlId = useId()
   const [show, setShow] = useState(false)
   const [status, setStatus] = useState(null)
 
@@ -40,7 +41,10 @@ const FenDlg = () => {
           <Modal.Title>FEN</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Control type='text' placeholder={fen} readOnly />
+          <Form.Group controlId={fenControlId}>
+            <Form.Label className='visually-hidden'>Current FEN</Form.Label>
+            <Form.Control type='text' value={fen} readOnly />
+          </Form.Group>
           <div className='mt-2'>
             <Button onClick={copyFen}>Copy</Button>&nbsp;
             <span className='mx-2 d-inline-block align-middle'>{text}</span>

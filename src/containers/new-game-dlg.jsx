@@ -1,4 +1,4 @@
-import { useState, useReducer } from 'react'
+import { useId, useState, useReducer } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { createNextState } from '@reduxjs/toolkit'
 import Form from 'react-bootstrap/Form'
@@ -11,9 +11,9 @@ import { toFenSelector } from '../selectors.js'
 import { isValidFen } from '../fen.js'
 import { newGame } from '../reducers/actions'
 
-const TypeSelect = ({ value, onChange }) => {
+const TypeSelect = ({ controlId, value, onChange }) => {
   return (
-    <Form.Group as={Row} controlId='type-select'>
+    <Form.Group as={Row} controlId={controlId}>
       <Form.Label column sm='2'>
         Type
       </Form.Label>
@@ -29,13 +29,14 @@ const TypeSelect = ({ value, onChange }) => {
 }
 
 TypeSelect.propTypes = {
+  controlId: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 }
 
-const NameSelect = ({ value, onChange }) => {
+const NameSelect = ({ controlId, value, onChange }) => {
   return (
-    <Form.Group as={Row}>
+    <Form.Group as={Row} controlId={controlId}>
       <Form.Label column sm='2'>
         Name
       </Form.Label>
@@ -47,13 +48,14 @@ const NameSelect = ({ value, onChange }) => {
 }
 
 NameSelect.propTypes = {
+  controlId: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 }
 
-const TimeSelect = ({ value, onChange }) => {
+const TimeSelect = ({ controlId, value, onChange }) => {
   return (
-    <Form.Group as={Row}>
+    <Form.Group as={Row} controlId={controlId}>
       <Form.Label column sm='2'>
         Time
       </Form.Label>
@@ -65,15 +67,16 @@ const TimeSelect = ({ value, onChange }) => {
 }
 
 TimeSelect.propTypes = {
+  controlId: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   onChange: PropTypes.func.isRequired,
 }
 
-const EvaluateSelect = ({ value, onChange }) => {
+const EvaluateSelect = ({ controlId, value, onChange }) => {
   return (
-    <Form.Group as={Row}>
+    <Form.Group as={Row} controlId={controlId}>
       <Form.Label column sm='2'>
-        Type
+        Evaluation
       </Form.Label>
       <Col sm='10'>
         <Form.Control as='select' value={value} onChange={onChange}>
@@ -86,11 +89,13 @@ const EvaluateSelect = ({ value, onChange }) => {
 }
 
 EvaluateSelect.propTypes = {
+  controlId: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 }
 
 const NewGameDlg = ({ onSubmit }) => {
+  const formId = useId()
   const whiteDef = useSelector(state => state.gameSettings.white)
   const [white, updateWhite] = useReducer(createNextState, whiteDef)
 
@@ -115,11 +120,12 @@ const NewGameDlg = ({ onSubmit }) => {
 
   const isFenValid = isValidFen(fen)
 
-  const getParams = (data, update) => {
+  const getParams = (player, data, update) => {
     switch (data.type) {
       case 'human': {
         return (
           <NameSelect
+            controlId={`${formId}-${player}-name`}
             value={data.name}
             onChange={event => {
               const value = event.currentTarget.value
@@ -134,6 +140,7 @@ const NewGameDlg = ({ onSubmit }) => {
         return (
           <>
             <TimeSelect
+              controlId={`${formId}-${player}-time`}
               value={data.time}
               onChange={event => {
                 const input = event.currentTarget.value
@@ -147,6 +154,7 @@ const NewGameDlg = ({ onSubmit }) => {
               }}
             />
             <EvaluateSelect
+              controlId={`${formId}-${player}-evaluation`}
               value={data.evaluate}
               onChange={event => {
                 const value = event.currentTarget.value
@@ -164,8 +172,8 @@ const NewGameDlg = ({ onSubmit }) => {
     }
   }
 
-  const whiteParams = getParams(white, updateWhite)
-  const blackParams = getParams(black, updateBlack)
+  const whiteParams = getParams('white', white, updateWhite)
+  const blackParams = getParams('black', black, updateBlack)
 
   return (
     <Form noValidate onSubmit={handleSubmit}>
@@ -174,6 +182,7 @@ const NewGameDlg = ({ onSubmit }) => {
           <Form.Group>
             <legend>White</legend>
             <TypeSelect
+              controlId={`${formId}-white-type`}
               value={white.type}
               onChange={event => {
                 const value = event.currentTarget.value
@@ -189,6 +198,7 @@ const NewGameDlg = ({ onSubmit }) => {
           <Form.Group>
             <legend>Black</legend>
             <TypeSelect
+              controlId={`${formId}-black-type`}
               value={black.type}
               onChange={event => {
                 const value = event.currentTarget.value
@@ -202,7 +212,7 @@ const NewGameDlg = ({ onSubmit }) => {
         </Col>
       </Row>
       <hr />
-      <Form.Group as={Row}>
+      <Form.Group as={Row} controlId={`${formId}-fen`}>
         <Form.Label column sm='1'>
           FEN
         </Form.Label>

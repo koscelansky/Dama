@@ -11,6 +11,7 @@ import { MultiBackend, MouseTransition, TouchTransition } from 'react-dnd-multi-
 import styled, { createGlobalStyle } from 'styled-components'
 
 import Game from './components/game'
+import ErrorBoundary from './components/error-boundary'
 import reducer from './reducers'
 
 const ScaledContent = styled.div`
@@ -42,7 +43,9 @@ const App = () => {
   return (
     <DndProvider backend={MultiBackend} options={dndPipeline}>
       <ScaledContent>
-        <Game />
+        <ErrorBoundary>
+          <Game />
+        </ErrorBoundary>
       </ScaledContent>
     </DndProvider>
   )

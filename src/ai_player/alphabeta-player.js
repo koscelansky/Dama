@@ -79,7 +79,7 @@ export default function* (board, options) {
       }
     }
 
-    // keep the best move for next iteration, so it can 
+    // keep the best move for next iteration, so it can
     // develop a better alpha bound for the next iteration
     principalMove = best.move
 

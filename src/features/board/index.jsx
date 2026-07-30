@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import styled from 'styled-components'
@@ -89,9 +89,12 @@ const Board = ({ active, pieces, moves, onPieceMove }) => {
   // index of huffed squuare, or null if nothing is huffed
   const [huffed, setHuffed] = useState(null)
 
-  useEffect(() => {
+  // reset the huffed square whenever the set of moves changes
+  const [prevMoves, setPrevMoves] = useState(moves)
+  if (moves !== prevMoves) {
+    setPrevMoves(moves)
     setHuffed(null)
-  }, [moves])
+  }
 
   const allowedHuff = huffed == null ? getPiecesToHuff(moves) : []
   const displayedPieces = (() => {

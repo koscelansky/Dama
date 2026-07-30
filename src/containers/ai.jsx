@@ -54,11 +54,17 @@ const Ai = ({ type, options }) => {
     throw new Error('AI time must be a positive number when provided.')
   }
 
+  // reset the countdown whenever a new turn starts (the board changes)
+  const [prevBoard, setPrevBoard] = useState(board)
+  if (board !== prevBoard) {
+    setPrevBoard(board)
+    setRemainingTime(time ?? null)
+  }
+
   const formattedRemainingTime = remainingTime == null ? null : formatTime(remainingTime)
 
   useEffect(() => {
     bestMoveRef.current = null
-    setRemainingTime(time ?? null)
 
     const worker = new Worker(new URL('../ai.worker.js', import.meta.url), { type: 'module' })
     let hasMoved = false

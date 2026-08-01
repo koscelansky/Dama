@@ -1,5 +1,5 @@
 import { GameResult } from './const'
-import { getPossibleMoves, getSquaresBetween } from './possible-moves'
+import { getPossibleMoves } from './possible-moves'
 import { Move } from './move'
 
 function getPiecesToHuff(board, move) {
@@ -33,19 +33,8 @@ function getPiecesToHuff(board, move) {
       // be expanded, if so then return this offending piece
       for (const i of possibleMoves) {
         if (i.length() > move.length()) {
-          // check if move is prefix of i, last square must be check extra
-          // because for kings last landing square is not just one (but it is
-          // a line)
-          let prefix = true
-          for (let j = 0; j < move.length() - 1; ++j) {
-            if (move.squares[j] !== i.squares[j]) {
-              prefix = false
-              break
-            }
-          }
-
-          const last = move.length() - 1
-          if (prefix && getSquaresBetween(move.end(), i.squares[last]) != null) {
+          const isPrefix = move.squares.every((square, index) => square === i.squares[index])
+          if (isPrefix) {
             return [move.end()]
           }
         }

@@ -1,21 +1,26 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    react({
-      babel: {
-        plugins: [['babel-plugin-styled-components', { displayName: true, fileName: true }]],
-      },
-    }),
-  ],
-  server: {
-    host: '127.0.0.1',
-    port: 3000,
-  },
-  test: {
-    environment: 'node',
-    include: ['src/**/*.test.js'],
-  },
+export default defineConfig(({ mode }) => {
+  const { VITE_BASE_PATH: base = '/' } = loadEnv(mode, '.')
+
+  return {
+    base,
+    plugins: [
+      react({
+        babel: {
+          plugins: [['babel-plugin-styled-components', { displayName: true, fileName: true }]],
+        },
+      }),
+    ],
+    server: {
+      host: '127.0.0.1',
+      port: 3000,
+    },
+    test: {
+      environment: 'node',
+      include: ['src/**/*.test.js'],
+    },
+  }
 })

@@ -1,7 +1,7 @@
 import Svg from './svg'
 
 // Use public URL to avoid SVGR parsing of namespaced SVG
-const CaptureMarkData = '/svg/capture-mark.svg'
+const CaptureMarkData = `${import.meta.env.BASE_URL}svg/capture-mark.svg`
 
 const CaptureMark = () => {
   return <Svg src={CaptureMarkData} />

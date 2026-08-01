@@ -1,7 +1,7 @@
 import Svg from './svg'
 
 // Use public URL to avoid SVGR parsing of namespaced SVG
-const HuffMarkData = '/svg/huff-mark.svg'
+const HuffMarkData = `${import.meta.env.BASE_URL}svg/huff-mark.svg`
 
 const HuffMark = () => {
   return <Svg src={HuffMarkData} />

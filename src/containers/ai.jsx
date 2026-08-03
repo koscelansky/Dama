@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled, { keyframes } from 'styled-components'
 
-import { movePiece } from '../reducers/actions'
+import { movePiece, updateMinimaxAnalysis } from '../reducers/actions'
 import { getPossibleMoves } from '../game_logic/possible-moves'
 
 const bounce = keyframes`
@@ -90,7 +90,8 @@ const Ai = ({ type, options }) => {
 
     worker.onmessage = e => {
       const data = e.data
-      if (data.value !== null) bestMoveRef.current = data.value
+      if (data.move !== null) bestMoveRef.current = data.move
+      if (data.analysis != null) dispatch(updateMinimaxAnalysis(data.analysis))
 
       if (data.play) playBestMove()
     }

@@ -9,6 +9,7 @@ import Player from '../containers/player'
 import WelcomeDlg from '../containers/welcome-dlg'
 import History from '../features/history'
 import LeftPanel from '../features/left-panel'
+import MinimaxAnalysis from '../features/minimax-analysis'
 import { GlobalState } from '../reducers/consts'
 
 const BoardArea = styled.div`
@@ -61,6 +62,7 @@ const Game = () => {
                 <LeftPanel />
               </LeftPanelWrapper>
               <MoveSelector />
+              <MinimaxAnalysis />
               <HistoryPanel>
                 <History />
               </HistoryPanel>

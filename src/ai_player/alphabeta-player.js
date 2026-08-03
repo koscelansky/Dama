@@ -5,7 +5,8 @@ import { getPossibleMoves } from '../game_logic/possible-moves'
 import { performMove, getGameResult } from '../game_logic/perform-move'
 import { GameResult } from '../game_logic/const'
 
-function negamax(board, depth, alpha, beta, evalFun) {
+function negamax(board, depth, alpha, beta, evalFun, stats) {
+  stats.nodes++
   const gameResult = getGameResult(board)
 
   if (depth === 0 || gameResult !== GameResult.InProgress) {
@@ -29,10 +30,11 @@ function negamax(board, depth, alpha, beta, evalFun) {
   for (const i of getPossibleMoves(board)) {
     const nextBoard = performMove(board, i)
 
-    const value = -negamax(nextBoard, depth - 1, -beta, -alpha, evalFun)
+    const value = -negamax(nextBoard, depth - 1, -beta, -alpha, evalFun, stats)
     max = Math.max(value, max)
     alpha = Math.max(alpha, value)
     if (alpha >= beta) {
+      stats.cutoffs++
       break
     }
   }
@@ -55,10 +57,12 @@ export default function* (board, options) {
   if (possibleMoves.length === 0) return
 
   let principalMove = possibleMoves[_.random(possibleMoves.length - 1)]
-  yield principalMove
+  yield { move: principalMove, analysis: null }
 
   let depth = 1
   while (depth < 100) {
+    const startedAt = Date.now()
+    const stats = { nodes: 0, cutoffs: 0 }
     // Search the previous iteration's best move first so it establishes a useful root alpha.
     const orderedMoves = [principalMove, ...possibleMoves.filter(move => move !== principalMove)]
     const rankedMoves = []
@@ -69,7 +73,7 @@ export default function* (board, options) {
       const nextBoard = performMove(board, i)
 
       // Negamax reverses the root window: beta is -alpha and the child has no lower bound.
-      const value = -negamax(nextBoard, depth - 1, -Infinity, -alpha, evalFun)
+      const value = -negamax(nextBoard, depth - 1, -Infinity, -alpha, evalFun, stats)
       rankedMoves.push({ move: i, rank: value })
 
       // If the move is better than the best move so far, update the best move and alpha.
@@ -83,11 +87,25 @@ export default function* (board, options) {
     // develop a better alpha bound for the next iteration
     principalMove = best.move
 
-    console.warn('Alpha beta depth ' + depth + ' best move ' + best.move + ' value ' + best.rank)
-    console.warn(rankedMoves.map(x => x.move.toString() + '=' + x.rank).join(' '))
-    console.warn()
-
-    yield best.move
+    // negamax ranks are side-to-move relative; report them white-relative (positive favors white).
+    const sign = board.turn === 'W' ? 1 : -1
+    yield {
+      move: best.move,
+      analysis: {
+        side: board.turn,
+        evaluation: options.evaluate ?? 'material-count',
+        depth,
+        bestMove: best.move.toString(),
+        bestValue: sign * best.rank,
+        nodes: stats.nodes,
+        cutoffs: stats.cutoffs,
+        elapsedMs: Date.now() - startedAt,
+        candidates: rankedMoves
+          .slice()
+          .sort((a, b) => b.rank - a.rank)
+          .map(candidate => ({ move: candidate.move.toString(), value: sign * candidate.rank })),
+      },
+    }
 
     depth++
   }

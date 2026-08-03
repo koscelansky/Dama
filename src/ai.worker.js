@@ -12,16 +12,16 @@ function* GetBestMove(data) {
     }
   })()
 
-  while (true) {
-    const res = ai.next()
-
-    if (res.done) {
-      yield { value: res.value ?? null, play: true }
-      return
-    }
-
-    yield { value: res.value, play: false }
+  // Stream each progressively better result; the final message commits the best move found.
+  let best = { move: null, analysis: null }
+  // for...of consumes only yielded values; a generator `return` value would be ignored,
+  // so each player must yield every result, including its final one.
+  for (const result of ai) {
+    best = result
+    yield { ...best, play: false }
   }
+
+  yield { ...best, play: true }
 }
 
 // somehow this will fail in production, so this will work around it

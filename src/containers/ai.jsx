@@ -50,6 +50,13 @@ const Ai = ({ type, options }) => {
   const bestMoveRef = useRef(null)
   const [remainingTime, setRemainingTime] = useState(time ?? null)
 
+  // sync through a ref so toggling analysis mid-turn doesn't restart the current search
+  const analysisEnabled = useSelector(state => state.minimaxAnalysis.enabled)
+  const analyzeRef = useRef(analysisEnabled)
+  useEffect(() => {
+    analyzeRef.current = analysisEnabled
+  }, [analysisEnabled])
+
   if (time !== undefined && (!Number.isFinite(time) || time <= 0)) {
     throw new Error('AI time must be a positive number when provided.')
   }
@@ -110,7 +117,7 @@ const Ai = ({ type, options }) => {
           }, 250)
         : null
 
-    worker.postMessage({ board, options: { evaluate, time }, player: type })
+    worker.postMessage({ board, options: { evaluate, time, analyze: analyzeRef.current }, player: type })
 
     return () => {
       worker.onmessage = null

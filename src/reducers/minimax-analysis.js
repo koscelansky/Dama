@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 import { newGame } from './game-settings'
+import { restoreGame } from './restore-game'
 
 const initialState = {
   enabled: false,
@@ -20,6 +21,10 @@ const minimaxAnalysis = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(newGame, () => initialState)
+    // restoring to an earlier move invalidates analysis computed for a later position
+    builder.addCase(restoreGame, state => {
+      state.latest = null
+    })
   },
 })
 

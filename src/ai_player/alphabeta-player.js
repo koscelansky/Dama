@@ -53,6 +53,8 @@ export default function* (board, options) {
     }
   })(options.evaluate)
 
+  const analyze = options.analyze ?? false
+
   const possibleMoves = getPossibleMoves(board)
   if (possibleMoves.length === 0) return
 
@@ -63,7 +65,7 @@ export default function* (board, options) {
   while (depth < 100) {
     const startedAt = Date.now()
     const stats = { nodes: 0, cutoffs: 0 }
-    // Search the previous iteration's best move first so it establishes a useful root alpha.
+    // Search the previous iteration's best move first so equal scores keep a stable best move.
     const orderedMoves = [principalMove, ...possibleMoves.filter(move => move !== principalMove)]
     const rankedMoves = []
     let alpha = -Infinity
@@ -72,39 +74,41 @@ export default function* (board, options) {
     for (const i of orderedMoves) {
       const nextBoard = performMove(board, i)
 
-      // Negamax reverses the root window: beta is -alpha and the child has no lower bound.
-      const value = -negamax(nextBoard, depth - 1, -Infinity, -alpha, evalFun, stats)
+      // While analysing, search each root move on a full window so every reported score is
+      // exact; otherwise keep the faster narrowed window (non-best moves may only get a bound).
+      const beta = analyze ? Infinity : -alpha
+      const value = -negamax(nextBoard, depth - 1, -Infinity, beta, evalFun, stats)
       rankedMoves.push({ move: i, rank: value })
 
-      // If the move is better than the best move so far, update the best move and alpha.
       if (best == null || value > best.rank) {
         best = rankedMoves[rankedMoves.length - 1]
         alpha = value
       }
     }
 
-    // keep the best move for next iteration, so it can
-    // develop a better alpha bound for the next iteration
+    // keep the best move for next iteration so it is searched first (move stability)
     principalMove = best.move
 
     // negamax ranks are side-to-move relative; report them white-relative (positive favors white).
     const sign = board.turn === 'W' ? 1 : -1
     yield {
       move: best.move,
-      analysis: {
-        side: board.turn,
-        evaluation: options.evaluate ?? 'material-count',
-        depth,
-        bestMove: best.move.toString(),
-        bestValue: sign * best.rank,
-        nodes: stats.nodes,
-        cutoffs: stats.cutoffs,
-        elapsedMs: Date.now() - startedAt,
-        candidates: rankedMoves
-          .slice()
-          .sort((a, b) => b.rank - a.rank)
-          .map(candidate => ({ move: candidate.move.toString(), value: sign * candidate.rank })),
-      },
+      analysis: analyze
+        ? {
+            side: board.turn,
+            evaluation: options.evaluate ?? 'material-count',
+            depth,
+            bestMove: best.move.toString(),
+            bestValue: sign * best.rank,
+            nodes: stats.nodes,
+            cutoffs: stats.cutoffs,
+            elapsedMs: Date.now() - startedAt,
+            candidates: rankedMoves
+              .slice()
+              .sort((a, b) => b.rank - a.rank)
+              .map(candidate => ({ move: candidate.move.toString(), value: sign * candidate.rank })),
+          }
+        : null,
     }
 
     depth++

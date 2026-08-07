@@ -18,6 +18,7 @@ export function withGameRestore(reducer) {
       board = performMove(board, move)
     }
 
-    return { ...state, board, moveHistory: moves }
+    // run child reducers so slices can react to the restore (e.g. clear stale analysis)
+    return { ...reducer(state, action), board, moveHistory: moves }
   }
 }

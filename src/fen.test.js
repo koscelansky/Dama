@@ -61,6 +61,13 @@ describe('fromFen', () => {
     expect(fromFen('W:WK29:B24')).not.toBeNull()
   })
 
+  it('allows positions with more than eight pieces per color', () => {
+    const fen = 'W:W1,2,3,4,5,6,7,8,9,10,11,12:B21,22,23,24,25,26,27,28,29,30,31,32'
+
+    expect(fromFen(fen)).not.toBeNull()
+    expect(toFen(fromFen(fen))).toBe(fen)
+  })
+
   it('returns null for a malformed huff section', () => {
     expect(fromFen('W:W1:B24:X')).toBeNull()
     expect(fromFen('W:W1:B24:X33')).toBeNull()

@@ -106,7 +106,10 @@ export default function* (board, options) {
             candidates: rankedMoves
               .slice()
               .sort((a, b) => b.rank - a.rank)
-              .map(candidate => ({ move: candidate.move.toString(), value: sign * candidate.rank })),
+              .map(candidate => ({
+                move: candidate.move.toString(),
+                value: sign * candidate.rank,
+              })),
           }
         : null,
     }

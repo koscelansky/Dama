@@ -6,7 +6,6 @@ import styled from 'styled-components'
 
 import FenDlg from '../fen-dlg'
 import GameInfoDlg from './game-info-dlg'
-import PositionEditor from '../position-editor'
 import NewGameModal from '../../containers/new-game-modal'
 import { newGame, toggleMinimaxAnalysis } from '../../reducers/actions'
 
@@ -21,8 +20,7 @@ const LeftPanel = () => {
   const analysisEnabled = useSelector(state => state.minimaxAnalysis.enabled)
   const hasMinimaxPlayer = useSelector(
     state =>
-      state.gameSettings.white.type === 'ai-minmax' ||
-      state.gameSettings.black.type === 'ai-minmax'
+      state.gameSettings.white.type === 'ai-minmax' || state.gameSettings.black.type === 'ai-minmax'
   )
 
   const handleNewGame = () => {
@@ -45,7 +43,6 @@ const LeftPanel = () => {
         <Button type='button' onClick={handleNewGame} variant='primary'>
           New Game
         </Button>
-          <PositionEditor />
         <FenDlg />
         <GameInfoDlg />
         <Button

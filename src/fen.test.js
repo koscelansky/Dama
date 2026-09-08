@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { fromFen, toFen, isValidFen } from './fen'
+import { fromFen, toFen, isValidFen, parseFen } from './fen'
 
 describe('fromFen', () => {
   it('parses turn and pieces for both colors', () => {
@@ -20,6 +20,12 @@ describe('fromFen', () => {
 
     expect(state.turn).toBe('B')
     expect(state.pieces.filter(p => p != null)).toEqual(['BM'])
+  })
+
+  it('parses empty lists with explicit color prefixes for the editor', () => {
+    const state = parseFen('W:W:B')
+
+    expect(state.pieces).toEqual(new Array(32).fill(null))
   })
 
   it('parses the huffable pieces section', () => {
@@ -105,6 +111,16 @@ describe('toFen', () => {
 describe('isValidFen', () => {
   it('returns true for valid FEN strings', () => {
     expect(isValidFen('W:W1,K2:B24,25:X24,25')).toBe(true)
+  })
+
+  it('returns false for an empty board', () => {
+    expect(isValidFen('W:W:B')).toBe(false)
+    expect(fromFen('W:W:B')).toBeNull()
+  })
+
+  it('returns false when the side to move has no pieces', () => {
+    expect(isValidFen('B:WK7:B')).toBe(false)
+    expect(fromFen('B:WK7:B')).toBeNull()
   })
 
   it('returns false for invalid FEN strings', () => {

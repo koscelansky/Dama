@@ -5,7 +5,7 @@ import NewGameDlg from './new-game-dlg'
 
 const NewGameModal = ({ show, onHide = () => {}, onSubmit, showCloseButton = true }) => {
   return (
-    <Modal dialogClassName='new-game-dialog' show={show} onHide={onHide} centered>
+    <Modal dialogClassName='new-game-dialog' show={show} onHide={onHide} size='xl' centered>
       <Modal.Header closeButton={showCloseButton}>
         <Modal.Title>Start new game</Modal.Title>
       </Modal.Header>

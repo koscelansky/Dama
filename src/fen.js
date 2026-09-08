@@ -37,7 +37,8 @@ export function toFen(state) {
   return result
 }
 
-export function fromFen(fen) {
+// The position editor must be able to represent incomplete positions while they are being composed.
+export function parseFen(fen) {
   const parts = fen.split(':')
 
   if (parts.length !== 3 && parts.length !== 4) return null
@@ -59,7 +60,7 @@ export function fromFen(fen) {
 
     lastColor = p[0]
 
-    const positions = p.substring(1).split(',')
+    const positions = p.length === 1 ? [] : p.substring(1).split(',')
 
     for (let j of positions) {
       if (j === '') return null
@@ -124,6 +125,12 @@ export function fromFen(fen) {
   }
 
   return { turn, pieces, fifteenMoveRule: 0, piecesToHuff }
+}
+
+export function fromFen(fen) {
+  const state = parseFen(fen)
+  // A game cannot begin when the side to move has no pieces.
+  return state != null && state.pieces.some(piece => piece?.[0] === state.turn) ? state : null
 }
 
 export function isValidFen(fen) {

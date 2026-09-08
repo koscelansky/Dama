@@ -1,14 +1,11 @@
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Form from 'react-bootstrap/Form'
-import Modal from 'react-bootstrap/Modal'
 import styled from 'styled-components'
 
-import { fromFen, isValidFen, toFen } from '../../fen'
-import { newGame } from '../../reducers/actions'
-import { toFenSelector } from '../../selectors'
+import { parseFen, toFen } from '../../fen'
 import Piece from '../board/piece'
 
 const EditorLayout = styled.div`
@@ -57,23 +54,6 @@ const Palette = styled.div`
   gap: 0.75rem;
 `
 
-const FenGroup = styled(Form.Group)`
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
-
-  label {
-    margin-bottom: 0;
-  }
-
-  @media (width < 576px) {
-    grid-template-columns: 1fr;
-    align-items: start;
-  }
-`
-
 const PieceButton = styled(Button)`
   display: grid;
   grid-template-columns: 2rem 1fr;
@@ -115,47 +95,24 @@ const isAllowedSquare = (piece, square) => {
   return !((piece === 'WM' && square >= 28) || (piece === 'BM' && square < 4))
 }
 
-const PositionEditor = () => {
-  const dispatch = useDispatch()
-  const fen = useSelector(toFenSelector)
-  const { white, black } = useSelector(state => state.gameSettings)
-  const [show, setShow] = useState(false)
-  const [position, setPosition] = useState(null)
-  const [fenInput, setFenInput] = useState('')
+const PositionEditor = ({ fen, onFenChange, resetFen }) => {
   const [selectedPiece, setSelectedPiece] = useState('WM')
+  const position = parseFen(fen)
 
   const updatePosition = nextPosition => {
-    setPosition(nextPosition)
-    setFenInput(toFen(nextPosition))
-  }
-
-  const openEditor = () => {
-    const currentPosition = fromFen(fen)
-    updatePosition(currentPosition)
-    setSelectedPiece('WM')
-    setShow(true)
+    onFenChange(toFen(nextPosition))
   }
 
   const updatePiece = square => {
-    setPosition(current => {
-      const pieces = [...current.pieces]
-      if (pieces[square] != null) {
-        pieces[square] = null
-      } else {
-        if (!isAllowedSquare(selectedPiece, square)) return current
-        pieces[square] = selectedPiece
-      }
+    const pieces = [...position.pieces]
+    if (pieces[square] != null) {
+      pieces[square] = null
+    } else {
+      if (!isAllowedSquare(selectedPiece, square)) return
+      pieces[square] = selectedPiece
+    }
 
-      const nextPosition = { ...current, pieces, piecesToHuff: [] }
-      setFenInput(toFen(nextPosition))
-      return nextPosition
-    })
-  }
-
-  const updateFen = value => {
-    setFenInput(value)
-    const parsedPosition = fromFen(value)
-    if (parsedPosition != null) setPosition(parsedPosition)
+    updatePosition({ ...position, pieces, piecesToHuff: [] })
   }
 
   const renderSquare = index => {
@@ -164,7 +121,8 @@ const PositionEditor = () => {
     const playable = (row + column) % 2 === 1
     const square = playable ? row * 4 + Math.floor(column / 2) : null
     const piece = square == null ? null : position.pieces[square]
-    const label = square == null ? 'Light square' : `Square ${square + 1}${piece ? `, ${piece}` : ''}`
+    const label =
+      square == null ? 'Light square' : `Square ${square + 1}${piece ? `, ${piece}` : ''}`
 
     return (
       <Square
@@ -180,100 +138,62 @@ const PositionEditor = () => {
     )
   }
 
-  const handleApply = () => {
-    if (!isValidFen(fenInput)) return
-
-    dispatch(newGame(white, black, fenInput))
-    setShow(false)
-  }
+  if (position == null) return null
 
   return (
-    <>
-      <Modal show={show} onHide={() => setShow(false)} size='lg' centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit position</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {position && (
-            <EditorLayout>
-              <div>
-                <BoardGrid>{Array.from({ length: 64 }, (_, index) => renderSquare(index))}</BoardGrid>
-                <FenGroup controlId='position-editor-fen'>
-                  <Form.Label>FEN</Form.Label>
-                  <div>
-                    <Form.Control
-                      type='text'
-                      value={fenInput}
-                      onChange={event => updateFen(event.currentTarget.value)}
-                      isInvalid={!isValidFen(fenInput)}
-                    />
-                  </div>
-                </FenGroup>
-              </div>
-              <Palette>
-                <Form.Label className='mb-0'>Place piece</Form.Label>
-                {PIECES.map(({ type, label }) => (
-                  <PieceButton
-                    key={type}
-                    type='button'
-                    variant={selectedPiece === type ? 'primary' : 'outline-secondary'}
-                    onClick={() => setSelectedPiece(type)}
-                  >
-                    <Piece type={type} />
-                    {label}
-                  </PieceButton>
-                ))}
-                <Form.Label className='mb-0'>Side to move</Form.Label>
-                <SplitButtonGroup aria-label='Side to move'>
-                  <Button
-                    type='button'
-                    variant={position.turn === 'W' ? 'primary' : 'outline-secondary'}
-                    onClick={() => updatePosition({ ...position, turn: 'W' })}
-                  >
-                    White
-                  </Button>
-                  <Button
-                    type='button'
-                    variant={position.turn === 'B' ? 'primary' : 'outline-secondary'}
-                    onClick={() => updatePosition({ ...position, turn: 'B' })}
-                  >
-                    Black
-                  </Button>
-                </SplitButtonGroup>
-                <SplitButtonGroup aria-label='Position actions'>
-                  <Button
-                    type='button'
-                    variant='outline-secondary'
-                    onClick={() => updatePosition(createEmptyPosition(position.turn))}
-                  >
-                    Clear board
-                  </Button>
-                  <Button
-                    type='button'
-                    variant='outline-secondary'
-                    onClick={() => updatePosition(fromFen(fen))}
-                  >
-                    Reset position
-                  </Button>
-                </SplitButtonGroup>
-              </Palette>
-            </EditorLayout>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={() => setShow(false)}>
-            Cancel
+    <EditorLayout>
+      <BoardGrid>{Array.from({ length: 64 }, (_, index) => renderSquare(index))}</BoardGrid>
+      <Palette>
+        <Form.Label className='mb-0'>Place piece</Form.Label>
+        {PIECES.map(({ type, label }) => (
+          <PieceButton
+            key={type}
+            type='button'
+            variant={selectedPiece === type ? 'primary' : 'outline-secondary'}
+            onClick={() => setSelectedPiece(type)}
+          >
+            <Piece type={type} />
+            {label}
+          </PieceButton>
+        ))}
+        <Form.Label className='mb-0'>Side to move</Form.Label>
+        <SplitButtonGroup aria-label='Side to move'>
+          <Button
+            type='button'
+            variant={position.turn === 'W' ? 'primary' : 'outline-secondary'}
+            onClick={() => updatePosition({ ...position, turn: 'W' })}
+          >
+            White
           </Button>
-          <Button variant='primary' onClick={handleApply} disabled={!isValidFen(fenInput)}>
-            Apply position
+          <Button
+            type='button'
+            variant={position.turn === 'B' ? 'primary' : 'outline-secondary'}
+            onClick={() => updatePosition({ ...position, turn: 'B' })}
+          >
+            Black
           </Button>
-        </Modal.Footer>
-      </Modal>
-      <Button type='button' onClick={openEditor}>
-        Edit Position
-      </Button>
-    </>
+        </SplitButtonGroup>
+        <SplitButtonGroup aria-label='Position actions'>
+          <Button
+            type='button'
+            variant='outline-secondary'
+            onClick={() => updatePosition(createEmptyPosition(position.turn))}
+          >
+            Clear board
+          </Button>
+          <Button type='button' variant='outline-secondary' onClick={() => onFenChange(resetFen)}>
+            Reset position
+          </Button>
+        </SplitButtonGroup>
+      </Palette>
+    </EditorLayout>
   )
+}
+
+PositionEditor.propTypes = {
+  fen: PropTypes.string.isRequired,
+  onFenChange: PropTypes.func.isRequired,
+  resetFen: PropTypes.string.isRequired,
 }
 
 export default PositionEditor

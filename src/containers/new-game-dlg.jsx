@@ -1,6 +1,8 @@
 import { useId, useState, useReducer } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { createNextState } from '@reduxjs/toolkit'
+import Accordion from 'react-bootstrap/Accordion'
+import Card from 'react-bootstrap/Card'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -10,6 +12,7 @@ import PropTypes from 'prop-types'
 import { toFenSelector } from '../selectors.js'
 import { isValidFen } from '../fen.js'
 import { newGame } from '../reducers/actions'
+import PositionEditor from '../features/position-editor'
 
 const TypeSelect = ({ controlId, value, onChange }) => {
   return (
@@ -226,6 +229,16 @@ const NewGameDlg = ({ onSubmit }) => {
           />
         </Col>
       </Form.Group>
+      <Card className='mt-3'>
+        <Accordion>
+          <Accordion.Item eventKey='edit-board'>
+            <Accordion.Header>Edit board</Accordion.Header>
+            <Accordion.Body>
+              <PositionEditor fen={fen} onFenChange={setFen} resetFen={fenDef} />
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
+      </Card>
       <hr />
       <Button variant='primary' type='submit' size='lg' className='w-100' disabled={!isFenValid}>
         Start

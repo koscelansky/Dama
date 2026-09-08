@@ -117,7 +117,11 @@ const Ai = ({ type, options }) => {
           }, 250)
         : null
 
-    worker.postMessage({ board, options: { evaluate, time, analyze: analyzeRef.current }, player: type })
+    worker.postMessage({
+      board,
+      options: { evaluate, time, analyze: analyzeRef.current },
+      player: type,
+    })
 
     return () => {
       worker.onmessage = null

@@ -10,7 +10,7 @@ import Piece from '../board/piece'
 
 const EditorLayout = styled.div`
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(16rem, 18rem);
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   gap: 1rem;
 
   @media (width < 576px) {
@@ -173,18 +173,16 @@ const PositionEditor = ({ fen, onFenChange, resetFen }) => {
             Black
           </Button>
         </SplitButtonGroup>
-        <SplitButtonGroup aria-label='Position actions'>
-          <Button
-            type='button'
-            variant='outline-secondary'
-            onClick={() => updatePosition(createEmptyPosition(position.turn))}
-          >
-            Clear board
-          </Button>
-          <Button type='button' variant='outline-secondary' onClick={() => onFenChange(resetFen)}>
-            Reset position
-          </Button>
-        </SplitButtonGroup>
+        <Button
+          type='button'
+          variant='outline-secondary'
+          onClick={() => updatePosition(createEmptyPosition(position.turn))}
+        >
+          Clear board
+        </Button>
+        <Button type='button' variant='outline-secondary' onClick={() => onFenChange(resetFen)}>
+          Reset position
+        </Button>
       </Palette>
     </EditorLayout>
   )

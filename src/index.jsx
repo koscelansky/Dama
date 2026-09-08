@@ -68,7 +68,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .new-game-dialog {
-    width: min(560px, 95vw);
+    width: min(720px, 95vw);
     max-width: none;
     margin: auto;
   }

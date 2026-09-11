@@ -2,6 +2,15 @@ import { GameResult } from './const'
 import { getPossibleMoves } from './possible-moves'
 import { Move } from './move'
 
+function getCapturedPieces(board, move) {
+  // Kings may pass over empty squares before and after the captured piece.
+  // Keep only the opponent pieces that the move actually jumps over.
+  return move.getCapturedSquares().filter(square => {
+    const piece = board.pieces[square]
+    return square !== move.huff && piece != null && piece[0] !== board.turn
+  })
+}
+
 function getPiecesToHuff(board, move) {
   const possibleMoves = getPossibleMoves(board).filter(x => x.huff === move.huff)
   const { pieces, turn } = board
@@ -29,14 +38,27 @@ function getPiecesToHuff(board, move) {
         return possibleCaptures
       }
 
-      // OK, so we move with a piece, but we need to make sure that move cannot
-      // be expanded, if so then return this offending piece
+      // Now we need to make sure, the move (jump) cannot be extended by another
+      // capture, otherwise it could be huffable.
+      const capturedPieces = getCapturedPieces(board, move)
       for (const i of possibleMoves) {
-        if (i.length() > move.length()) {
-          const isPrefix = move.squares.every((square, index) => square === i.squares[index])
-          if (isPrefix) {
-            return [move.end()]
-          }
+        // no need to compute captured pieces, if this move does not correspond
+        // to current move starting square
+        if (i.begin() !== move.begin()) continue
+        // A king can use different landing squares after jumping the same piece.
+        // Compare the captured pieces instead of landing squares to find an
+        // unfinished capture sequence.
+        const alternativeCapturedPieces = getCapturedPieces(board, i)
+        // if the alternative captured pieces are not more than the current
+        // do not even bother to check further
+        if (alternativeCapturedPieces.length <= capturedPieces.length) continue
+        // now check if the alternative move continues the capture sequence
+        const isCaptureContinuation = capturedPieces.every(
+          (square, index) => square === alternativeCapturedPieces[index]
+        )
+
+        if (isCaptureContinuation) {
+          return [move.end()]
         }
       }
 

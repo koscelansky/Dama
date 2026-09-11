@@ -1,0 +1,1 @@
+- Before every commit, make sure `pnpm lint`, `pnpm check:format` and `pnpm test` works
